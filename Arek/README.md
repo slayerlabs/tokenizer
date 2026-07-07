@@ -6,8 +6,8 @@ Byte-level BPE trenowany **od zera w czystym Pythonie** (bez bibliotek). Wszystk
 **Organizacja repo = katalog per rozmiar słownika (`vocab`)** — bo *vocab to główna dźwignia fertility*
 (zmierzone, patrz „Krzywa vocab"). W katalogu warianty: **`slayer-v1`/`slayer-v2`** (SpeakLeash) lub **`lektury-*`** (Wolne Lektury) — patrz „Nazewnictwo".
 
-> **Najlepszy fertility:** [`128000/slayer-v2.json`](128000/slayer-v2.json) — **1,524 tok/słowo**
-> (Rényi 0,398, regex cl100k + pełne cyfry). To Pareto-wybór — tradeoff niżej.
+> **Najlepszy fertility:** [`256000/slayer-v2.json`](256000/slayer-v2.json) — **1,462 tok/słowo**
+> (Rényi 0,370, regex cl100k + pełne cyfry). To Pareto-wybór — tradeoff niżej.
 
 ## Struktura (po vocabie)
 
@@ -16,11 +16,11 @@ Byte-level BPE trenowany **od zera w czystym Pythonie** (bez bibliotek). Wszystk
 | `512/` `1024/` `2048/` | `lektury-naive`, `lektury-fast` | Wolne Lektury (2,71 M zn.) · brak / GPT-2 |
 | `4096/` `8192/` `15000/` | `lektury-fast` | Wolne Lektury · GPT-2 |
 | `32000/` `64000/` | `slayer-v1`, `slayer-v2` | SpeakLeash 5GB-sample · regex GPT-2 / cl100k+cyfry |
-| `128000/` | `slayer-v2` | SpeakLeash 5GB-sample · regex cl100k + pełne cyfry |
+| `128000/` `256000/` | `slayer-v2` | SpeakLeash 5GB-sample · regex cl100k + pełne cyfry |
 
 Warianty: **`lektury-naive`** = dydaktyczny `O(n·m)`, bez pre-tok · **`lektury-fast`** / **`slayer-v1`** =
 pre-tok regex GPT-2 (bucketing + lazy-heap, parytet 1:1 z rdzeniem) · **`slayer-v2`** = pre-tok regex
-cl100k (z GPT-4) **+ pełne runy cyfr `\p{N}+`** — spójnie dla 32k/64k/128k.
+cl100k (z GPT-4) **+ pełne runy cyfr `\p{N}+`** — spójnie dla 32k/64k/128k/256k.
 
 ### Nazewnictwo
 **`slayer-vN` = generacja *naszego* przepisu BPE (metoda SlayerLab), nie model.** `v1` = regex pre-tok GPT-2;
@@ -47,14 +47,17 @@ trzymamy go w metadanej, nie w nazwie: SpeakLeash **5 GB-sample** (shardy 0001-0
 | 32000 | slayer-v2 | 4,05 | 1,756 | **0,472** | ✅ |
 | 64000 | slayer-v1 | 4,37 | 1,630 | 0,412 | ✅ |
 | 64000 | slayer-v2 | 4,39 | 1,619 | 0,431 | ✅ |
-| **128000** | **slayer-v2** | **4,67** | **1,524** | 0,398 | ✅ |
+| 128000 | slayer-v2 | 4,67 | 1,524 | 0,398 | ✅ |
+| **256000** | **slayer-v2** | **4,87** | **1,462** | 0,370 | ✅ |
 
-**Vocab dominuje.** 32k→64k→128k (slayer-v2): fertility **1,756 → 1,619 → 1,524**. Dla kontrastu: zmiana pre-toka
-(regex GPT-2→cl100k) daje ~**−0,01**, a **6× więcej danych 0,00** (saturacja — patrz „Skala danych"). Ogon 128k
-jest **zdrowy** (`best_c≈500` na ostatnich merge'ach → 4,14 GB wystarczyło, bez glitch-tokenów).
+**Vocab dominuje.** 32k→64k→128k→256k (slayer-v2): fertility **1,756 → 1,619 → 1,524 → 1,462**. Dla kontrastu:
+zmiana pre-toka (regex GPT-2→cl100k) daje ~**−0,01**, a **6× więcej danych 0,00** (saturacja — patrz „Skala
+danych"). **Diminishing returns:** zysk na podwojenie vocab maleje (**−0,137 → −0,095 → −0,062**). Ogon wciąż
+**zdrowy** (`best_c`: 128k ≈507, 256k ≈159 → 4,14 GB starcza nawet na 256k; próg glitcha ~512k+, gdzie dopiero
+17 GB danych stanie się lewarem).
 
-**Tradeoff (nie darmowe):** większy vocab → **Rényi ↓** (0,451→0,398) i **tabela embeddingów rośnie** (128k =
-vocab Llama-3). Wybór vocab = kompromis fertility ↔ Rényi ↔ rozmiar modelu.
+**Tradeoff (nie darmowe):** większy vocab → **Rényi ↓** (0,451→0,370) i **tabela embeddingów rośnie** (256k >
+o200k GPT-4o = 200k, > Llama-3 128k). Wybór vocab = kompromis fertility ↔ Rényi ↔ rozmiar modelu.
 
 ## Tabela — mały korpus (held-out: Mickiewicz „Pan Tadeusz", 445 637 zn.)
 
@@ -72,7 +75,7 @@ vocab Llama-3). Wybór vocab = kompromis fertility ↔ Rényi ↔ rozmiar modelu
 
 ## Co zmierzyliśmy i dlaczego
 
-1. **Vocab ↑ → fertility ↓ — NAJWIĘKSZA dźwignia.** 32k→128k (slayer-v2): 1,756→1,524 (−0,23). Największy z efektów.
+1. **Vocab ↑ → fertility ↓ — NAJWIĘKSZA dźwignia.** 32k→256k (slayer-v2): 1,756→1,462 (−0,29). Największy z efektów (choć malejący).
 2. **Pre-tok cl100k (z GPT-4) + pełne cyfry — mały, ale realny zysk.** @32k neutralny na fert (Rényi↑); **@64k wygrywa
    obie osie** (1,630→1,619, Rényi 0,412→0,431). Najlepszy pre-tok, ~10× słabszy efekt niż vocab.
 3. **Skala danych: nasycona JUŻ przy ~3 GB (przy stałym vocab).** dynaword 2,84→17 GB (6×): fertility płaski.
