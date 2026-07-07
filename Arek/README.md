@@ -56,8 +56,19 @@ danych"). **Diminishing returns:** zysk na podwojenie vocab maleje (**−0,137 �
 **zdrowy** (`best_c`: 128k ≈507, 256k ≈159 → 4,14 GB starcza nawet na 256k; próg glitcha ~512k+, gdzie dopiero
 17 GB danych stanie się lewarem).
 
-**Tradeoff (nie darmowe):** większy vocab → **Rényi ↓** (0,451→0,370) i **tabela embeddingów rośnie** (256k >
-o200k GPT-4o = 200k, > Llama-3 128k). Wybór vocab = kompromis fertility ↔ Rényi ↔ rozmiar modelu.
+**Tradeoff — koszt głowicy (nie darmowe).** Większy vocab → **Rényi ↓** (0,451→0,370) oraz **głowica LM
+`2·d·V`/token rośnie liniowo**. Kluczowe: dla **małego modelu** koszt/słowo (fertility × compute/token)
+**rośnie** z vocab — głowica rośnie szybciej niż fertility spada:
+
+| vocab | fertility | głowica (d=2048) | udział forward A3B | koszt/słowo |
+|---|---|---|---|---|
+| 128k | 1,524 | 0,54 G | ~9% | **9,14 G** |
+| 256k | 1,462 | 1,07 G | ~17% | 9,55 G |
+| 512k | ~1,42 | 2,15 G | ~30% | ~10,8 G |
+
+**Dla modelu A3B (d=2048) compute-optimum ≈ 128k**; 256k to Pareto (krótszy kontekst za większą głowicę).
+Duży vocab opłaca się dopiero przy dużym modelu — albo z **adaptive softmax** (ogon w niższym wymiarze;
+Rényi steruje progami). *Tokenizer ma służyć treningowi, nie odwrotnie.*
 
 ## Tabela — mały korpus (held-out: Mickiewicz „Pan Tadeusz", 445 637 zn.)
 
