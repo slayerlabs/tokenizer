@@ -1,0 +1,21 @@
+{
+  "name": "v1-ogniem-10k",
+  "label": "ppuzio 10k (Ogniem, no pretok)",
+  "vocab_size": 10000,
+  "corpus": "ogniem.txt (single book)",
+  "backend": "pure_python",
+  "artifact": "merges.txt",
+  "pretokenization": null,
+  "notes": "Educational pure-Python BPE; overfits to one novel.",
+  "metrics": {
+    "held_out_wikipedia": {
+      "fertility_tok_per_word": 2.676,
+      "notes": "SpeakLeash-clean / diverse held-out (from class benchmark)"
+    },
+    "ogniem_in_domain": {
+      "words": 125371,
+      "tokens": 177752,
+      "fertility_tok_per_word": 1.418
+    }
+  }
+}
