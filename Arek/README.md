@@ -47,9 +47,12 @@ trzymamy go w metadanej, nie w nazwie: SpeakLeash **5 GB-sample** (shardy 0001-0
 | 32000 | slayer-v2 | 4,05 | 1,756 | **0,472** | ✅ |
 | 64000 | slayer-v1 | 4,37 | 1,630 | 0,412 | ✅ |
 | 64000 | slayer-v2 | 4,39 | 1,619 | 0,431 | ✅ |
+| **115200** ⭐ | **slayer-v2** | 4,63 | 1,537 | 0,402 | ✅ |
 | 128000 | slayer-v2 | 4,67 | 1,524 | 0,398 | ✅ |
-| **256000** | **slayer-v2** | **4,87** | **1,462** | 0,370 | ✅ |
+| 256000 | slayer-v2 | 4,87 | 1,462 | 0,370 | ✅ |
 | 512000 | slayer-v2 (bad.) | 5,00 | 1,424 | 0,347 | ✅ |
+
+> ⭐ **115200** = `900×128` (GPU-aligned, a przy okazji baud-rate 😄) — **compute-optimum dla A3B** (min. `fertility × (body+2dV)`, patrz „Tradeoff" / `vocab_cost.py`). Basen płaski: 100-160k ≈ równe; 256k+ opłaca się tylko przy dużym body modelu.
 
 **Vocab dominuje.** 32k→…→512k (slayer-v2): fertility **1,756 → 1,619 → 1,524 → 1,462 → 1,424**. Dla kontrastu:
 zmiana pre-toka (regex GPT-2→cl100k) daje ~**−0,01**, a **6× więcej danych 0,00** (saturacja — patrz „Skala
