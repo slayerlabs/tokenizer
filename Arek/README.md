@@ -66,7 +66,7 @@ vocab Llama-3). Wybór vocab = kompromis fertility ↔ Rényi ↔ rozmiar modelu
 
 ## Co zmierzyliśmy i dlaczego
 
-1. **Vocab ↑ → fertility ↓ — NAJWIĘKSZA dźwignia.** 32k→128k: 1,765→1,524 (−0,24). Największy z efektów.
+1. **Vocab ↑ → fertility ↓ — NAJWIĘKSZA dźwignia.** 32k→128k (gpt4): 1,756→1,524 (−0,23). Największy z efektów.
 2. **Pre-tok GPT-4 + pełne cyfry — mały, ale realny zysk.** @32k neutralny na fert (Rényi↑); **@64k wygrywa
    obie osie** (1,630→1,619, Rényi 0,412→0,431). Najlepszy pre-tok, ~10× słabszy efekt niż vocab.
 3. **Skala danych: nasycona JUŻ przy ~3 GB (przy stałym vocab).** dynaword 2,84→17 GB (6×): fertility płaski.
