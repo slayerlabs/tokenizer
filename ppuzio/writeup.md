@@ -54,45 +54,45 @@ Trening: biblioteka **`tokenizers`** (Rust), nie tiktoken. Parquet ułatwia stre
 
 ---
 
-## Wyniki fertility (held-out Wikipedia, 2000 docs)
+## Wyniki fertility (held-out)
 
-Eval: dokumenty 4000–6000 z `wikipedia.parquet`, rozłączne z treningiem. Fertility = tokeny/słowo (niżej lepiej).
+**Split:** ostatnie 10% każdego źródła parquet (max 50 MB/źródło) **nie trafia do treningu**. Eval na zarezerwowanym sufiksie ze wszystkich 12 źródeł (~48k docs, ~47M słów, ~330 MB).
 
-### Krzywa vocab (220 MB, bez rozdziału legal)
+Fertility = tokeny/słowo (niżej lepiej). Metryki z `compare_fertility.py` (domyślnie reserved suffix; stary split: `--legacy-held-out`).
+
+### Krzywa vocab (220 MB / źródło)
 
 | Vocab | Held-out | Ogniem |
 |------:|---------:|-------:|
-| 10k | 2,16 | 1,95 |
-| 14k | 1,98 | 1,83 |
-| 32k | 1,73 | 1,63 |
+| 10k | 2,07 | 1,95 |
+| 14k | 1,90 | 1,83 |
+| 32k | 1,70 | 1,63 |
 | 64k | 1,57 | 1,51 |
+| 128k | 1,51 | 1,41 |
 
 ### 128k — wpływ rozmiaru danych (50 MB legal)
 
-| Dane treningowe | Łącznie | Held-out | Ogniem |
-|-----------------|--------:|---------:|-------:|
-| 220 MB general / źródło | 1,25 GB | 1,444 | 1,393 |
-| 500 MB general | 1,87 GB | 1,438 | 1,401 |
-| **full general** | **4,64 GB** | **1,437** | 1,413 |
+| Dane treningowe | Train (≈) | Held-out | Ogniem |
+|-----------------|----------:|---------:|-------:|
+| 220 MB general / źródło | 1,25 GB | 1,499 | 1,393 |
+| 500 MB general | 1,87 GB | 1,500 | 1,401 |
+| **full general** | **4,3 GB** | **1,509** | 1,413 |
 
-*Cap „220 MB / 500 MB” = limit **na każde źródło osobno**, nie rozmiar całego korpusu. Łączny rozmiar to suma po wszystkich 12 źródłach (9 general + 3 legal @ 50 MB). Szczegóły w tabeli na końcu dokumentu.*
+*Cap „220 MB / 500 MB” = limit **na każde źródło osobno**; trening pomija też sufiks eval (~330 MB). Szczegóły w tabeli na końcu.*
 
-Przy **128k vocab dane się nasycają**: 1,25 GB → 4,64 GB daje zaledwie −0,007 fertility. Vocab był główną dźwignią.
+Przy **128k** różnica 220 MB → full to ~0,01 fertility — dane szybko się nasycają.
 
 ### Porównanie z baseline'ami
 
 | Tokenizer | Vocab | Held-out |
 |-----------|------:|---------:|
-| **ppuzio 128k (full general)** | 128k | **1,437** |
-| Arek speakleash-gpt4 | 128k | ~1,524 |
-| ppuzio 64k (220 MB) | 64k | 1,571 |
-| Kuba 14k | 14k | 1,981 |
-| ppuzio 10k (Ogniem, overfit) | 10k | 2,676 |
+| **ppuzio 128k (full general)** | 128k | **1,509** |
+| ppuzio 64k (220 MB) | 64k | 1,575 |
+| Kuba 14k | 14k | 2,150 |
 
 ### Artefakt do oddania
 
-**`tokenizers/dynaword-128k-gfull-l50mb/`** — najlepsza fertility w serii.  
-Alternatywa szybsza w retrainingu: `dynaword-128k-g500mb-l50mb` (praktycznie identyczna).
+**`tokenizers/dynaword-128k-gfull-l50mb/`** — najlepsza fertility w serii (train + eval z reserved suffix).
 
 Format: Hugging Face `tokenizer.json` (ByteLevel + BPE), ładowanie:
 
@@ -105,7 +105,7 @@ tok = Tokenizer.from_file("tokenizers/dynaword-128k-gfull-l50mb/tokenizer.json")
 
 ## v1 — lekcja overfitu
 
-`bpe_skeleton.py` na jednej książce, bez pretokenizacji. BPE scala całe frazy (`! — rzekł pan Skrzetuski`). In-domain fertility 1,42, held-out 2,68 — klasyczny overfit. Implementacja O(n×merges) w Pythonie.
+`bpe_skeleton.py` na jednej książce, bez pretokenizacji. BPE scala całe frazy (`! — rzekł pan Skrzetuski`). In-domain fertility na Ogniem ~1,42 — klasyczny overfit względem DynaWord. Implementacja O(n×merges) w Pythonie.
 
 ## v2+ — DynaWord
 
@@ -118,17 +118,17 @@ tok = Tokenizer.from_file("tokenizers/dynaword-128k-gfull-l50mb/tokenizer.json")
 
 ## Wnioski
 
-1. **Overfit na jednej książce** daje dobrą kompresję in-domain, złą generalizację.
-2. **Vocab ↑** to największa dźwignia (10k→128k: 2,16→1,44).
-3. **Więcej danych** pomaga, ale przy stałym 128k szybko nasyca (~500 MB wystarczy).
+1. **Overfit na jednej książce** daje dobrą kompresję in-domain, słabą generalizację poza nią.
+2. **Vocab ↑** to największa dźwignia (10k→128k: ~2,07→1,51).
+3. **Więcej danych** pomaga, ale przy 128k szybko nasyca (220 MB ≈ full).
 4. **Mniej prawa w treningu** — sensowne przy skalowaniu danych.
-5. **128k + DynaWord** bije Kuba 14k i Arek 128k na tej próbce held-out.
+5. **128k + DynaWord** bije Kuba 14k na reserved held-out (1,51 vs 2,15).
 
 ---
 
 ## Korpus treningowy — co znaczy cap MB?
 
-Dane z `polish-dynaword/data/` (12 plików parquet). Trening czyta każde źródło sekwencyjnie i przestaje po osiągnięciu limitu znaków dla tego źródła.
+Dane z `polish-dynaword/data/` (12 plików parquet). Trening czyta każde źródło od początku i przestaje po capie; **sufiks eval (10%, max 50 MB/źródło) jest pomijany**.
 
 **Zasady capów:**
 - `--cap-mb N` — max **N MB na źródło general** (Wikipedia, Wikisource, …)

@@ -12,6 +12,8 @@
   "legal_cap_chars_per_source": 52428800,
   "full_corpus": true,
   "general_full": true,
+  "eval_reserve_fraction": 0.1,
+  "eval_reserve_max_mb_per_source": 50,
   "sources": [
     "1000_novels",
     "dziennik_ustaw",
@@ -27,18 +29,92 @@
     "wolne_lektury"
   ],
   "metrics": {
-    "held_out_wikipedia": {
-      "docs": 2000,
-      "words": 1129156,
-      "tokens": 1622671,
-      "fertility_tok_per_word": 1.4371,
-      "tok_per_char": 0.1971
+    "held_out_reserved": {
+      "docs": 48354,
+      "words": 46762190,
+      "tokens": 70561026,
+      "fertility_tok_per_word": 1.5089,
+      "tok_per_char": 0.2155,
+      "per_source": [
+        {
+          "source": "1000_novels",
+          "total_chars": 151610758,
+          "reserve_chars": 15161075,
+          "docs": 104
+        },
+        {
+          "source": "dziennik_ustaw",
+          "total_chars": 1226137838,
+          "reserve_chars": 52428800,
+          "docs": 909
+        },
+        {
+          "source": "eltec_pol",
+          "total_chars": 54369249,
+          "reserve_chars": 5436924,
+          "docs": 10
+        },
+        {
+          "source": "eurlex",
+          "total_chars": 5976949249,
+          "reserve_chars": 52428800,
+          "docs": 875
+        },
+        {
+          "source": "parliamentary",
+          "total_chars": 4492746014,
+          "reserve_chars": 52428800,
+          "docs": 3815
+        },
+        {
+          "source": "wikibooks",
+          "total_chars": 38892589,
+          "reserve_chars": 3889258,
+          "docs": 555
+        },
+        {
+          "source": "wikinews",
+          "total_chars": 32524646,
+          "reserve_chars": 3252464,
+          "docs": 1908
+        },
+        {
+          "source": "wikipedia",
+          "total_chars": 1844707761,
+          "reserve_chars": 52428800,
+          "docs": 37186
+        },
+        {
+          "source": "wikiquote",
+          "total_chars": 82338997,
+          "reserve_chars": 8233899,
+          "docs": 1624
+        },
+        {
+          "source": "wikisource",
+          "total_chars": 1974249746,
+          "reserve_chars": 52428800,
+          "docs": 225
+        },
+        {
+          "source": "wikivoyage",
+          "total_chars": 45184300,
+          "reserve_chars": 4518430,
+          "docs": 456
+        },
+        {
+          "source": "wolne_lektury",
+          "total_chars": 261892000,
+          "reserve_chars": 26189200,
+          "docs": 687
+        }
+      ]
     },
     "ogniem_in_domain": {
       "words": 125371,
-      "tokens": 177097,
-      "fertility_tok_per_word": 1.4126,
-      "tok_per_char": 0.2238
+      "tokens": 177141,
+      "fertility_tok_per_word": 1.4129,
+      "tok_per_char": 0.2239
     }
   }
 }
