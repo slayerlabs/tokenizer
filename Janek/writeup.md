@@ -286,21 +286,6 @@ small FineWeb sample did not dramatically change every targeted case.
 - More code/markdown/web/chat data would likely improve non-prose behavior.
 - Baseline comparison used a small local suite, not a large shared benchmark.
 
-## Reproducibility Notes
-
-The additional research-style analysis was generated with:
-
-```text
-scripts/analyze_token_quality.py
-scripts/evaluate_tokenizer_baselines.py
-```
-
-Outputs are stored under:
-
-```text
-artifacts/research/
-```
-
 ## Final Artifact
 
 The selected tokenizer for this checkpoint is:
