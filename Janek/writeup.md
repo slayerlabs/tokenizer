@@ -1,6 +1,6 @@
 # Polish Byte-Level BPE Tokenizer
 
-## TL;DR
+## Overview
 
 The final artifact is a Hugging Face-compatible ByteLevel BPE tokenizer for
 Polish text:
@@ -13,7 +13,7 @@ It was trained on a balanced DynaWord + FineWeb Polish corpus with an 8192-entry
 vocabulary. This was the largest vocabulary I trained locally within practical
 compute limits.
 
-Best held-out result:
+The strongest held-out result among the tested configurations was:
 
 ```text
 bytes/token = 3.661
