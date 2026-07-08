@@ -75,6 +75,8 @@ Eval: dokumenty 4000–6000 z `wikipedia.parquet`, rozłączne z treningiem. Fer
 | 500 MB general | 1,87 GB | 1,438 | 1,401 |
 | **full general** | **4,64 GB** | **1,437** | 1,413 |
 
+*Cap „220 MB / 500 MB” = limit **na każde źródło osobno**, nie rozmiar całego korpusu. Łączny rozmiar to suma po wszystkich 12 źródłach (9 general + 3 legal @ 50 MB). Szczegóły w tabeli na końcu dokumentu.*
+
 Przy **128k vocab dane się nasycają**: 1,25 GB → 4,64 GB daje zaledwie −0,007 fertility. Vocab był główną dźwignią.
 
 ### Porównanie z baseline'ami
@@ -121,6 +123,38 @@ tok = Tokenizer.from_file("tokenizers/dynaword-128k-gfull-l50mb/tokenizer.json")
 3. **Więcej danych** pomaga, ale przy stałym 128k szybko nasyca (~500 MB wystarczy).
 4. **Mniej prawa w treningu** — sensowne przy skalowaniu danych.
 5. **128k + DynaWord** bije Kuba 14k i Arek 128k na tej próbce held-out.
+
+---
+
+## Korpus treningowy — co znaczy cap MB?
+
+Dane z `polish-dynaword/data/` (12 plików parquet). Trening czyta każde źródło sekwencyjnie i przestaje po osiągnięciu limitu znaków dla tego źródła.
+
+**Zasady capów:**
+- `--cap-mb N` — max **N MB na źródło general** (Wikipedia, Wikisource, …)
+- `--legal-cap-mb 50` — max **50 MB na źródło legal** (eurlex, parliamentary, dziennik_ustaw)
+- `--general-full` — całe źródła general bez limitu; legal nadal @ 50 MB
+- `*` w tabeli = źródło większe niż cap, ucięte do limitu
+
+| Źródło | Typ | Dostępne | @220 MB | @500 MB | full |
+|--------|-----|--------:|--------:|--------:|-----:|
+| wikipedia | general | 1,84 GB | 231 MB* | 524 MB* | 1,84 GB |
+| wikisource | general | 1,97 GB | 231 MB* | 524 MB* | 1,97 GB |
+| wolne_lektury | general | 262 MB | 231 MB* | 262 MB | 262 MB |
+| 1000_novels | general | 152 MB | 152 MB | 152 MB | 152 MB |
+| wikiquote | general | 82 MB | 82 MB | 82 MB | 82 MB |
+| eltec_pol | general | 54 MB | 54 MB | 54 MB | 54 MB |
+| wikivoyage | general | 45 MB | 45 MB | 45 MB | 45 MB |
+| wikibooks | general | 39 MB | 39 MB | 39 MB | 39 MB |
+| wikinews | general | 33 MB | 33 MB | 33 MB | 33 MB |
+| eurlex | legal | 5,98 GB | 52 MB* | 52 MB* | 52 MB* |
+| parliamentary | legal | 4,49 GB | 52 MB* | 52 MB* | 52 MB* |
+| dziennik_ustaw | legal | 1,23 GB | 52 MB* | 52 MB* | 52 MB* |
+| **Σ general** | | **4,49 GB** | **1,10 GB** | **1,72 GB** | **4,49 GB** |
+| **Σ legal** | | | **157 MB** | **157 MB** | **157 MB** |
+| **Σ łącznie** | | | **1,25 GB** | **1,87 GB** | **4,64 GB** |
+
+Małe źródła (wikinews, wikibooks, …) wchodzą w całości przy każdym capie — stąd 220 MB/źródło **nie** daje 12 × 220 MB. Przy full general dominują Wikipedia i Wikisource (~80% korpusu general).
 
 ## Otwarte
 
