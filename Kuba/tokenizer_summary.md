@@ -6,12 +6,12 @@ Celem jest bajtowy tokenizator BPE dla tekstu polskiego. Tokenizator ma kodować
 
 ## Podejście
 
-Tokenizator używa podejścia podobnego do GPT-2: najpierw dzielimy tekst wyrażeniem regularnym na fragmenty należące do różnych kategorii znaków, a dopiero potem uczymy BPE wewnątrz tych fragmentów.
+Tokenizator używa podejścia podobnego do GPT: najpierw dzielimy tekst wyrażeniem regularnym na fragmenty należące do różnych kategorii znaków, a dopiero potem uczymy BPE wewnątrz tych fragmentów.
 
 Użyty wzorzec pretokenizacji:
 
 ```python
-'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+
+pat = re.compile(r"""'(?i:[sdmt]|ll|ve|re)|[^\r\n\p{L}\p{N}]?+\p{L}++|\p{N}{1,3}+| ?[^\s\p{L}\p{N}]++[\r\n]+|\s++$|\s[\r\n]|\s+(?!\S)|\s""")
 ```
 
 W praktyce oznacza to, że tokenizator osobno traktuje słowa, liczby, interpunkcję i białe znaki. Wyjątkiem jest opcjonalna spacja przed słowem lub liczbą, np. `" kot"`, co pozwala BPE nauczyć się częstych fragmentów ze spacją na początku. To istotnie poprawia kompresję tekstu bez agresywnego łączenia słów z interpunkcją.
@@ -26,7 +26,7 @@ W naszym przypadku zapobiega to marnowaniu słownika na wiele wariantów tego sa
 
 ## Dane treningowe
 
-Tokenizator został wytrenowany na korpusie z polskiej Wikipedii, przygotowanym z dumpów Wikimedia.
+Korpus treningowy został przygotowany z polskiej Wikipedii na podstawie dumpów Wikimedia. Został ograniczony do `30M` słów, żeby uzyskać stabilne statystyki merge dla tokenizatora BPE bez niepotrzebnego powiększania pliku treningowego.
 
 ```text
 plwiki-latest-pages-articles1.xml-p1p187037.bz2
@@ -34,12 +34,12 @@ plwiki-latest-pages-articles1.xml-p1p187037.bz2
 
 Statystyki korpusu treningowego:
 
-- Liczba artykułów: `3 570`
-- Liczba słów: `5 081 838`
-- Liczba znaków: `37 076 542`
-- Liczba bajtów UTF-8: `39 190 360`
+- Liczba artykułów: `40 709`
+- Liczba słów: `30 000 000`
+- Liczba znaków: `219 651 686`
+- Liczba bajtów UTF-8: `231 522 600`
 
-Podczas przygotowania danych usunęliśmy oczywiste artefakty dumpów Wiki, m.in. fragmenty LaTeX, znaczniki `<ref>`, `<math>`, szablony, tabele i surowy markup typu `[[...]]` oraz `{{...}}`.
+Podczas przygotowania danych usunięte zostały oczywiste artefakty dumpów Wiki, m.in. fragmenty LaTeX, znaczniki `<ref>`, `<math>`, szablony, tabele i surowy markup typu `[[...]]` oraz `{{...}}`.
 
 ## Artefakt
 
@@ -49,7 +49,7 @@ Wygenerowany artefakt tokenizatora znajduje się w pliku:
 tokenizer.json
 ```
 
-Format jest zgodny ze stylem Hugging Face `tokenizers`, co pozwala na użycie wytrenowanych "wag" z biblioteką `Toknizers` od HF:
+Format jest zgodny ze stylem Hugging Face `tokenizers`, co pozwala używać wytrenowanych "wag" tokenizatora bezpośrednio z biblioteką `tokenizers` od HF. W przypadku BPE tymi wagami są głównie słownik `model.vocab` oraz lista reguł scalania `model.merges`:
 
 - `model.type = "BPE"` oznacza model Byte Pair Encoding.
 - `model.vocab` mapuje reprezentację tokenu na jego identyfikator liczbowy.
@@ -60,7 +60,7 @@ Format jest zgodny ze stylem Hugging Face `tokenizers`, co pozwala na użycie wy
 Słownik składa się z dwóch części:
 
 - `256` tokenów bazowych odpowiadających pojedynczym bajtom.
-- `5 976` tokenów nauczonych przez BPE jako kolejne reguły scalania.
+- `13 744` tokenów nauczonych przez BPE jako kolejne reguły scalania.
 
 Reguła merge mówi, że dwa istniejące tokeny mogą zostać zastąpione nowym tokenem. Na przykład uproszczona reguła:
 
@@ -73,30 +73,14 @@ oznacza, że token reprezentujący spację (`Ġ`) oraz token `p` mogą zostać s
 ## Główne statystyki tokenizatora
 
 - Typ: `Byte-level BPE`
-- Rozmiar słownika: `6 232`
-- Liczba reguł merge: `5 976`
+- Rozmiar słownika: `14 000`
+- Liczba reguł merge: `13 744`
 - Liczba tokenów bazowych bajtowych: `256`
-- Liczba tokenów wieloznakowych nauczonych przez BPE: `5 976`
-- Średnia długość wpisu słownikowego: `5.10` znaków w reprezentacji byte-level
-- Najdłuższy wpis słownikowy: `17` znaków w reprezentacji byte-level
+- Liczba tokenów wieloznakowych nauczonych przez BPE: `13 744`
+- Średnia długość wpisu słownikowego: `5.91` znaków w reprezentacji byte-level
+- Najdłuższy wpis słownikowy: `23` znaki w reprezentacji byte-level
 
-Kilka najdłuższych tokenów nauczonych przez BPE:
-` Rzeczypospolitej`,
-` przeciwieństwie`,
-` najważniejszych`,
-` przedstawicieli`,
-` niepodległości`,
-` rzeczywistości`,
-` poszczególnych`,
-` prawdopodobnie`,
-` współczesnych`
-
-## Metryki na korpusie treningowym
-
-- Liczba tokenów: `11 344 286`
-- Fertility: `2.232 tok/słowo`
-- Współczynnik kompresji znakowej: `69.40%`
-- Średnia liczba znaków na token: `3.27`
+Przykładowe długie tokeny nauczone przez BPE obejmują częste polskie formy i wyrażenia z korpusu, np. odpowiedniki fragmentów takich jak `południowoafrykański`, `południowokoreański`, `niepodległościowy`, `najprawdopodobniej`, `charakterystyczne`, `przedsiębiorstwo`.
 
 ## Metryki na tekście ewaluacyjnym
 
@@ -104,12 +88,12 @@ Pomiar wykonany na całości Pana Tadeusza:
 
 - Liczba znaków: `447 334`
 - Liczba słów: `69 095`
-- Liczba tokenów: `177 519`
-- Współczynnik kompresji znakowej: `60.32%`
-- Tekst w tokenach jest około `2.52` razy krótszy niż tekst liczony znakowo.
-- Fertility: `2.569 tok/słowo`
+- Liczba tokenów: `163 043`
+- Współczynnik kompresji znakowej: `63.55%`
+- Tekst w tokenach jest około `2.74` razy krótszy niż tekst liczony znakowo.
+- Fertility: `2.360 tok/słowo`
 
-Interpretacja: wynik `2.569 tok/słowo` oznacza, że jedno polskie słowo wymaga średnio około 2.57 tokenu. Dla języka fleksyjnego, takiego jak polski, jest to rozsądny wynik przy słowniku rzędu kilku tysięcy tokenów.
+Interpretacja: wynik `2.360 tok/słowo` oznacza, że jedno polskie słowo wymaga średnio około 2.36 tokenu. Dla języka fleksyjnego, takiego jak polski, jest to rozsądny wynik przy słowniku rzędu kilkunastu tysięcy tokenów.
 
 ## Brak lowercasingu
 
@@ -118,5 +102,3 @@ Nie zamieniamy tekstu na małe litery przed treningiem tokenizatora. To świadom
 ## Ograniczenia
 
 Tokenizer był trenowany głównie na Wikipedii, więc jego słownik jest dostosowany do stylu encyklopedycznego. Może być mniej optymalny dla poezji, czatów, tekstów prawnych, forów internetowych, kodu źródłowego lub tekstów silnie potocznych.
-
-Drugie ograniczenie to rozmiar słownika. `6 232` tokeny dają dobrą prostotę i pełne pokrycie bajtowe, ale większy słownik, np. `16k` lub `32k`, prawdopodobnie zmniejszyłby fertility i skrócił sekwencje wejściowe kosztem większej tablicy embeddingów w modelu.

@@ -1,0 +1,170 @@
+# Arek — byte-level BPE tokenizery (polski)
+
+Byte-level BPE trenowany **od zera w czystym Pythonie** (bez bibliotek). Wszystkie: alfabet bazowy 256 bajtów,
+**zero `<UNK>`, round-trip lossless**.
+
+**Organizacja repo = katalog per rozmiar słownika (`vocab`)** — bo *vocab to główna dźwignia fertility*
+(zmierzone, patrz „Krzywa vocab"). W katalogu warianty: **`slayer-v1`/`slayer-v2`** (SpeakLeash) lub **`lektury-*`** (Wolne Lektury) — patrz „Nazewnictwo".
+
+> **Najniższa fertility:** [`512000/slayer-v2.json`](512000/slayer-v2.json) — **1,424 tok/słowo** (badawczo).
+> **Rekomendacja produkcyjna zależy od modelu** — dla A3B ~128k (koszt głowicy `2·d·V`); 256k to rozsądny Pareto. Patrz „Tradeoff".
+
+## Struktura (po vocabie)
+
+| katalog | warianty (pliki) | korpus · pre-tok |
+|---|---|---|
+| `512/` `1024/` `2048/` | `lektury-naive`, `lektury-fast` | Wolne Lektury (2,71 M zn.) · brak / GPT-2 |
+| `4096/` `8192/` `15000/` | `lektury-fast` | Wolne Lektury · GPT-2 |
+| `32000/` `64000/` | `slayer-v1`, `slayer-v2` | SpeakLeash 5GB-sample · regex GPT-2 / cl100k+cyfry |
+| `128000/` `256000/` | `slayer-v2` | SpeakLeash 5GB-sample · regex cl100k + pełne cyfry |
+
+Warianty: **`lektury-naive`** = dydaktyczny `O(n·m)`, bez pre-tok · **`lektury-fast`** / **`slayer-v1`** =
+pre-tok regex GPT-2 (bucketing + lazy-heap, parytet 1:1 z rdzeniem) · **`slayer-v2`** = pre-tok regex
+cl100k (z GPT-4) **+ pełne runy cyfr `\p{N}+`** — spójnie dla 32k/64k/128k/256k.
+
+### Nazewnictwo
+**`slayer-vN` = generacja *naszego* przepisu BPE (metoda SlayerLab), nie model.** `v1` = regex pre-tok GPT-2;
+`v2` = regex cl100k (z GPT-4) + pełne runy cyfr. **Korpus to tylko dane** i jest wspólny dla całego repo →
+trzymamy go w metadanej, nie w nazwie: SpeakLeash **5 GB-sample** (shardy 0001-0004, ~3–4,14 GB, held-out 0005).
+`lektury-*` = osobny korpus dydaktyczny (Wolne Lektury) — tam korpus jest wyróżnikiem, więc zostaje w nazwie.
+
+## Metryki (i po co)
+
+- **zn/tok** (chars/token) — kompresja, ↑ lepiej.
+- **fertility** (tokeny/słowo) — ↓ lepiej. Standard w ewaluacji multilingual.
+- **Rényi efficiency** (α=2,5) — równomierność rozkładu tokenów, 0–1, ↑ lepiej (Zouhar i in. 2023, ACL;
+  ~0,78 korelacji z BLEU w MT).
+- **round-trip lossless** — `decode(encode(x)) == x`.
+
+> **Uwaga metodyczna:** fertility i Rényi są **dystrybucyjne** — mierzą kompresję/rozkład, **nie**
+> gramatyczność. Patrz „Fleksja pod mikroskopem".
+
+## ⭐ Krzywa vocab → fertility (główny wynik; held-out SpeakLeash shard 0005, def. słowa `[^\W\d_]+`)
+
+| vocab | wariant | zn/tok | fertility | Rényi | RT |
+|---|---|---|---|---|---|
+| 32000 | slayer-v1 | 4,03 | 1,765 | 0,451 | ✅ |
+| 32000 | slayer-v2 | 4,05 | 1,756 | **0,472** | ✅ |
+| 64000 | slayer-v1 | 4,37 | 1,630 | 0,412 | ✅ |
+| 64000 | slayer-v2 | 4,39 | 1,619 | 0,431 | ✅ |
+| **115200** ⭐ | **slayer-v2** | 4,63 | 1,537 | 0,402 | ✅ |
+| 128000 | slayer-v2 | 4,67 | 1,524 | 0,398 | ✅ |
+| 256000 | slayer-v2 | 4,87 | 1,462 | 0,370 | ✅ |
+| 512000 | slayer-v2 (bad.) | 5,00 | 1,424 | 0,347 | ✅ |
+
+> ⭐ **115200** = `900×128` (GPU-aligned, a przy okazji baud-rate 😄) — **compute-optimum dla A3B** (min. `fertility × (body+2dV)`, patrz „Tradeoff" / `vocab_cost.py`). Basen płaski: 100-160k ≈ równe; 256k+ opłaca się tylko przy dużym body modelu.
+
+**Vocab dominuje.** 32k→…→512k (slayer-v2): fertility **1,756 → 1,619 → 1,524 → 1,462 → 1,424**. Dla kontrastu:
+zmiana pre-toka (regex GPT-2→cl100k) daje ~**−0,01**, a **6× więcej danych 0,00** (saturacja — patrz „Skala
+danych"). **Diminishing returns:** zysk na podwojenie vocab maleje (**−0,137 → −0,095 → −0,062 → −0,038**). Ogon
+wciąż **zdrowy** (`best_c`: 128k ≈507, 256k ≈159, 512k ≈47 — nie glitch → 4,14 GB starcza nawet na 512k;
+próg glitcha dopiero ~1M+, gdzie 17 GB danych wreszcie stanie się lewarem).
+
+**Tradeoff — koszt głowicy (nie darmowe).** Większy vocab → **Rényi ↓** (0,451→0,370) oraz **głowica LM
+`2·d·V`/token rośnie liniowo**. Kluczowe: dla **małego modelu** koszt/słowo (fertility × compute/token)
+**rośnie** z vocab — głowica rośnie szybciej niż fertility spada:
+
+| vocab | fertility | głowica (d=2048) | udział forward A3B | koszt/słowo |
+|---|---|---|---|---|
+| 128k | 1,524 | 0,54 G | ~9% | **9,14 G** |
+| 256k | 1,462 | 1,07 G | ~17% | 9,55 G |
+| 512k | 1,424 | 2,15 G | ~30% | 10,8 G |
+
+**Dla modelu A3B (d=2048) compute-optimum ≈ 128k**; 256k to Pareto (krótszy kontekst za większą głowicę).
+Duży vocab opłaca się dopiero przy dużym modelu — albo z **adaptive softmax** (ogon w niższym wymiarze;
+Rényi steruje progami). *Tokenizer ma służyć treningowi, nie odwrotnie.*
+
+## Tabela — mały korpus (held-out: Mickiewicz „Pan Tadeusz", 445 637 zn.)
+
+| plik | vocab | zn/tok | fertility | Rényi |
+|---|---|---|---|---|
+| `512/lektury-naive` | 512 | 1,76 | 3,718 | 0,768 |
+| `2048/lektury-naive` | 2048 | 2,43 | 2,685 | 0,743 |
+| `2048/lektury-fast` | 2048 | 2,41 | 2,712 | 0,585 |
+| `8192/lektury-fast` | 8192 | 3,00 | 2,177 | 0,460 |
+| `15000/lektury-fast` | 15000 | 3,25 | 2,010 | 0,418 |
+| GPT-2 (ref.) | 50257 | 1,73 | 3,782 | 0,391 |
+
+> **Nie porównuj tej tabeli z „Krzywą vocab"** — inne held-outy (Pan Tadeusz vs SpeakLeash) → liczby
+> nieporównywalne wprost. Absolutne liczby są nieważne bez **wspólnego** held-outu i definicji słowa.
+
+## Co zmierzyliśmy i dlaczego
+
+1. **Vocab ↑ → fertility ↓ — NAJWIĘKSZA dźwignia.** 32k→256k (slayer-v2): 1,756→1,462 (−0,29). Największy z efektów (choć malejący).
+2. **Pre-tok cl100k (z GPT-4) + pełne cyfry — mały, ale realny zysk.** @32k neutralny na fert (Rényi↑); **@64k wygrywa
+   obie osie** (1,630→1,619, Rényi 0,412→0,431). Najlepszy pre-tok, ~10× słabszy efekt niż vocab.
+3. **Skala danych: nasycona JUŻ przy ~3 GB (przy stałym vocab).** dynaword 2,84→17 GB (6×): fertility płaski.
+   Więcej danych **nie** obniża fertility — ogranicza je **rozmiar słownika**. *(„Diminishing Returns…" arXiv
+   2502.20273 mierzy jakość przy ZMIENNYM vocab, EN ~150/RU ~200 GB; nasz **stały** vocab nasyca się dużo
+   wcześniej.)* Dane stają się lewarem **dopiero razem z większym vocab** (napełnić ogon). Patrz „Skala danych".
+4. **fertility/Rényi są ślepe na morfologię** — patrz „Fleksja pod mikroskopem".
+5. **BPE vs Unigram (matched vocab):** BPE dał nieco niższą fertility (zachłannie kompresyjny — Bostrom &
+   Durrett 2020); przewaga Unigrama w downstream/morfologii, nie w kompresji.
+
+## Skala danych i dystrybucja — eksperyment dynaword (zmierzony)
+
+Retrain 64k (pipeline slayer-v2: cl100k + pełne cyfry) na [`SlayerLab/polish-dynaword`](https://huggingface.co/datasets/SlayerLab/polish-dynaword)
+(human-text, 12 źródeł, CC-BY-SA). Zmienne rozłożone; pomiar na OBU held-outach.
+
+| trening (64k) | fert @SpeakLeash-0005 | fert @dyna-held | gap |
+|---|---|---|---|
+| SpeakLeash 4,14 GB | **1,619** | 1,829 | 0,210 |
+| dynaword 2,84 GB | 1,758 | 1,726 | — |
+| dynaword 17,0 GB | 1,757 | 1,733 | 0,024 |
+
+- **Rozmiar: nasycony do ~3 GB** (dynaword 2,84→17 GB = fertility płaski).
+- **Dystrybucja dominuje:** SpeakLeash-trained (4,14 GB) bije dynaword-trained (17 GB) na SpeakLeash — mimo 4× mniej danych.
+- **Robustność:** SpeakLeash-trained = home-turf (gap 0,21); dynaword-trained = robust (gap 0,024). Publikujemy
+  wariant SpeakLeash jako najlepszy **na benchmarku**; dynaword bywa lepszy jako **ogólny**.
+
+## Fleksja pod mikroskopem — tokeny vs metryka (dowód punktu 4)
+
+Realny podział na tokeny `64000/slayer-v1` (zweryfikowany 1:1 z encoderem; słowa w izolacji):
+
+| słowo | tokeny | `-ość` / rdzeń |
+|---|---|---|
+| odpowiedzialność | `odpowie · dzialność` | rdzeń bez wspólnego tokenu |
+| odpowiedzialności | `odpowie · dzia · lności` | inny podział niż mianownik |
+| wolność | `wo · lność` | `-ość` → `lność` |
+| radość | `ra · dość` | `-ość` → `dość` |
+
+Ten sam morfem `-ość` **nie ma jednego tokenu**. Zmierzone (UniMorph PL, N=86 k; recall-only,
+within-tokenizer): tokenizer trafia w granicę `stem|końcówka` tylko ~**19%** przypadków. **Metryka (fertility
+~1,5–1,6) mówi „dobrze skompresowane", a paradygmat fleksyjny jest rozbity** — fertility/Rényi tego nie widzą.
+
+## Uczciwe zastrzeżenia
+
+- **Held-out i definicja słowa są nasze** (`[^\W\d_]+`). Liczby pokazują **magnitudy i tendencje**; czyste 1:1
+  z innym tokenizerem wymaga **wspólnego** held-outu/protokołu.
+- **α w Rényim = konwencja** (nie strojona pod wynik).
+- „Najlepszy" znaczy **na benchmarku SpeakLeash** — na innej dystrybucji ranking się zmienia (patrz 2×2).
+  Jakość **modelu** (perplexity/downstream) to osobna oś, **tu niemierzona** (fertility ≠ downstream).
+
+## Format i wczytywanie
+
+Każdy plik to JSON w formacie zbliżonym do HuggingFace: blok `model` z `vocab` (`bytes_to_unicode` → id) i
+`merges` (lista `"lewy prawy"` w kolejności uczenia). **Pre-tok (zdeterminowany nazwą pliku):** `lektury-fast`
+i `slayer-v1` → regex GPT-2; **każdy `slayer-v2`** (32k/64k/128k) → regex cl100k (z GPT-4) **+ pełne
+runy cyfr `\p{N}+`**; `lektury-naive` → bez pre-tok.
+
+```python
+import json
+m = json.load(open("128000/slayer-v2.json", encoding="utf-8"))["model"]
+vocab = m["vocab"]                       # repr -> id
+merges = {}
+for line in m["merges"]:                 # kolejność = rank
+    l, r = line.split(" ")
+    merges[(vocab[l], vocab[r])] = vocab[l + r]
+```
+
+## Literatura
+
+- Zouhar i in. 2023 — *Tokenization and the Noiseless Channel*, ACL (Rényi efficiency).
+- Bostrom & Durrett 2020 — *BPE is Suboptimal for Language Model Pretraining* (BPE vs Unigram).
+- *Evaluating Morphological Alignment of Tokenizers in 70 Languages*, arXiv 2507.06378 (MorphScore; alignment ≠ downstream).
+- *Diminishing Returns of Tokenization Training Data*, arXiv 2502.20273 · MorphBPE, arXiv 2502.00894.
+- Petrov i in. 2023 — *Language Model Tokenizers Introduce Unfairness Between Languages*, NeurIPS.
+- Korpus skali: [`SlayerLab/polish-dynaword`](https://huggingface.co/datasets/SlayerLab/polish-dynaword) (CC-BY-SA-4.0).
+
+## Autor
+Arek — Kurs Tokenizer, Slayer Labs.
