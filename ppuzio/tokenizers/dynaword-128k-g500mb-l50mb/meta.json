@@ -1,0 +1,43 @@
+{
+  "name": "dynaword-128k-g500mb-l50mb",
+  "label": "ppuzio 128k (500MB general, 50MB legal)",
+  "vocab_size": 128000,
+  "corpus": "polish-dynaword (500 MB general, 50 MB legal/source)",
+  "backend": "hf",
+  "artifact": "tokenizer.json",
+  "pretokenization": "ByteLevel",
+  "cap_chars_per_source": 524288000,
+  "cap_mb_per_source": 500,
+  "legal_cap_mb_per_source": 50,
+  "legal_cap_chars_per_source": 52428800,
+  "full_corpus": false,
+  "sources": [
+    "1000_novels",
+    "dziennik_ustaw",
+    "eltec_pol",
+    "eurlex",
+    "parliamentary",
+    "wikibooks",
+    "wikinews",
+    "wikipedia",
+    "wikiquote",
+    "wikisource",
+    "wikivoyage",
+    "wolne_lektury"
+  ],
+  "metrics": {
+    "held_out_wikipedia": {
+      "docs": 2000,
+      "words": 1129156,
+      "tokens": 1623429,
+      "fertility_tok_per_word": 1.4377,
+      "tok_per_char": 0.1972
+    },
+    "ogniem_in_domain": {
+      "words": 125371,
+      "tokens": 175703,
+      "fertility_tok_per_word": 1.4015,
+      "tok_per_char": 0.2221
+    }
+  }
+}

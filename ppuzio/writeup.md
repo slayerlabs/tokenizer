@@ -2,106 +2,162 @@
 
 ## Cel
 
-Celem jest prosty **byte-level BPE** tokenizer dla polskiego tekstu literackiego, zaimplementowany od zera w czystym Pythonie (`bpe_skeleton.py`). Tokenizer ma:
+Byte-level BPE dla polskiego. **Wersje są kumulatywne** — każdy trening trafia do `tokenizers/<name>/`, stare wersje zostają do porównań.
 
-- kodować dowolny tekst UTF-8 bez tokenów `<UNK>`,
-- zachować pełną odwracalność: `decode(encode(text)) == text`,
-- wygenerować artefakt `tokenizer.json` z regułami scalania.
+Źródło książki v1: [Wolne Lektury — Ogniem i mieczem](https://wolnelektury.pl/media/book/txt/ogniem-i-mieczem-tom-pierwszy.txt).
 
-## Podejście
+Korpus DynaWord: 12 źródeł parquet w `polish-dynaword/data/` (Wikipedia, Wikisource, Wolne Lektury, powieści, wiki*, prawo).
 
-Tekst jest kodowany na bajty UTF-8 (256 tokenów bazowych: `0–255`). Algorytm BPE w pętli:
+---
 
-1. liczy częstość sąsiadujących par tokenów w całym korpusie,
-2. scala najczęstszą parę w jeden nowy token,
-3. powtarza, aż słownik osiągnie docelowy rozmiar.
+## Struktura
 
-W przeciwieństwie do tokenizerów w stylu GPT-2 (np. u Kuby) **nie stosujemy pretokenizacji regexem** ani mapowania `bytes_to_unicode` (`Ġ` itd.). BPE widzi cały tekst jako jeden ciąg bajtów. To upraszcza implementację, ale pozwala na scalanie ponad granicami słów i akapitów — widać to w najdłuższych nauczonych tokenach.
+```text
+ppuzio/
+  bpe_skeleton.py          # v1: edukacyjny trening (czysty Python, wolny)
+  train_dynaword.py        # produkcyjny trening → tokenizers/<name>/
+  compare_fertility.py     # tabela fertility ze wszystkich wersji
+  inspect_pretokenization.py
+  export_v1.py
+  tokenizers/
+    registry.json
+    fertility_comparison.json
+    v1-ogniem-10k/
+    dynaword-{10,14,32,64,128}k-*/
+```
 
-Implementacja encode stosuje reguły merge w kolejności treningu (najniższe ID = najwyższy priorytet), zgodnie z typową inferencją BPE.
+---
 
-## Dane treningowe
+## Trening
 
-Korpus: **„Ogniem i mieczem”, tom pierwszy** — Henryk Sienkiewicz, Wolne Lektury.
+```bash
+pip install pyarrow tokenizers
 
-- Źródło: [ogniem-i-mieczem-tom-pierwszy.txt](https://wolnelektury.pl/media/book/txt/ogniem-i-mieczem-tom-pierwszy.txt)
-- Lokalny plik: `ogniem.txt`
+# szybki eksperyment (~6M znaków)
+python train_dynaword.py --vocab-size 10000 --cap-chars 500000
 
-Statystyki korpusu:
+# standard: 220 MB general + 50 MB legal (~1.25 GB)
+python train_dynaword.py --vocab-size 128000 --cap-mb 220 --legal-cap-mb 50
 
-| Metryka | Wartość |
-|---------|---------|
-| Liczba znaków | 791 246 |
-| Liczba bajtów UTF-8 | 859 818 |
-| Liczba słów (`split()`) | 125 371 |
-| Liczba linii | 8 018 |
+# więcej Wikipedii / Wikisource (500 MB general)
+python train_dynaword.py --vocab-size 128000 --cap-mb 500 --legal-cap-mb 50
 
-Korpus jest znacznie mniejszy niż u pozostałych (Wikipedia, DynaWord) — słownik jest więc mocno dopasowany do stylu jednej powieści historycznej.
+# cały sensowny korpus general (~4.5 GB) + 50 MB legal per źródło prawne
+python train_dynaword.py --vocab-size 128000 --general-full --legal-cap-mb 50
 
-## Artefakt
+python compare_fertility.py
+```
 
-Plik `tokenizer.json` zawiera:
+**Źródła w `--general-full`:** cała Wikipedia (1.8 GB), Wikisource (2.0 GB), Wolne Lektury, 1000 noveli CLARIN-PL, Wikinews, Wikibooks, Wikiquote, Wikivoyage, ELTEC. **Legal** (eurlex, parliamentary, dziennik_ustaw) ograniczone do 50 MB/źródło.
 
-- `type`: `"byte_bpe"`
-- `vocab_size`: `10 000` (256 bajtów + 9 744 merge'y)
-- `merges`: lista reguł `[left_id, right_id, new_id]` — bezpośrednio z `merges.txt`
+Trening: biblioteka **`tokenizers`** (Rust), nie tiktoken. Parquet ułatwia streaming; główny zysk prędkości vs `bpe_skeleton.py` to implementacja BPE (~16 min na jednej książce → ~1–2 min na GB danych).
 
-Format jest bliższy schematowi numerycznemu (jak u Patryka) niż pełnemu JSON Hugging Face (jak u Kuby), ale jest w pełni deterministyczny i łatwy do odtworzenia z istniejącego kodu.
+---
 
-Dodatkowe pliki po treningu:
+## Wyniki fertility (held-out)
 
-- `merges.txt` — reguły scalania, jedna na linię
-- `token_ids.txt` — tokenizacja całego korpusu po treningu
+**Split:** ostatnie 10% każdego źródła parquet (max 50 MB/źródło) **nie trafia do treningu**. Eval na zarezerwowanym sufiksie ze wszystkich 12 źródeł (~48k docs, ~47M słów, ~330 MB).
 
-## Główne statystyki tokenizatora
+Fertility = tokeny/słowo (niżej lepiej). Metryki z `compare_fertility.py` (domyślnie reserved suffix; stary split: `--legacy-held-out`).
 
-| Parametr | Wartość |
-|----------|---------|
-| Typ | Byte-level BPE (bez pretokenizacji) |
-| Docelowy rozmiar słownika | 10 000 |
-| Tokeny bazowe (bajty) | 256 |
-| Reguły merge | 9 744 |
-| Średnia długość tokenu | 6,23 bajta |
-| Najdłuższy token | 27 bajtów |
+### Krzywa vocab (220 MB / źródło)
 
-Przykłady najdłuższych tokenów (wielowyrazowe fragmenty dialogów — efekt braku ograniczeń na merge):
+| Vocab | Held-out | Ogniem |
+|------:|---------:|-------:|
+| 10k | 2,07 | 1,95 |
+| 14k | 1,90 | 1,83 |
+| 32k | 1,70 | 1,63 |
+| 64k | 1,57 | 1,51 |
+| 128k | 1,51 | 1,41 |
 
-- `! — rzekł pan Skrzetuski`
-- `południowych województwa`
-- `wasza książęca mość`
+### 128k — wpływ rozmiaru danych (50 MB legal)
 
-## Metryki na korpusie treningowym
+| Dane treningowe | Train (≈) | Held-out | Ogniem |
+|-----------------|----------:|---------:|-------:|
+| 220 MB general / źródło | 1,25 GB | 1,499 | 1,393 |
+| 500 MB general | 1,87 GB | 1,500 | 1,401 |
+| **full general** | **4,3 GB** | **1,509** | 1,413 |
 
-Pomiar na całym `ogniem.txt` po treningu (`token_ids.txt`):
+*Cap „220 MB / 500 MB” = limit **na każde źródło osobno**; trening pomija też sufiks eval (~330 MB). Szczegóły w tabeli na końcu.*
 
-| Metryka | Wartość |
-|---------|---------|
-| Liczba tokenów | 177 752 |
-| Fertility | **1,418 tok/słowo** |
-| Średnia liczba znaków na token | 4,45 |
-| Współczynnik kompresji znakowej | 77,54% |
-| Tekst w tokenach jest ~4,45× krótszy niż liczony znakami | |
-| Rekonstrukcja `decode(encode(text))` | **100%** — idealna |
-| Tokeny `<UNK>` | **0** |
+Przy **128k** różnica 220 MB → full to ~0,01 fertility — dane szybko się nasycają.
 
-Niska fertility (w porównaniu do ~2,2–2,6 u tokenizerów z pretokenizacją) wynika częściowo z tego, że BPE łączy całe frazy i dialogi w pojedyncze tokeny. To poprawia „kompresję” na tym korpusie, ale niekoniecznie daje dobrze uogólnialne jednostki pod model językowy.
+### Porównanie z baseline'ami
 
-## Próbka podziału tekstu
+| Tokenizer | Vocab | Held-out |
+|-----------|------:|---------:|
+| **ppuzio 128k (full general)** | 128k | **1,509** |
+| ppuzio 64k (220 MB) | 64k | 1,575 |
+| Kuba 14k | 14k | 2,150 |
 
-| Tekst wejściowy | Tokeny |
-|-----------------|--------|
-| `Jan Skrzetuski` | `['Jan ', 'Skrzetuski']` |
-| `Pan Zagłoba` | `['Pan ', 'Zagłoba']` |
-| `Ogniem i mieczem` | `['O', 'gnie', 'm i ', 'mie', 'czem']` |
-| `czyli ostatni zajazd na Litwie` | `['czyli ', 'ostatni ', 'za', 'jazd ', 'na ', 'Lit', 'wie']` |
-| `Rzeczpospolita` | `['Rzeczpospoli', 'ta']` |
-| `Wojska Koronnego` | `['W', 'ojska ', 'Ko', 'ron', 'nego']` |
+### Artefakt do oddania
 
-## Ograniczenia i możliwe usprawnienia
+**`tokenizers/dynaword-128k-gfull-l50mb/`** — najlepsza fertility w serii (train + eval z reserved suffix).
 
-1. **Brak pretokenizacji** — merge'y przechodzą przez spacje, interpunkcję i znaki nowej linii; powstają tokeny wielowyrazowe.
-2. **Jeden mały korpus** — słownik jest overfitowany do „Ogniem i mieczem”, nie do ogólnego polskiego.
-3. **Wolny trening** — każda iteracja skanuje cały korpus (`O(n × merges)`); na większych danych potrzebna byłaby optymalizacja.
-4. **Brak eksportu HF** — `tokenizer.json` nie ładuje się wprost przez `tokenizers.Tokenizer.from_file()`; wymagałby konwersji do formatu ByteLevel + `bytes_to_unicode`.
+Format: Hugging Face `tokenizer.json` (ByteLevel + BPE), ładowanie:
 
-Kolejne kroki (gdyby rozwijać ćwiczenie): pretokenizacja regex (jak GPT-2), limit długości tokenu, zakaz merge'y ze znakiem nowej linii, większy / zróżnicowany korpus.
+```python
+from tokenizers import Tokenizer
+tok = Tokenizer.from_file("tokenizers/dynaword-128k-gfull-l50mb/tokenizer.json")
+```
+
+---
+
+## v1 — lekcja overfitu
+
+`bpe_skeleton.py` na jednej książce, bez pretokenizacji. BPE scala całe frazy (`! — rzekł pan Skrzetuski`). In-domain fertility na Ogniem ~1,42 — klasyczny overfit względem DynaWord. Implementacja O(n×merges) w Pythonie.
+
+## v2+ — DynaWord
+
+- Zróżnicowany korpus zamiast jednej powieści
+- `tokenizers` (Rust) zamiast czystego Pythona
+- ByteLevel pretokenizacja (jak w eksporcie Kuby — regex Split z writeupu Kuby nie widać w jego JSON)
+- `--legal-cap-mb 50` ogranicza dominację prawa (z ~39% do ~3% przy full general)
+
+---
+
+## Wnioski
+
+1. **Overfit na jednej książce** daje dobrą kompresję in-domain, słabą generalizację poza nią.
+2. **Vocab ↑** to największa dźwignia (10k→128k: ~2,07→1,51).
+3. **Więcej danych** pomaga, ale przy 128k szybko nasyca (220 MB ≈ full).
+4. **Mniej prawa w treningu** — sensowne przy skalowaniu danych.
+5. **128k + DynaWord** bije Kuba 14k na reserved held-out (1,51 vs 2,15).
+
+---
+
+## Korpus treningowy — co znaczy cap MB?
+
+Dane z `polish-dynaword/data/` (12 plików parquet). Trening czyta każde źródło od początku i przestaje po capie; **sufiks eval (10%, max 50 MB/źródło) jest pomijany**.
+
+**Zasady capów:**
+- `--cap-mb N` — max **N MB na źródło general** (Wikipedia, Wikisource, …)
+- `--legal-cap-mb 50` — max **50 MB na źródło legal** (eurlex, parliamentary, dziennik_ustaw)
+- `--general-full` — całe źródła general bez limitu; legal nadal @ 50 MB
+- `*` w tabeli = źródło większe niż cap, ucięte do limitu
+
+| Źródło | Typ | Dostępne | @220 MB | @500 MB | full |
+|--------|-----|--------:|--------:|--------:|-----:|
+| wikipedia | general | 1,84 GB | 231 MB* | 524 MB* | 1,84 GB |
+| wikisource | general | 1,97 GB | 231 MB* | 524 MB* | 1,97 GB |
+| wolne_lektury | general | 262 MB | 231 MB* | 262 MB | 262 MB |
+| 1000_novels | general | 152 MB | 152 MB | 152 MB | 152 MB |
+| wikiquote | general | 82 MB | 82 MB | 82 MB | 82 MB |
+| eltec_pol | general | 54 MB | 54 MB | 54 MB | 54 MB |
+| wikivoyage | general | 45 MB | 45 MB | 45 MB | 45 MB |
+| wikibooks | general | 39 MB | 39 MB | 39 MB | 39 MB |
+| wikinews | general | 33 MB | 33 MB | 33 MB | 33 MB |
+| eurlex | legal | 5,98 GB | 52 MB* | 52 MB* | 52 MB* |
+| parliamentary | legal | 4,49 GB | 52 MB* | 52 MB* | 52 MB* |
+| dziennik_ustaw | legal | 1,23 GB | 52 MB* | 52 MB* | 52 MB* |
+| **Σ general** | | **4,49 GB** | **1,10 GB** | **1,72 GB** | **4,49 GB** |
+| **Σ legal** | | | **157 MB** | **157 MB** | **157 MB** |
+| **Σ łącznie** | | | **1,25 GB** | **1,87 GB** | **4,64 GB** |
+
+Małe źródła (wikinews, wikibooks, …) wchodzą w całości przy każdym capie — stąd 220 MB/źródło **nie** daje 12 × 220 MB. Przy full general dominują Wikipedia i Wikisource (~80% korpusu general).
+
+## Otwarte
+
+- Ewaluacja na wspólnej próbce SpeakLeash-clean (jak wykres Slayer)
+- Eksperyment z regex pretokenizacją (`inspect_pretokenization.py`)
+- `max_token_len` / zakaz merge'y ze `\n` (jak u Patryka)

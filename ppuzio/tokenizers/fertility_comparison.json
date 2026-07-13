@@ -1,0 +1,213 @@
+{
+  "split": "reserved_suffix",
+  "reserve_fraction": 0.1,
+  "reserve_max_mb_per_source": 50,
+  "docs": 48354,
+  "per_source": [
+    {
+      "source": "1000_novels",
+      "total_chars": 151610758,
+      "reserve_chars": 15161075,
+      "docs": 104
+    },
+    {
+      "source": "dziennik_ustaw",
+      "total_chars": 1226137838,
+      "reserve_chars": 52428800,
+      "docs": 909
+    },
+    {
+      "source": "eltec_pol",
+      "total_chars": 54369249,
+      "reserve_chars": 5436924,
+      "docs": 10
+    },
+    {
+      "source": "eurlex",
+      "total_chars": 5976949249,
+      "reserve_chars": 52428800,
+      "docs": 875
+    },
+    {
+      "source": "parliamentary",
+      "total_chars": 4492746014,
+      "reserve_chars": 52428800,
+      "docs": 3815
+    },
+    {
+      "source": "wikibooks",
+      "total_chars": 38892589,
+      "reserve_chars": 3889258,
+      "docs": 555
+    },
+    {
+      "source": "wikinews",
+      "total_chars": 32524646,
+      "reserve_chars": 3252464,
+      "docs": 1908
+    },
+    {
+      "source": "wikipedia",
+      "total_chars": 1844707761,
+      "reserve_chars": 52428800,
+      "docs": 37186
+    },
+    {
+      "source": "wikiquote",
+      "total_chars": 82338997,
+      "reserve_chars": 8233899,
+      "docs": 1624
+    },
+    {
+      "source": "wikisource",
+      "total_chars": 1974249746,
+      "reserve_chars": 52428800,
+      "docs": 225
+    },
+    {
+      "source": "wikivoyage",
+      "total_chars": 45184300,
+      "reserve_chars": 4518430,
+      "docs": 456
+    },
+    {
+      "source": "wolne_lektury",
+      "total_chars": 261892000,
+      "reserve_chars": 26189200,
+      "docs": 687
+    }
+  ],
+  "held_out_words": 46762190,
+  "results": [
+    {
+      "name": "dynaword-128k-g220mb-l50mb",
+      "label": "ppuzio 128k (220MB general, 50MB legal)",
+      "vocab_size": 128000,
+      "corpus": "polish-dynaword (220 MB general, 50 MB legal/source)",
+      "backend": "hf",
+      "held_out_fertility": 1.4988,
+      "held_out_tok_per_char": 0.2141,
+      "held_out_words": 46762190,
+      "held_out_tokens": 70086274,
+      "ogniem_fertility": 1.3927,
+      "ogniem_tokens": 174610
+    },
+    {
+      "name": "dynaword-128k-g500mb-l50mb",
+      "label": "ppuzio 128k (500MB general, 50MB legal)",
+      "vocab_size": 128000,
+      "corpus": "polish-dynaword (500 MB general, 50 MB legal/source)",
+      "backend": "hf",
+      "held_out_fertility": 1.5001,
+      "held_out_tok_per_char": 0.2142,
+      "held_out_words": 46762190,
+      "held_out_tokens": 70146735,
+      "ogniem_fertility": 1.4015,
+      "ogniem_tokens": 175703
+    },
+    {
+      "name": "dynaword-128k-gfull-l50mb",
+      "label": "ppuzio 128k (full general, 50MB legal)",
+      "vocab_size": 128000,
+      "corpus": "polish-dynaword (full general ~4.5GB, 50 MB legal/source)",
+      "backend": "hf",
+      "held_out_fertility": 1.5089,
+      "held_out_tok_per_char": 0.2155,
+      "held_out_words": 46762190,
+      "held_out_tokens": 70561026,
+      "ogniem_fertility": 1.4129,
+      "ogniem_tokens": 177141
+    },
+    {
+      "name": "dynaword-64k-220mb",
+      "label": "ppuzio 64k (DynaWord 220MB)",
+      "vocab_size": 64000,
+      "corpus": "polish-dynaword (220 MB/source)",
+      "backend": "hf",
+      "held_out_fertility": 1.5745,
+      "held_out_tok_per_char": 0.2249,
+      "held_out_words": 46762190,
+      "held_out_tokens": 73628738,
+      "ogniem_fertility": 1.509,
+      "ogniem_tokens": 189179
+    },
+    {
+      "name": "dynaword-32k-220mb",
+      "label": "ppuzio 32k (DynaWord 220MB)",
+      "vocab_size": 32000,
+      "corpus": "polish-dynaword (220 MB/source)",
+      "backend": "hf",
+      "held_out_fertility": 1.6967,
+      "held_out_tok_per_char": 0.2423,
+      "held_out_words": 46762190,
+      "held_out_tokens": 79339780,
+      "ogniem_fertility": 1.6349,
+      "ogniem_tokens": 204965
+    },
+    {
+      "name": "dynaword-32k",
+      "label": "ppuzio 32k (DynaWord)",
+      "vocab_size": 32000,
+      "corpus": "polish-dynaword (500,000 chars/source)",
+      "backend": "hf",
+      "held_out_fertility": 1.7675,
+      "held_out_tok_per_char": 0.2524,
+      "held_out_words": 46762190,
+      "held_out_tokens": 82653717,
+      "ogniem_fertility": 1.6973,
+      "ogniem_tokens": 212791
+    },
+    {
+      "name": "dynaword-14k-220mb",
+      "label": "ppuzio 14k (DynaWord 220MB)",
+      "vocab_size": 14000,
+      "corpus": "polish-dynaword (220 MB/source)",
+      "backend": "hf",
+      "held_out_fertility": 1.8962,
+      "held_out_tok_per_char": 0.2708,
+      "held_out_words": 46762190,
+      "held_out_tokens": 88672479,
+      "ogniem_fertility": 1.8308,
+      "ogniem_tokens": 229534
+    },
+    {
+      "name": "dynaword-14k",
+      "label": "ppuzio 14k (DynaWord)",
+      "vocab_size": 14000,
+      "corpus": "polish-dynaword (500,000 chars/source)",
+      "backend": "hf",
+      "held_out_fertility": 1.9673,
+      "held_out_tok_per_char": 0.281,
+      "held_out_words": 46762190,
+      "held_out_tokens": 91993922,
+      "ogniem_fertility": 1.8644,
+      "ogniem_tokens": 233736
+    },
+    {
+      "name": "dynaword-10k",
+      "label": "ppuzio 10k (DynaWord)",
+      "vocab_size": 10000,
+      "corpus": "polish-dynaword (500,000 chars/source)",
+      "backend": "hf",
+      "held_out_fertility": 2.0668,
+      "held_out_tok_per_char": 0.2952,
+      "held_out_words": 46762190,
+      "held_out_tokens": 96649909,
+      "ogniem_fertility": 1.948,
+      "ogniem_tokens": 244221
+    },
+    {
+      "name": "kuba-14k",
+      "label": "Kuba 14k",
+      "vocab_size": 14000,
+      "corpus": "plwiki ~30M words + GPT pretok",
+      "backend": "hf",
+      "held_out_fertility": 2.1498,
+      "held_out_tok_per_char": 0.307,
+      "held_out_words": 46762190,
+      "held_out_tokens": 100528356,
+      "ogniem_fertility": 2.0726,
+      "ogniem_tokens": 259842
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "name": "dynaword-32k",
+  "label": "ppuzio 32k (DynaWord)",
+  "vocab_size": 32000,
+  "corpus": "polish-dynaword (500,000 chars/source)",
+  "backend": "hf",
+  "artifact": "tokenizer.json",
+  "pretokenization": "ByteLevel",
+  "cap_chars_per_source": 500000,
+  "sources": [
+    "1000_novels",
+    "dziennik_ustaw",
+    "eltec_pol",
+    "eurlex",
+    "parliamentary",
+    "wikibooks",
+    "wikinews",
+    "wikipedia",
+    "wikiquote",
+    "wikisource",
+    "wikivoyage",
+    "wolne_lektury"
+  ],
+  "metrics": {
+    "held_out_wikipedia": {
+      "docs": 2000,
+      "words": 1129156,
+      "tokens": 2031598,
+      "fertility_tok_per_word": 1.7992,
+      "tok_per_char": 0.2468
+    },
+    "ogniem_in_domain": {
+      "words": 125371,
+      "tokens": 212791,
+      "fertility_tok_per_word": 1.6973,
+      "tok_per_char": 0.2689
+    }
+  }
+}
