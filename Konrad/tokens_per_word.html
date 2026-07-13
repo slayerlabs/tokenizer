@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="pl" data-bs-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BPE — długość słowa a liczba tokenów</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-body-tertiary">
+  <div class="container-fluid py-4 px-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h1 class="h4 card-title mb-1">BPE — długość słowa a liczba tokenów</h1>
+        <p class="text-body-secondary mb-1">
+          Każde słowo to punkt: <strong>X = długość słowa</strong>,
+          <strong>Y = liczba tokenów</strong>. Numer punktu wskazuje słowo (legenda niżej).
+        </p>
+        <p class="text-body-secondary small mb-2">Cały SJP.pl zawiera <strong>177 902 652</strong> znaków. &middot; Liczba merge’y: <strong>50</strong>.</p>
+        <p class="text-body-secondary small mb-4">
+          Tekst testowy: <em>Niezaprzeczalnie skomplikowana morfosyntaktyczna struktura języka polskiego.</em>
+        </p>
+        <div id="chart" style="width:100%;height:460px"></div>
+        <hr>
+        <h2 class="h6 text-body-secondary">Legenda słów</h2>
+        <div class="table-responsive">
+        <table class="table table-sm table-hover align-middle mb-0">
+          <thead>
+            <tr>
+              <th scope="col" class="text-center">#</th>
+              <th scope="col">Słowo</th>
+              <th scope="col" class="text-end">Długość</th>
+              <th class="text-end"><span class="d-inline-block rounded-circle me-1" style="width:.7rem;height:.7rem;background:#dc3545"></span>SJP 10 tys.</th><th class="text-end"><span class="d-inline-block rounded-circle me-1" style="width:.7rem;height:.7rem;background:#a84373"></span>SJP 100 tys.</th><th class="text-end"><span class="d-inline-block rounded-circle me-1" style="width:.7rem;height:.7rem;background:#7452a1"></span>SJP 1 mln</th><th class="text-end"><span class="d-inline-block rounded-circle me-1" style="width:.7rem;height:.7rem;background:#4160cf"></span>SJP 10 mln</th><th class="text-end"><span class="d-inline-block rounded-circle me-1" style="width:.7rem;height:.7rem;background:#0d6efd"></span>SJP całość</th>
+            </tr>
+          </thead>
+          <tbody><tr><th scope="row" class="text-center"><span class="d-inline-flex align-items-center justify-content-center rounded-circle text-white fw-bold" style="width:1.6rem;height:1.6rem;background:#6c757d;font-size:.8rem">1</span></th><td>Niezaprzeczalnie</td><td class="text-end text-body-secondary">16</td><td class="text-end">13</td><td class="text-end">11</td><td class="text-end">10</td><td class="text-end">9</td><td class="text-end">9</td></tr><tr><th scope="row" class="text-center"><span class="d-inline-flex align-items-center justify-content-center rounded-circle text-white fw-bold" style="width:1.6rem;height:1.6rem;background:#6c757d;font-size:.8rem">2</span></th><td>skomplikowana</td><td class="text-end text-body-secondary">13</td><td class="text-end">9</td><td class="text-end">11</td><td class="text-end">9</td><td class="text-end">9</td><td class="text-end">8</td></tr><tr><th scope="row" class="text-center"><span class="d-inline-flex align-items-center justify-content-center rounded-circle text-white fw-bold" style="width:1.6rem;height:1.6rem;background:#6c757d;font-size:.8rem">3</span></th><td>morfosyntaktyczna</td><td class="text-end text-body-secondary">17</td><td class="text-end">16</td><td class="text-end">15</td><td class="text-end">13</td><td class="text-end">14</td><td class="text-end">14</td></tr><tr><th scope="row" class="text-center"><span class="d-inline-flex align-items-center justify-content-center rounded-circle text-white fw-bold" style="width:1.6rem;height:1.6rem;background:#6c757d;font-size:.8rem">4</span></th><td>struktura</td><td class="text-end text-body-secondary">9</td><td class="text-end">8</td><td class="text-end">7</td><td class="text-end">6</td><td class="text-end">7</td><td class="text-end">6</td></tr><tr><th scope="row" class="text-center"><span class="d-inline-flex align-items-center justify-content-center rounded-circle text-white fw-bold" style="width:1.6rem;height:1.6rem;background:#6c757d;font-size:.8rem">5</span></th><td>języka</td><td class="text-end text-body-secondary">6</td><td class="text-end">4</td><td class="text-end">6</td><td class="text-end">6</td><td class="text-end">6</td><td class="text-end">5</td></tr><tr><th scope="row" class="text-center"><span class="d-inline-flex align-items-center justify-content-center rounded-circle text-white fw-bold" style="width:1.6rem;height:1.6rem;background:#6c757d;font-size:.8rem">6</span></th><td>polskiego</td><td class="text-end text-body-secondary">9</td><td class="text-end">6</td><td class="text-end">6</td><td class="text-end">6</td><td class="text-end">6</td><td class="text-end">6</td></tr></tbody>
+        </table></div>
+      </div>
+    </div>
+    <p class="text-body-secondary small text-center mt-3 mb-0">
+      Wygenerowano przez <code>report.TokensPerWordReport</code> · Bootstrap + ECharts
+    </p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+  <script>
+    const DATA = {"words": ["Niezaprzeczalnie", "skomplikowana", "morfosyntaktyczna", "struktura", "języka", "polskiego"], "series": [{"name": "SJP 10 tys.", "points": [[16, 13.0, 1, 16, 13], [13, 9.0, 2, 13, 9], [17, 16.0, 3, 17, 16], [9, 8.0, 4, 9, 8], [6, 4.0, 5, 6, 4], [9, 6.0, 6, 9, 6]]}, {"name": "SJP 100 tys.", "points": [[16, 11.0, 1, 16, 11], [13, 11.0, 2, 13, 11], [17, 15.0, 3, 17, 15], [9, 7.0, 4, 9, 7], [6, 6.0, 5, 6, 6], [9, 6.0, 6, 9, 6]]}, {"name": "SJP 1 mln", "points": [[16, 10.0, 1, 16, 10], [13, 9.0, 2, 13, 9], [17, 13.0, 3, 17, 13], [9, 6.0, 4, 9, 6], [6, 6.0, 5, 6, 6], [9, 6.0, 6, 9, 6]]}, {"name": "SJP 10 mln", "points": [[16, 9.0, 1, 16, 9], [13, 9.0, 2, 13, 9], [17, 14.0, 3, 17, 14], [9, 7.0, 4, 9, 7], [6, 6.0, 5, 6, 6], [9, 6.0, 6, 9, 6]]}, {"name": "SJP całość", "points": [[16, 9.0, 1, 16, 9], [13, 8.0, 2, 13, 8], [17, 14.0, 3, 17, 14], [9, 6.0, 4, 9, 6], [6, 5.0, 5, 6, 5], [9, 6.0, 6, 9, 6]]}], "palette": ["#dc3545", "#a84373", "#7452a1", "#4160cf", "#0d6efd"], "labelMode": "number", "levels": [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]};
+
+    // dopasuj motyw strony i wykresu do preferencji systemu
+    const dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.setAttribute('data-bs-theme', dark ? 'dark' : 'light');
+    const fg = dark ? '#dee2e6' : '#212529';
+    const grid = dark ? '#343a40' : '#e9ecef';
+
+    const chart = echarts.init(document.getElementById('chart'), null,
+                               {renderer: 'canvas'});
+    chart.setOption({
+      color: DATA.palette,
+      backgroundColor: 'transparent',
+      textStyle: { color: fg, fontSize: 15 },
+      tooltip: {
+        trigger: 'item',
+        textStyle: { fontSize: 15 },
+        formatter: p => {
+          const w = DATA.words[p.data[2] - 1];
+          return `<b>${p.data[2]}. ${w}</b><br>długość: ${p.data[3]}`
+               + `<br>tokeny: ${p.data[4]}<br><i>${p.seriesName}</i>`;
+        }
+      },
+      legend: { orient: 'vertical', right: 0, top: 'middle',
+                 textStyle: { color: fg, fontSize: 15 } },
+      grid: { left: 8, right: 130, top: 64, bottom: 24, containLabel: true },
+      // zoom kółkiem myszy + przesuwanie przeciąganiem, na obu osiach
+      dataZoom: [
+        { type: 'inside', xAxisIndex: 0, filterMode: 'none' },
+        { type: 'inside', yAxisIndex: 0, filterMode: 'none' }
+      ],
+      xAxis: {
+        type: 'value',
+        name: 'długość słowa',
+        nameLocation: 'middle',
+        nameGap: 32,
+        minInterval: 1,
+        nameTextStyle: { color: fg, fontSize: 15 },
+        axisLabel: { color: fg, fontSize: 14 },
+        axisLine: { lineStyle: { color: grid } },
+        splitLine: { lineStyle: { color: grid } }
+      },
+      yAxis: {
+        type: 'value',
+        name: 'ilość tokenów',
+        nameLocation: 'end',
+        nameTextStyle: { color: fg, align: 'left', fontSize: 15 },
+        minInterval: 1,
+        axisLabel: { color: fg, fontSize: 14 },
+        splitLine: { lineStyle: { color: grid } }
+      },
+      series: DATA.series.map((s, i, arr) => ({
+        name: s.name,
+        type: 'scatter',
+        data: s.points,
+        symbolSize: DATA.labelMode === 'word' ? 9 : 22,
+        // w trybie "word" podpisujemy słowo tylko raz (na ostatniej serii),
+        // żeby nie powielać etykiety dla każdego z modeli
+        label: DATA.labelMode === 'word'
+          ? {
+              show: i === arr.length - 1,
+              formatter: p => DATA.words[p.data[2] - 1],   // słowo wprost na punkcie
+              position: 'right',
+              color: fg,
+              fontSize: 14
+            }
+          : {
+              show: true,
+              formatter: p => p.data[2],   // numer słowa
+              position: 'inside',
+              color: '#fff',
+              fontSize: 13,
+              fontWeight: 'bold'
+            },
+        // w trybie słownym pokazujemy wszystkie etykiety (rozsunięte pionowo w pasku)
+        labelLayout: { hideOverlap: DATA.labelMode !== 'word' },
+        // paski poziomów tokenów: naprzemiennie szary/czarny, 90% przezroczyste
+        markArea: (i === 0 && DATA.labelMode === 'word') ? {
+          silent: true,
+          data: DATA.levels.map((T, idx) => [
+            { yAxis: T - 0.5, itemStyle: { color: idx % 2 === 0
+                 ? 'rgba(128,128,128,0.1)' : 'rgba(0,0,0,0.1)' } },
+            { yAxis: T + 0.5 }
+          ])
+        } : undefined,
+        emphasis: { focus: 'none', scale: 1.3 },
+        blur: { itemStyle: { opacity: 1 }, label: { opacity: 1 } }
+      }))
+    });
+    window.addEventListener('resize', () => chart.resize());
+  </script>
+</body>
+</html>
