@@ -22,7 +22,7 @@ Sześć korpusów przy trzech rozmiarach słownika (1 000, 5 000, 10 000):
 | --- | ---: | ---: | ---: | ---: | --- |
 | lorem-ipsum | 2 | 1 811 605 | 1 811 605 | 41 | Generator "lorem ipsum" (czysty ASCII) |
 | nad-niemnem | 3 | 1 081 002 | 1 175 927 | 96 | E. Orzeszkowa, "Nad Niemnem" |
-| random-text-files | 486 | 5 348 450 | 5 366 695 | 252 | 486 anglojęzycznych artykułów publicystycznych (.txt) |
+| random-text-files | 486 | 5 348 450 | 5 366 695 | 252 | Kaggle [`swaranjananayak/random-text-files`](https://www.kaggle.com/datasets/swaranjananayak/random-text-files) |
 | wolne-lektury | 6 141 | 259 776 717 | 281 206 491 | 420 | HF `polish-dynaword` / `wolne_lektury` |
 | wikipedia-pl | 1 171 897 | 1 844 140 560 | 1 944 925 241 | 8 070 | HF `polish-dynaword` / `wikipedia` |
 | wikipedia-zh | 1 384 748 | 1 030 636 635 | 2 602 952 850 | 29 554 | HF `wikipedia` / `20231101.zh` |
