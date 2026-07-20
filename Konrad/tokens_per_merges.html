@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pl" data-bs-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BPE — liczba merge'y a liczba tokenów (cały SJP)</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-body-tertiary">
+  <div class="container-fluid py-4 px-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h1 class="h4 card-title mb-1">BPE — liczba merge'y a liczba tokenów (cały SJP)</h1>
+        <p class="text-body-secondary mb-1">
+          Każde słowo to punkt: <strong>X = długość słowa</strong>,
+          <strong>Y = liczba tokenów</strong>. Każde słowo podpisane jest wprost na punkcie. Każdy poziom „ilość tokenów” to naprzemienny (szary/czarny) pasek; słowa o tej samej długości układają się w nim jedno nad drugim.
+        </p>
+        <p class="text-body-secondary small mb-2">Cały SJP.pl zawiera <strong>177 902 652</strong> znaków. &middot; Liczba merge’y: <strong>50 · 100 · 200</strong>.</p>
+        <p class="text-body-secondary small mb-4">
+          Tekst testowy: <em>80 polskich słów o różnej długości (2–20 znaków); model uczony na całym SJP.pl</em>
+        </p>
+        <div id="chart" style="width:100%;height:720px"></div>
+      </div>
+    </div>
+    <p class="text-body-secondary small text-center mt-3 mb-0">
+      Wygenerowano przez <code>report.TokensPerWordReport</code> · Bootstrap + ECharts
+    </p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+  <script>
+    const DATA = {"words": ["co", "to", "na", "od", "za", "dom", "kot", "las", "rok", "woda", "ręka", "noga", "zima", "lato", "ptak", "ryba", "pies", "głowa", "serce", "słowo", "praca", "droga", "kwiat", "uczeń", "ogród", "dzień", "miasto", "szkoła", "pogoda", "jesień", "wiosna", "drzewo", "radość", "smutek", "miłość", "sąsiad", "książka", "krzesło", "telefon", "rodzina", "kuchnia", "komputer", "samochód", "przyjaźń", "łazienka", "przedszkole", "uniwersytet", "nauczycielka", "poniedziałek", "niebezpieczny", "kalafior", "ćwiczenie", "biblioteka", "matematyka", "nauczyciel", "kierownik", "przedmiot", "informacja", "kalendarzyk", "matematyczny", "odpowiedzialność", "prawdopodobieństwo", "sprawiedliwość", "przedsiębiorstwo", "charakterystyczny", "międzynarodowy", "niekonstytucyjny", "współczesność", "samowystarczalny", "nieprzewidywalny", "konkurencyjność", "wielofunkcyjność", "przedsięwzięcie", "bezpieczeństwo", "rozpowszechnianie", "niepodległość", "społeczeństwo", "zainteresowanie", "usprawiedliwienie", "wykorzystywanie"], "series": [{"name": "50 merge'y", "points": [[2, 1.85, 1, 2, 2], [2, 2.15, 2, 2, 2], [2, 0.7, 3, 2, 1], [2, 1.0, 4, 2, 1], [2, 1.3, 5, 2, 1], [3, 2.85, 6, 3, 3], [3, 1.85, 7, 3, 2], [3, 3.15, 8, 3, 3], [3, 2.15, 9, 3, 2], [4, 2.55, 10, 4, 3], [4, 2.85, 11, 4, 3], [4, 3.55, 12, 4, 4], [4, 3.85, 13, 4, 4], [4, 4.15, 14, 4, 4], [4, 4.45, 15, 4, 4], [4, 3.15, 16, 4, 3], [4, 3.45, 17, 4, 3], [5, 3.0, 18, 5, 3], [5, 4.55, 19, 5, 5], [5, 3.55, 20, 5, 4], [5, 3.85, 21, 5, 4], [5, 4.15, 22, 5, 4], [5, 4.45, 23, 5, 4], [5, 4.85, 24, 5, 5], [5, 5.15, 25, 5, 5], [5, 5.45, 26, 5, 5], [6, 3.55, 27, 6, 4], [6, 3.0, 28, 6, 3], [6, 3.85, 29, 6, 4], [6, 5.55, 30, 6, 6], [6, 4.15, 31, 6, 4], [6, 4.45, 32, 6, 4], [6, 5.85, 33, 6, 6], [6, 6.15, 34, 6, 6], [6, 6.45, 35, 6, 6], [6, 5.0, 36, 6, 5], [7, 5.85, 37, 7, 6], [7, 4.85, 38, 7, 5], [7, 6.15, 39, 7, 6], [7, 5.15, 40, 7, 5], [7, 4.0, 41, 7, 4], [8, 6.85, 42, 8, 7], [8, 7.15, 43, 8, 7], [8, 9.0, 44, 8, 9], [8, 5.0, 45, 8, 5], [11, 6.0, 46, 11, 6], [11, 10.0, 47, 11, 10], [12, 7.85, 48, 12, 8], [12, 8.15, 49, 12, 8], [13, 9.0, 50, 13, 9], [8, 6.0, 51, 8, 6], [9, 7.0, 52, 9, 7], [10, 8.0, 53, 10, 8], [10, 9.0, 54, 10, 9], [10, 7.0, 55, 10, 7], [9, 5.85, 56, 9, 6], [9, 6.15, 57, 9, 6], [10, 10.0, 58, 10, 10], [11, 8.0, 59, 11, 8], [12, 11.0, 60, 12, 11], [16, 12.85, 61, 16, 13], [18, 15.0, 62, 18, 15], [14, 11.0, 63, 14, 11], [16, 11.85, 64, 16, 12], [17, 11.0, 65, 17, 11], [14, 10.0, 66, 14, 10], [16, 12.15, 67, 16, 12], [13, 12.0, 68, 13, 12], [16, 13.15, 69, 16, 13], [16, 11.0, 70, 16, 11], [15, 15.0, 71, 15, 15], [16, 16.0, 72, 16, 16], [15, 12.0, 73, 15, 12], [14, 12.0, 74, 14, 12], [17, 9.0, 75, 17, 9], [13, 10.0, 76, 13, 10], [13, 11.0, 77, 13, 11], [15, 10.0, 78, 15, 10], [17, 10.0, 79, 17, 10], [15, 9.0, 80, 15, 9]]}, {"name": "100 merge'y", "points": [[2, 2.0, 1, 2, 2], [2, 0.55, 2, 2, 1], [2, 0.85, 3, 2, 1], [2, 1.15, 4, 2, 1], [2, 1.45, 5, 2, 1], [3, 1.55, 6, 3, 2], [3, 1.85, 7, 3, 2], [3, 2.15, 8, 3, 2], [3, 2.45, 9, 3, 2], [4, 2.1, 10, 4, 3], [4, 2.4, 11, 4, 3], [4, 2.7, 12, 4, 3], [4, 3.0, 13, 4, 3], [4, 2.0, 14, 4, 2], [4, 3.3, 15, 4, 3], [4, 3.6, 16, 4, 3], [4, 3.9, 17, 4, 3], [5, 2.85, 18, 5, 3], [5, 3.25, 19, 5, 4], [5, 3.55, 20, 5, 4], [5, 3.85, 21, 5, 4], [5, 4.15, 22, 5, 4], [5, 4.45, 23, 5, 4], [5, 4.75, 24, 5, 4], [5, 5.0, 25, 5, 5], [5, 3.15, 26, 5, 3], [6, 2.95, 27, 6, 4], [6, 3.0, 28, 6, 3], [6, 3.25, 29, 6, 4], [6, 3.55, 30, 6, 4], [6, 3.85, 31, 6, 4], [6, 4.15, 32, 6, 4], [6, 4.45, 33, 6, 4], [6, 4.75, 34, 6, 4], [6, 5.05, 35, 6, 4], [6, 5.0, 36, 6, 5], [7, 4.85, 37, 7, 5], [7, 3.7, 38, 7, 4], [7, 5.15, 39, 7, 5], [7, 4.0, 40, 7, 4], [7, 4.3, 41, 7, 4], [8, 5.7, 42, 8, 6], [8, 6.0, 43, 8, 6], [8, 6.3, 44, 8, 6], [8, 4.85, 45, 8, 5], [11, 6.0, 46, 11, 6], [11, 8.0, 47, 11, 8], [12, 6.85, 48, 12, 7], [12, 7.15, 49, 12, 7], [13, 7.85, 50, 13, 8], [8, 5.15, 51, 8, 5], [9, 5.0, 52, 9, 5], [10, 7.0, 53, 10, 7], [10, 5.0, 54, 10, 5], [10, 6.0, 55, 10, 6], [9, 5.85, 56, 9, 6], [9, 6.15, 57, 9, 6], [10, 8.0, 58, 10, 8], [11, 7.0, 59, 11, 7], [12, 6.0, 60, 12, 6], [16, 9.85, 61, 16, 10], [18, 12.0, 62, 18, 12], [14, 10.0, 63, 14, 10], [16, 10.85, 64, 16, 11], [17, 9.85, 65, 17, 10], [14, 8.0, 66, 14, 8], [16, 11.15, 67, 16, 11], [13, 9.85, 68, 13, 10], [16, 10.15, 69, 16, 10], [16, 9.0, 70, 16, 9], [15, 12.0, 71, 15, 12], [16, 13.0, 72, 16, 13], [15, 10.0, 73, 15, 10], [14, 11.0, 74, 14, 11], [17, 9.0, 75, 17, 9], [13, 8.15, 76, 13, 8], [13, 10.15, 77, 13, 10], [15, 8.0, 78, 15, 8], [17, 10.15, 79, 17, 10], [15, 7.0, 80, 15, 7]]}, {"name": "200 merge'y", "points": [[2, 2.0, 1, 2, 2], [2, 0.55, 2, 2, 1], [2, 0.85, 3, 2, 1], [2, 1.15, 4, 2, 1], [2, 1.45, 5, 2, 1], [3, 1.55, 6, 3, 2], [3, 1.85, 7, 3, 2], [3, 2.15, 8, 3, 2], [3, 2.45, 9, 3, 2], [4, 2.4, 10, 4, 3], [4, 2.7, 11, 4, 3], [4, 1.7, 12, 4, 2], [4, 3.0, 13, 4, 3], [4, 2.0, 14, 4, 2], [4, 3.3, 15, 4, 3], [4, 2.3, 16, 4, 2], [4, 3.6, 17, 4, 3], [5, 2.4, 18, 5, 3], [5, 2.7, 19, 5, 3], [5, 3.85, 20, 5, 4], [5, 3.0, 21, 5, 3], [5, 3.3, 22, 5, 3], [5, 4.15, 23, 5, 4], [5, 3.6, 24, 5, 3], [5, 5.0, 25, 5, 5], [5, 2.0, 26, 5, 2], [6, 2.7, 27, 6, 3], [6, 3.0, 28, 6, 3], [6, 3.25, 29, 6, 4], [6, 3.55, 30, 6, 4], [6, 3.85, 31, 6, 4], [6, 3.3, 32, 6, 3], [6, 4.15, 33, 6, 4], [6, 4.45, 34, 6, 4], [6, 4.75, 35, 6, 4], [6, 5.0, 36, 6, 5], [7, 4.85, 37, 7, 5], [7, 3.85, 38, 7, 4], [7, 5.15, 39, 7, 5], [7, 4.15, 40, 7, 4], [7, 3.0, 41, 7, 3], [8, 6.0, 42, 8, 6], [8, 4.55, 43, 8, 5], [8, 4.85, 44, 8, 5], [8, 5.15, 45, 8, 5], [11, 5.0, 46, 11, 5], [11, 7.0, 47, 11, 7], [12, 5.7, 48, 12, 6], [12, 6.0, 49, 12, 6], [13, 6.85, 50, 13, 7], [8, 5.45, 51, 8, 5], [9, 4.0, 52, 9, 4], [10, 5.85, 53, 10, 6], [10, 4.85, 54, 10, 5], [10, 5.15, 55, 10, 5], [9, 3.0, 56, 9, 3], [9, 5.0, 57, 9, 5], [10, 6.15, 58, 10, 6], [11, 6.0, 59, 11, 6], [12, 6.3, 60, 12, 6], [16, 8.85, 61, 16, 9], [18, 11.0, 62, 18, 11], [14, 7.85, 63, 14, 8], [16, 7.85, 64, 16, 8], [17, 10.0, 65, 17, 10], [14, 7.0, 66, 14, 7], [16, 9.15, 67, 16, 9], [13, 9.0, 68, 13, 9], [16, 8.15, 69, 16, 8], [16, 7.0, 70, 16, 7], [15, 10.0, 71, 15, 10], [16, 11.0, 72, 16, 11], [15, 8.0, 73, 15, 8], [14, 8.15, 74, 14, 8], [17, 7.85, 75, 17, 8], [13, 8.0, 76, 13, 8], [13, 7.15, 77, 13, 7], [15, 6.85, 78, 15, 7], [17, 8.15, 79, 17, 8], [15, 7.15, 80, 15, 7]]}], "palette": ["#dc3545", "#7452a1", "#0d6efd"], "labelMode": "word", "levels": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]};
+
+    // dopasuj motyw strony i wykresu do preferencji systemu
+    const dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.setAttribute('data-bs-theme', dark ? 'dark' : 'light');
+    const fg = dark ? '#dee2e6' : '#212529';
+    const grid = dark ? '#343a40' : '#e9ecef';
+
+    const chart = echarts.init(document.getElementById('chart'), null,
+                               {renderer: 'canvas'});
+    chart.setOption({
+      color: DATA.palette,
+      backgroundColor: 'transparent',
+      textStyle: { color: fg, fontSize: 15 },
+      tooltip: {
+        trigger: 'item',
+        textStyle: { fontSize: 15 },
+        formatter: p => {
+          const w = DATA.words[p.data[2] - 1];
+          return `<b>${p.data[2]}. ${w}</b><br>długość: ${p.data[3]}`
+               + `<br>tokeny: ${p.data[4]}<br><i>${p.seriesName}</i>`;
+        }
+      },
+      legend: { orient: 'vertical', right: 0, top: 'middle',
+                 textStyle: { color: fg, fontSize: 15 } },
+      grid: { left: 8, right: 130, top: 64, bottom: 24, containLabel: true },
+      // zoom kółkiem myszy + przesuwanie przeciąganiem, na obu osiach
+      dataZoom: [
+        { type: 'inside', xAxisIndex: 0, filterMode: 'none' },
+        { type: 'inside', yAxisIndex: 0, filterMode: 'none' }
+      ],
+      xAxis: {
+        type: 'value',
+        name: 'długość słowa',
+        nameLocation: 'middle',
+        nameGap: 32,
+        minInterval: 1,
+        nameTextStyle: { color: fg, fontSize: 15 },
+        axisLabel: { color: fg, fontSize: 14 },
+        axisLine: { lineStyle: { color: grid } },
+        splitLine: { lineStyle: { color: grid } }
+      },
+      yAxis: {
+        type: 'value',
+        name: 'ilość tokenów',
+        nameLocation: 'end',
+        nameTextStyle: { color: fg, align: 'left', fontSize: 15 },
+        minInterval: 1,
+        axisLabel: { color: fg, fontSize: 14 },
+        splitLine: { lineStyle: { color: grid } }
+      },
+      series: DATA.series.map((s, i, arr) => ({
+        name: s.name,
+        type: 'scatter',
+        data: s.points,
+        symbolSize: DATA.labelMode === 'word' ? 9 : 22,
+        // w trybie "word" podpisujemy słowo tylko raz (na ostatniej serii),
+        // żeby nie powielać etykiety dla każdego z modeli
+        label: DATA.labelMode === 'word'
+          ? {
+              show: i === arr.length - 1,
+              formatter: p => DATA.words[p.data[2] - 1],   // słowo wprost na punkcie
+              position: 'right',
+              color: fg,
+              fontSize: 14
+            }
+          : {
+              show: true,
+              formatter: p => p.data[2],   // numer słowa
+              position: 'inside',
+              color: '#fff',
+              fontSize: 13,
+              fontWeight: 'bold'
+            },
+        // w trybie słownym pokazujemy wszystkie etykiety (rozsunięte pionowo w pasku)
+        labelLayout: { hideOverlap: DATA.labelMode !== 'word' },
+        // paski poziomów tokenów: naprzemiennie szary/czarny, 90% przezroczyste
+        markArea: (i === 0 && DATA.labelMode === 'word') ? {
+          silent: true,
+          data: DATA.levels.map((T, idx) => [
+            { yAxis: T - 0.5, itemStyle: { color: idx % 2 === 0
+                 ? 'rgba(128,128,128,0.1)' : 'rgba(0,0,0,0.1)' } },
+            { yAxis: T + 0.5 }
+          ])
+        } : undefined,
+        emphasis: { focus: 'none', scale: 1.3 },
+        blur: { itemStyle: { opacity: 1 }, label: { opacity: 1 } }
+      }))
+    });
+    window.addEventListener('resize', () => chart.resize());
+  </script>
+</body>
+</html>

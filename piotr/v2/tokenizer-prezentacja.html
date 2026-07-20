@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tokenizer BPE - fertility i dopasowanie dziedziny</title>
+
+<!-- reveal.js (CDN) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/theme/white.css" id="theme">
+<!-- Chart.js (CDN) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<style>
+  :root{
+    --c-lorem:#6b7280;   /* lorem-ipsum  */
+    --c-nad:#2563eb;     /* nad-niemnem  */
+    --c-random:#059669;  /* random-text  */
+    --c-wolne:#7c3aed;   /* wolne-lektury*/
+    --c-wpl:#dc2626;     /* wikipedia-pl */
+    --c-wzh:#d97706;     /* wikipedia-zh */
+  }
+  .reveal { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 30px; color:#1f2937; }
+  .reveal h1 { font-size: 1.7em; font-weight: 700; letter-spacing:-.01em; }
+  .reveal h2 { font-size: 1.15em; font-weight: 700; color:#111827; text-transform:none; margin-bottom:.4em; }
+  .reveal h3 { font-size: .8em; font-weight: 700; color:#374151; text-transform:none; }
+  .reveal section { text-align: left; }
+  .reveal .center { text-align:center; }
+  .reveal p, .reveal li { line-height: 1.35; }
+  .reveal ul { display:block; }
+  .reveal em { color:#2563eb; font-style: normal; font-weight:600; }
+  .subtle { color:#6b7280; font-size:.62em; }
+  .lead { color:#374151; font-size:.8em; }
+  .chart-wrap { position: relative; height: 500px; width: 100%; }
+  .chart-wrap.short { height: 430px; }
+  .kicker { font-size:.5em; letter-spacing:.12em; text-transform:uppercase; color:#9ca3af; font-weight:700; margin-bottom:.2em;}
+  table.data { font-size:.5em; border-collapse: collapse; width:100%; }
+  table.data th, table.data td { padding:5px 8px; border-bottom:1px solid #e5e7eb; }
+  table.data th { color:#6b7280; font-weight:700; text-align:left; }
+  table.data td.num, table.data th.num { text-align:right; font-variant-numeric: tabular-nums; }
+  table.mini{ border-collapse:collapse; font-size:.62em; margin:12px 0; }
+  table.mini th, table.mini td{ padding:5px 16px 5px 0; text-align:left; border-bottom:1px solid #e5e7eb; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  table.mini th{ color:#6b7280; font-weight:700; }
+  table.mini code{ font-family:"SF Mono",Consolas,monospace; }
+  .inputs p{ font-size:.62em; margin:5px 0; color:#374151; }
+  pre.codeblock{ background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 18px; margin:12px 0 0;
+     font-family:"SF Mono",Consolas,monospace; font-size:.4em; line-height:1.5;
+     white-space:pre-wrap; word-break:break-word; }
+  pre.codeblock .k{ color:#7dd3fc; }
+  pre.codeblock .s{ color:#86efac; }
+  pre.codeblock .p{ color:#94a3b8; }
+  /* heatmap */
+  /* transponowana: wiersze = teksty testowe, kolumny = tokenizery (niska, szeroka) */
+  table.heat { border-collapse: collapse; margin: 10px auto 0; font-size:.46em; }
+  table.heat th.col { vertical-align:bottom; padding:0 0 7px; }
+  table.heat th.col span { writing-mode:vertical-rl; white-space:nowrap; display:inline-block;
+     color:#4b5563; font-weight:600; }
+  table.heat th.rowlab { text-align:right; white-space:nowrap; color:#374151; font-weight:700;
+     padding:4px 10px 4px 0; }
+  table.heat td { padding:7px 5px; text-align:center; font-variant-numeric: tabular-nums;
+     color:#1f2937; border:1px solid #fff; min-width:46px; }
+  .heat-note{ font-size:.55em; color:#6b7280; margin-top:.6em; text-align:center;}
+  .grp-lorem td.row-lbl{border-left:4px solid var(--c-lorem);}
+  .pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.55em;font-weight:700;color:#fff;}
+  .footer{ position:absolute; bottom:14px; left:60px; right:60px; display:flex; justify-content:space-between; font-size:.42em; color:#9ca3af; }
+  .box{ background:#f3f4f6; border-left:4px solid #2563eb; padding:14px 18px; border-radius:4px; font-size:.72em; }
+  .box.green{ border-color:#059669;} .box.amber{border-color:#d97706;}
+  .two-col{ display:grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items:center;}
+  .formula{ font-family:"SF Mono",Consolas,monospace; background:#f3f4f6; padding:3px 8px; border-radius:4px; font-size:.85em;}
+  .tag{font-family:"SF Mono",Consolas,monospace; font-size:.88em; color:#b45309;}
+
+  /* wymuś odwzorowanie tła (pigułki, heatmapa, boxy) przy druku */
+  *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+
+  /* ================== DRUK / EKSPORT PDF ==================
+     Samodzielny arkusz (bez CDN): każdy slajd = jedna strona pozioma. */
+  @page { size: 1280px 720px; margin: 0; }
+  @media print{
+    html, body{ width:1280px; height:auto; margin:0; padding:0; background:#fff !important; scale: 90%; }
+    .reveal .controls, .reveal .progress,
+    .reveal .slide-number, .reveal .backgrounds,
+    aside.notes, .speaker-notes, div.speaker-notes{ display:none !important; }
+
+    /* rozłóż wszystkie slajdy pionowo, każdy na własnej stronie */
+    .reveal{ position:static !important; width:1280px !important; height:auto !important;
+      overflow:visible !important; transform:none !important; }
+    .reveal .slides{ position:static !important; left:0 !important; top:0 !important;
+      width:1280px !important; height:auto !important; transform:none !important;
+      zoom:1 !important; perspective:none !important; }
+    .reveal .slides > section,
+    .reveal .slides > section > section{
+      display:flex !important; flex-direction:column; justify-content:center;
+      visibility:visible !important; opacity:1 !important;
+      position:relative !important; left:0 !important; top:0 !important;
+      transform:none !important; transform-style:flat !important;
+      width:1280px !important; height:720px !important; max-height:720px !important;
+      box-sizing:border-box; padding:48px 72px 40px;
+      page-break-after:always; break-after:page; page-break-inside:avoid;
+      overflow:hidden !important;
+    }
+    .reveal .slides > section:last-of-type{ page-break-after:avoid; break-after:auto; }
+    .reveal .slides > section[hidden]{ display:flex !important; }
+    .footer{ color:#9ca3af !important; }
+    /* pełna szerokość dla wykresów: kolumny układamy w pionie */
+    .two-col{ grid-template-columns:1fr !important; gap:14px !important; align-items:start !important; }
+    /* DUŻE wykresy w druku, ale tak, by podpis mieścił się na tej samej stronie */
+    .chart-wrap{ height:300px !important; width:100% !important; }      /* warm-start */
+    .chart-wrap.short{ height:420px !important; width:100% !important; } /* vocab, bajty/znaki */
+  }
+</style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<!-- 1. TYTUŁ -->
+<section data-background-color="#ffffff">
+  <div class="center" style="margin-top:6%">
+    <div class="kicker">Tydzień 01</div>
+    <h1>Tokenizer BPE - <em>fertility</em> i&nbsp;dopasowanie dziedziny</h1>
+    <p class="lead">Co decyduje o kompresji tokenizera bajtowego? &nbsp;18 przebiegów, 6 korpusów, 3 rozmiary słownika.</p>
+    <p class="subtle">dane syntetyczne + korpusy publiczne · TokenizerUTF8 (BPE na bajtach)</p>
+  </div>
+</section>
+
+<!-- 2. KONTEKST / TEZA -->
+<section>
+  <div class="kicker">Kontekst</div>
+  <h2>18 przebiegów: 6 korpusów × 3 rozmiary słownika</h2>
+  <p class="lead">Sześć korpusów (od ASCII, przez polskie, po angielski i&nbsp;chiński), trzy rozmiary słownika (1k&nbsp;/&nbsp;5k&nbsp;/&nbsp;10k) i&nbsp;dotrenowywanie przez checkpointy.</p>
+  <div class="box" style="margin-top:16px">
+    <strong>Teza.</strong> Kompresja to <em>nie</em> własność tekstu - to miara zgodności tekstu
+    z&nbsp;korpusem treningowym. Tokenizer stosuje tylko te scalenia, które były częste
+    w&nbsp;jego korpusie. Widać to symetrycznie: korpusy polskie w&nbsp;ogóle nie kompresują
+    chińskiego, a&nbsp;korpus chiński jest najgorszy dla polskiego i&nbsp;angielskiego.
+  </div>
+  <div class="footer"><span>Tokenizer BPE</span><span>2 / 12</span></div>
+</section>
+
+<!-- 3. DANE -->
+<section>
+  <div class="kicker">Dane</div>
+  <h2>Sześć korpusów - od 41 do 29&nbsp;554 unikalnych znaków</h2>
+  <table class="data">
+    <thead><tr>
+      <th>korpus</th><th class="num">dokumenty</th><th class="num">znaki</th>
+      <th class="num">bajty UTF-8</th><th class="num">unik. znaki</th><th>pochodzenie</th>
+    </tr></thead>
+    <tbody>
+      <tr><td><span class="pill" style="background:var(--c-lorem)">lorem-ipsum</span></td><td class="num">2</td><td class="num">1 811 605</td><td class="num">1 811 605</td><td class="num">41</td><td>generator „lorem ipsum” (ASCII)</td></tr>
+      <tr><td><span class="pill" style="background:var(--c-nad)">nad-niemnem</span></td><td class="num">3</td><td class="num">1 081 002</td><td class="num">1 175 927</td><td class="num">96</td><td>E. Orzeszkowa, „Nad Niemnem”</td></tr>
+      <tr><td><span class="pill" style="background:var(--c-random)">random-text-files</span></td><td class="num">486</td><td class="num">5 348 450</td><td class="num">5 366 695</td><td class="num">252</td><td>Kaggle (ang.)</td></tr>
+      <tr><td><span class="pill" style="background:var(--c-wolne)">wolne-lektury</span></td><td class="num">6 141</td><td class="num">259 776 717</td><td class="num">281 206 491</td><td class="num">420</td><td>HF polish-dynaword</td></tr>
+      <tr><td><span class="pill" style="background:var(--c-wpl)">wikipedia-pl</span></td><td class="num">1 171 897</td><td class="num">1 844 140 560</td><td class="num">1 944 925 241</td><td class="num">8 070</td><td>HF polish-dynaword</td></tr>
+      <tr><td><span class="pill" style="background:var(--c-wzh)">wikipedia-zh</span></td><td class="num">1 384 748</td><td class="num">1 030 636 635</td><td class="num">2 602 952 850</td><td class="num">29 554</td><td>HF wikipedia zh</td></tr>
+    </tbody>
+  </table>
+  <p class="subtle" style="margin-top:14px">
+    Bajty ≈ znaki dla ASCII; bajty &gt; znaki dla polskiego (diakryt = 2 B); bajty ≫ znaki dla chińskiego
+    (znak CJK = 3 B) - stąd 1,03 mld znaków to aż 2,6 mld bajtów.
+  </p>
+  <div class="footer"><span>Tokenizer BPE</span><span>3 / 12</span></div>
+</section>
+
+<!-- 4. MECHANIZM: SCALANIE = KOMPRESJA -->
+<section>
+  <div class="kicker">Mechanizm</div>
+  <h2>Scalanie (merge) = kompresja - tokeny wskazują na tokeny, rekurencyjnie</h2>
+  <div class="two-col">
+    <div>
+      <p class="lead" style="font-size:.7em">Bazą jest 256 surowych bajtów UTF-8 (<span class="tag">0x00–0xff</span>). Trening BPE w pętli scala najczęstszą sąsiednią parę w nowy token o kolejnym id&nbsp;&gt;&nbsp;255 i zapisuje ją w <span class="tag">merge_map</span> (id → para). Wyższe id wskazują na niższe - aż do bajtów bazowych.</p>
+      <table class="mini">
+        <thead><tr><th>id</th><th>para</th><th>tekst</th><th>rozwinięcie → bajty</th></tr></thead>
+        <tbody>
+          <tr><td>256</td><td>(105, 101)</td><td>„ie”</td><td><code>[[105],[101]]</code></td></tr>
+          <tr><td>263</td><td>(110, 105)</td><td>„ni”</td><td><code>[[110],[105]]</code></td></tr>
+          <tr><td>267</td><td>(196, 133)</td><td>„ą”</td><td><code>[[196],[133]]</code></td></tr>
+        </tbody>
+      </table>
+      <p class="subtle">Token 267 scala dwa bajty UTF-8 (196,133) w znak „ą” - diakryt = 2 bajty. Kolumna „rozwinięcie” rekurencyjnie rozkłada token na bajty bazowe, więc dekodowanie jest zawsze bezstratne.</p>
+    </div>
+    <div>
+      <p class="lead" style="font-size:.7em">Snapshot z <span class="tag">in_out.csv</span> (źródło macierzy z wykresu&nbsp;3): im więcej scaleń pasuje do tekstu, tym mniej tokenów = wyższa kompresja. Wysokie id (6074, 8185) to głęboko zagnieżdżone scalenia:</p>
+      <div class="box green" style="font-size:.64em">
+        <strong>„Stół z powyłamywanymi nogami”</strong> · tokenizer wolne-lektury&nbsp;10k<br>
+        31 bajtów → <strong>10 tokenów</strong> · kompresja <strong>3.10</strong> · identical&nbsp;=&nbsp;1<br>
+        <code style="font-size:.9em">[83, 352, 257, 264, 6074, 309, 421, 2133, 762, 8185]</code>
+      </div>
+      <p class="subtle">„83” to bajt bazowy „S”; reszta to scalenia, które po rozwinięciu wracają dokładnie do wejścia. Odtworzenie bezstratne we wszystkich 90&nbsp;przypadkach (identical&nbsp;=&nbsp;1).</p>
+    </div>
+  </div>
+  <div class="footer"><span>Tokenizer BPE</span><span>4 / 12</span></div>
+</section>
+
+<!-- 5. CZYM JEST FERTILITY -->
+<section>
+  <div class="kicker">Metryka</div>
+  <h2>Czym jest <em>fertility</em>?</h2>
+  <div class="two-col">
+    <div>
+      <p class="lead"><strong>Fertility</strong> = liczba tokenów na jednostkę wejścia (tu: na&nbsp;<strong>bajt UTF-8</strong>).</p>
+      <p class="lead">Mniej tokenów na ten sam tekst = mniejsza fertility = lepszy tokenizer w&nbsp;danej dziedzinie.</p>
+      <p class="lead">Odwrotnością jest <strong>kompresja</strong> (bajty/token), której używamy na wykresach, bo „wyżej = lepiej” czyta się prościej:</p>
+      <p class="center" style="margin-top:18px">
+        <span class="formula">fertility = tokeny / bajt = 1 / kompresja</span>
+      </p>
+    </div>
+    <div class="box green">
+      <strong>Dlaczego nie „loss per token”?</strong><br>
+      Ten sam tekst przy różnych słownikach daje różną liczbę tokenów, więc „loss na token”
+      mierzy co innego dla każdego tokenizera. Bajty są wspólnym mianownikiem -
+      fertility (tokeny/bajt) jest porównywalna między tokenizerami.
+    </div>
+  </div>
+  <div class="footer"><span>Tokenizer BPE</span><span>5 / 12</span></div>
+</section>
+
+<!-- 5. FERTILITY vs VOCAB -->
+<section>
+  <div class="kicker">Wykres 1 · fertility vs rozmiar słownika</div>
+  <h2>Większy słownik = niższa fertility, z malejącym zyskiem</h2>
+  <div class="chart-wrap short"><canvas id="chVocab"></canvas></div>
+  <p class="subtle center">Kompresja na korpusie treningowym (bajty/token, wyżej = niższa fertility). <span class="tag">lorem-ipsum</span> nie osiąga celu powyżej 1&nbsp;142 scaleń - kończą się częste pary.</p>
+  <div class="footer"><span>Tokenizer BPE</span><span>6 / 12</span></div>
+</section>
+
+<!-- 6. FERTILITY BAJTOWA vs ZNAKOWA -->
+<section>
+  <div class="kicker">Wykres 2 · efekt UTF-8</div>
+  <h2>Fertility bajtowa vs znakowa - CJK = 3 bajty na znak</h2>
+  <div class="chart-wrap short"><canvas id="chByteChar"></canvas></div>
+  <p class="subtle center">Słownik 10k. Dla ASCII obie liczby się pokrywają; dla polskiego lekko się rozjeżdżają (diakryt = 2 B);
+  dla <span class="tag">wikipedia-zh</span> mocno - 1 znak CJK to aż 3 bajty, więc bajty/token ≫ znaki/token.</p>
+  <div class="footer"><span>Tokenizer BPE</span><span>7 / 12</span></div>
+</section>
+
+<!-- 8. DANE TESTOWE (5 tekstów) -->
+<section>
+  <div class="kicker">Dane testowe</div>
+  <h2>Pięć tekstów testowych — po jednym na dziedzinę</h2>
+  <div class="inputs">
+    <p><span class="tag">pl_frenzy</span> — 18 polskich liter diakrytycznych (małe i wielkie); czysty test diakrytów, każdy znak = 2 bajty UTF-8.</p>
+    <p><span class="tag">cn_moon</span> — fragment chińskiej Wikipedii (hasło „Księżyc”); test CJK, każdy znak = 3 bajty UTF-8.</p>
+    <p><span class="tag">table</span> — polski łamaniec „Stół z powyłamywanymi nogami”; krótka, naturalna polska proza.</p>
+    <p><span class="tag">fox</span> — angielski pangram (zawiera wszystkie litery alfabetu); tylko ASCII.</p>
+    <p><span class="tag">lorem_ipsum</span> — pseudo-łacińskie „lorem ipsum”; powtarzalny, tylko ASCII.</p>
+  </div>
+  <pre class="codeblock"><span class="p">strings_to_encode = {</span>
+    <span class="k">"pl_frenzy"</span>: <span class="s">"ą, ć, ę, ł, ń, ó, ś, ź, ż, Ą, Ć, Ę, Ł, Ń, Ó, Ś, Ź, Ż"</span>,
+    <span class="k">"cn_moon"</span>: <span class="s">"月球条目讨论汉漢不转换阅读编辑查看历史外观 隐藏文本小标准大宽度标准宽颜色 （测试版）自动浅色深色维基百科，自由的百科全书提示：此条目的主题不是月或明月。关于与「月球」標題相近或相同的条目"</span>,
+    <span class="k">"table"</span>: <span class="s">"Stół z powyłamywanymi nogami"</span>,
+    <span class="k">"fox"</span>: <span class="s">"The quick brown fox jumps over the lazy dog"</span>,
+    <span class="k">"lorem_ipsum"</span>: <span class="s">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam bibendum, lacus nec consequat iaculis, augue urna posuere leo, id pretium orci ante ac nulla."</span>,
+<span class="p">}</span></pre>
+  <div class="footer"><span>Tokenizer BPE</span><span>8 / 12</span></div>
+</section>
+
+<!-- 9. MACIERZ DZIEDZIN (heatmapa) -->
+<section>
+  <div class="kicker">Wykres 3 · macierz dziedzin</div>
+  <h2>Każdy tekst kompresuje się najlepiej na swoim tokenizerze</h2>
+  <div id="heatmap"></div>
+  <p class="heat-note">Kompresja (bajty/token): wiersze = teksty testowe, kolumny = 18 tokenizerów (kolorowy pasek = korpus). Zieleń = wysoka kompresja (niska fertility), czerwień = brak kompresji (fertility ≈ 1&nbsp;token/bajt). W każdym wierszu najjaśniejsze są tokenizery z tej samej dziedziny.</p>
+  <div class="footer"><span>Tokenizer BPE</span><span>9 / 12</span></div>
+</section>
+
+<!-- 8. KOSZT DOTRENOWYWANIA -->
+<section>
+  <div class="kicker">Wykres 4 · warm-start</div>
+  <h2>Dotrenowywanie: efekt kuli śnieżnej</h2>
+  <div class="two-col">
+    <div class="chart-wrap" style="height:440px"><canvas id="chWarm"></canvas></div>
+    <div>
+      <p class="lead">Pierwsze N scaleń nie zależy od celu (BPE jest zachłanne), więc słownik 1k jest dokładnym prefiksem 5k, a&nbsp;5k prefiksem 10k - rozszerzanie jest bezstratne.</p>
+      <div class="box amber">
+        Każde kolejne scalenie jest <strong>tańsze</strong>: korpus mieści się w&nbsp;coraz mniejszej liczbie tokenów,
+        więc skanowany strumień jest krótszy. Krok 5k→10k dokłada więcej scaleń (5&nbsp;000) niż start od zera (744),
+        a&nbsp;kosztuje ułamek jego czasu.
+      </div>
+      <p class="subtle">Oś czasu logarytmiczna (sekundy).</p>
+    </div>
+  </div>
+  <div class="footer"><span>Tokenizer BPE</span><span>10 / 12</span></div>
+</section>
+
+<!-- 9. WNIOSKI -->
+<section>
+  <div class="kicker">Wnioski</div>
+  <h2>Czego się nauczyliśmy</h2>
+  <ul style="font-size:.8em; line-height:1.5">
+    <li><strong>Dziedzina treningu decyduje o kompresji.</strong> Każdy tekst najlepiej kompresuje tokenizer z&nbsp;jego dziedziny: <span class="tag">lorem</span>&nbsp;6.0–6.5, polskie&nbsp;→&nbsp;korpusy PL (do 3.1), angielski&nbsp;→&nbsp;<span class="tag">random</span>&nbsp;(do 2.87), chiński&nbsp;→&nbsp;<span class="tag">wikipedia-zh</span>&nbsp;(do 2.99). Poza dziedziną fertility rośnie ku 1&nbsp;token/bajt.</li>
+    <li><strong>Chiński domyka tezę symetrycznie.</strong> <span class="tag">wikipedia-zh</span> kompresuje chiński (do 2.99), a&nbsp;jednocześnie jest najgorszy dla polskiego i&nbsp;angielskiego.</li>
+    <li><strong>Liczy się częstość pary, nie sama obecność.</strong> <span class="tag">wikipedia-pl</span> ma w&nbsp;ogonie 8&nbsp;070 znaków (w&nbsp;tym CJK), a&nbsp;chiński i&nbsp;tak kompresuje się na niej na 1.0 - te pary są zbyt rzadkie, by wejść do słownika.</li>
+    <li><strong>Większy słownik pomaga malejąco - i&nbsp;tylko w&nbsp;dziedzinie.</strong> Poza dziedziną fertility nie drgnie mimo 10× większego słownika.</li>
+    <li><strong>Warstwa bajtowa gwarantuje bezstratność.</strong> Odtworzenie było bezstratne we wszystkich 90 przypadkach - co nie zostanie scalone, wraca do surowych bajtów.</li>
+  </ul>
+  <div class="footer"><span>Tokenizer BPE</span><span>11 / 12</span></div>
+</section>
+
+<!-- 10. OTWARTE PYTANIA -->
+<section>
+  <div class="kicker">Otwarte pytania</div>
+  <h2>Co dalej</h2>
+  <ul style="font-size:.8em; line-height:1.5">
+    <li><strong>Trening &gt; pamięć.</strong> Jak strumieniowo trenować BPE na korpusach większych niż RAM, skoro najpopularniejsze pary zmieniają się globalnie i&nbsp;cały korpus musi trafić do treningu?</li>
+  </ul>
+  <p class="subtle" style="margin-top:24px">Tydzień 01 - Tokenizer</p>
+  <div class="footer"><span>Tokenizer BPE</span><span>12 / 12</span></div>
+</section>
+
+</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.js"></script>
+<script>
+/* ============================================================
+   DANE (z opracowanie.md) - edytuj tutaj, wykresy odświeżą się
+   ============================================================ */
+const COLORS = {
+  lorem:'#6b7280', nad:'#2563eb', random:'#059669',
+  wolne:'#7c3aed', wpl:'#dc2626', wzh:'#d97706'
+};
+const VOCAB = ['1k','5k','10k'];
+
+// Kompresja na korpusie treningowym (bajty/token) - wyżej = niższa fertility
+const COMP_VOCAB = {
+  'lorem-ipsum':       {c:COLORS.lorem,  v:[6.316, 6.76, 6.76]},
+  'nad-niemnem':       {c:COLORS.nad,    v:[2.71, 4.075, 4.735]},
+  'random-text-files': {c:COLORS.random, v:[2.538, 3.956, 4.603]},
+  'wolne-lektury':     {c:COLORS.wolne,  v:[2.574, 3.652, 4.14]},
+  'wikipedia-pl':      {c:COLORS.wpl,    v:[2.354, 3.477, 4.039]},
+  'wikipedia-zh':      {c:COLORS.wzh,    v:[2.156, 2.953, 3.062]},
+};
+
+// Bajty/token vs znaki/token przy słowniku 10k
+const BYTE_CHAR = {
+  labels:['lorem-ipsum','nad-niemnem','random-text-files','wolne-lektury','wikipedia-pl','wikipedia-zh'],
+  bytes: [6.76, 4.735, 4.603, 4.14, 4.039, 3.062],
+  chars: [6.76, 4.353, 4.588, 3.824, 3.829, 1.182],
+};
+
+// Koszt warm-start (sekundy) - czas dołożony w każdym kroku
+const WARM = {
+  steps:['0 → 1k (744)','1k → 5k (+4000)','5k → 10k (+5000)'],
+  series:{
+    'nad-niemnem':       {c:COLORS.nad,    v:[3.65, 0.84, 0.47]},
+    'random-text-files': {c:COLORS.random, v:[5.46, 1.75, 0.98]},
+    'wolne-lektury':     {c:COLORS.wolne,  v:[275, 38.7, 15.6]},
+    'wikipedia-pl':      {c:COLORS.wpl,    v:[1188, 208, 89]},
+    'wikipedia-zh':      {c:COLORS.wzh,    v:[585, 342, 96]},
+  }
+};
+
+// Macierz dziedzin: kompresja tekstów testowych × tokenizer
+const HEAT_COLS = ['pl_frenzy','cn_moon','table','fox','lorem_ipsum'];
+const HEAT_ROWS = [
+  ['lorem-ipsum 1k','lorem',[1.00,1.00,1.192,1.387,6.00]],
+  ['lorem-ipsum 5k','lorem',[1.00,1.00,1.192,1.387,6.50]],
+  ['lorem-ipsum 10k','lorem',[1.00,1.00,1.192,1.387,6.50]],
+  ['nad-niemnem 1k','nad',[1.40,1.00,2.214,1.387,1.56]],
+  ['nad-niemnem 5k','nad',[1.556,1.00,2.583,1.593,1.857]],
+  ['nad-niemnem 10k','nad',[1.556,1.00,3.10,1.72,2.00]],
+  ['random-text 1k','random',[1.00,1.00,1.348,1.792,1.793]],
+  ['random-text 5k','random',[1.00,1.00,1.348,2.688,2.294]],
+  ['random-text 10k','random',[1.00,1.011,1.632,2.867,2.516]],
+  ['wolne-lektury 1k','wolne',[1.429,1.00,2.214,1.433,1.608]],
+  ['wolne-lektury 5k','wolne',[1.591,1.00,2.583,1.792,2.026]],
+  ['wolne-lektury 10k','wolne',[1.707,1.00,3.10,1.955,2.137]],
+  ['wikipedia-pl 1k','wpl',[1.373,1.00,2.214,1.483,1.677]],
+  ['wikipedia-pl 5k','wpl',[1.591,1.00,2.385,1.87,2.053]],
+  ['wikipedia-pl 10k','wpl',[1.75,1.00,2.818,1.955,2.294]],
+  ['wikipedia-zh 1k','wzh',[1.00,2.075,1.033,1.132,1.106]],
+  ['wikipedia-zh 5k','wzh',[1.014,2.989,1.476,1.955,1.814]],
+  ['wikipedia-zh 10k','wzh',[1.321,2.989,1.938,2.389,2.137]],
+];
+
+/* ============================ WYKRESY ============================ */
+Chart.defaults.font.family = '"Helvetica Neue", Arial, sans-serif';
+Chart.defaults.font.size = 13;
+Chart.defaults.color = '#4b5563';
+// bez animacji - wykresy są gotowe od razu (ważne przy druku do PDF)
+Chart.defaults.animation = false;
+// pomocnik: usuń istniejący wykres z canvasu, potem zbuduj (bezpieczne przy druku)
+const CHARTS = {};
+function mk(id, cfg){
+  const ex = Chart.getChart(id); if(ex) ex.destroy();
+  const c = new Chart(document.getElementById(id), cfg);
+  CHARTS[id] = c; return c;
+}
+
+function buildVocab(){
+  mk('chVocab', {
+    type:'line',
+    data:{ labels:VOCAB, datasets:Object.entries(COMP_VOCAB).map(([k,o])=>({
+      label:k, data:o.v, borderColor:o.c, backgroundColor:o.c,
+      borderWidth:3, tension:.25, pointRadius:4, pointHoverRadius:6
+    }))},
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{position:'right', labels:{boxWidth:14, font:{size:13}}}},
+      scales:{
+        y:{ title:{display:true,text:'kompresja - bajty / token (wyżej = niższa fertility)'}, beginAtZero:true },
+        x:{ title:{display:true,text:'rozmiar słownika (cel)'} }
+      }
+    }
+  });
+}
+
+function buildByteChar(){
+  mk('chByteChar', {
+    type:'bar',
+    data:{ labels:BYTE_CHAR.labels, datasets:[
+      {label:'bajty / token', data:BYTE_CHAR.bytes, backgroundColor:'#2563eb'},
+      {label:'znaki / token', data:BYTE_CHAR.chars, backgroundColor:'#93c5fd'},
+    ]},
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{position:'top'} },
+      scales:{ y:{ beginAtZero:true, title:{display:true,text:'jednostki na token (słownik 10k)'} } }
+    }
+  });
+}
+
+function buildWarm(){
+  mk('chWarm', {
+    type:'bar',
+    data:{ labels:WARM.steps, datasets:Object.entries(WARM.series).map(([k,o])=>({
+      label:k, data:o.v, backgroundColor:o.c
+    }))},
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{position:'top', labels:{boxWidth:12,font:{size:11}}} },
+      scales:{ y:{ type:'logarithmic', title:{display:true,text:'czas dołożony [s] (log)'} } }
+    }
+  });
+}
+
+// heatmapa: kolor od czerwieni (1.0) przez żółty do zieleni (6.5)
+function heatColor(v){
+  const min=1.0, mid=2.5, max=6.5;
+  let r,g,b;
+  if(v<=mid){ const t=(v-min)/(mid-min); r=220; g=Math.round(60+ t*(200-60)); b=60; } // red->yellow-green
+  else { const t=Math.min(1,(v-mid)/(max-mid)); r=Math.round(220 - t*(220-16)); g=Math.round(200 - t*(200-160)); b=Math.round(60 + t*(90-60)); }
+  return `rgb(${r},${g},${b})`;
+}
+// transponowana macierz: 5 wierszy (teksty testowe) × 18 kolumn (tokenizery)
+// - niska i szeroka, mieści się na jednym slajdzie bez zmniejszania czcionki.
+function buildHeatmap(){
+  let h='<table class="heat"><thead><tr><th></th>';
+  HEAT_ROWS.forEach(([name,grp])=>{
+    h+=`<th class="col" style="border-bottom:3px solid var(--c-${grp})"><span>${name}</span></th>`;
+  });
+  h+='</tr></thead><tbody>';
+  HEAT_COLS.forEach((txt,ci)=>{
+    h+=`<tr><th class="rowlab">${txt}</th>`;
+    HEAT_ROWS.forEach(([n,g,vals])=>{
+      const v=vals[ci], dark=v>4.5; // ciemne tło -> jasny tekst
+      h+=`<td style="background:${heatColor(v)};color:${dark?'#fff':'#1f2937'}">${v.toFixed(2)}</td>`;
+    });
+    h+='</tr>';
+  });
+  h+='</tbody></table>';
+  document.getElementById('heatmap').innerHTML=h;
+}
+
+/* ============================ REVEAL ============================ */
+Reveal.initialize({
+  hash:true, slideNumber:false, transition:'slide',
+  width:1280, height:720, margin:0.06,
+  pdfMaxPagesPerSlide:1, pdfSeparateFragments:false,
+  plugins:[]
+});
+// buduj wykresy dopiero gdy slajd staje się widoczny (Chart.js + canvas)
+const built = {};
+function buildFor(idx){
+  if(built[idx]) return; built[idx]=true;
+  if(idx===5) buildVocab();      // slajd 6: fertility vs słownik
+  if(idx===6) buildByteChar();   // slajd 7: bajty vs znaki
+  if(idx===8) buildHeatmap();    // slajd 9: macierz dziedzin (po slajdzie „Dane testowe”)
+  if(idx===9) buildWarm();       // slajd 10: warm-start
+}
+function buildAll(){ [5,6,8,9].forEach(buildFor); }
+// Rysujemy wszystkie wykresy od razu: dzięki temu każdy slajd ma gotowy wykres
+// także przy druku do PDF (wszystkie slajdy są wtedy widoczne naraz).
+Reveal.on('ready', buildAll);
+
+// W druku reveal pokazuje wszystkie slajdy naraz, ale wykresy narysowane wcześniej
+// (na ukrytych slajdach) są puste. Dlatego przebudowujemy je od zera, gdy włącza się
+// tryb druku — canvasy mają wtedy właściwy rozmiar strony.
+function rebuildCharts(){ buildVocab(); buildByteChar(); buildWarm(); buildHeatmap(); }
+// W druku wymuszamy DUŻE, stałe rozmiary (px) — omija zawodną responsywność canvasu.
+function sizeForPrint(){
+  const sizes = { chVocab:[1120,420], chByteChar:[1120,420], chWarm:[1120,300] };
+  Object.entries(sizes).forEach(([id,[w,h]])=>{ const c=CHARTS[id]; if(c){ try{ c.resize(w,h); }catch(e){} } });
+}
+function prepPrint(){ rebuildCharts(); sizeForPrint(); }
+window.addEventListener('beforeprint', prepPrint);
+window.addEventListener('afterprint', rebuildCharts); // przywróć responsywne rozmiary na ekran
+try{
+  const mm = window.matchMedia('print');
+  mm.addEventListener('change', e=>{ e.matches ? prepPrint() : rebuildCharts(); });
+}catch(_){}
+</script>
+</body>
+</html>
