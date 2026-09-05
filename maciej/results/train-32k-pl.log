@@ -1,0 +1,26 @@
+=== hplt-pl-32k-pl: vocab 32000 (31743 merge'y + 256 bajtów + 1 specjalne) ===
+  ~80 MB, 635,401 typów (2s)
+  ~160 MB, 921,356 typów (3s)
+  ~240 MB, 1,173,738 typów (5s)
+pretokenizacja: 1,277,668 unikalnych typów, 52,987,936 wystąpień (6.6s)
+zapisano cache -> ../data/hplt-pl/pretokens-pl.json
+start: 1,277,668 typów, 8,672 par (5.0s)
+  merge 2000/31743 id=2255 freq=10,379 | 156s, 13 merge/s
+  merge 4000/31743 id=4255 freq=4,547 | 177s, 23 merge/s
+  merge 6000/31743 id=6255 freq=2,711 | 188s, 32 merge/s
+  merge 8000/31743 id=8255 freq=1,865 | 195s, 41 merge/s
+  merge 10000/31743 id=10255 freq=1,392 | 202s, 50 merge/s
+  merge 12000/31743 id=12255 freq=1,100 | 205s, 58 merge/s
+  merge 14000/31743 id=14255 freq=894 | 208s, 67 merge/s
+  merge 16000/31743 id=16255 freq=750 | 212s, 75 merge/s
+  merge 18000/31743 id=18255 freq=638 | 214s, 84 merge/s
+  merge 20000/31743 id=20255 freq=555 | 216s, 93 merge/s
+  merge 22000/31743 id=22255 freq=486 | 218s, 101 merge/s
+  merge 24000/31743 id=24255 freq=432 | 219s, 109 merge/s
+  merge 26000/31743 id=26255 freq=386 | 221s, 117 merge/s
+  merge 28000/31743 id=28255 freq=350 | 225s, 125 merge/s
+  merge 30000/31743 id=30255 freq=317 | 226s, 133 merge/s
+trening BPE: 31743 merge'y w 226.7s
+zapisano tokenizers/hplt-pl-32k-pl.json (1.5 MB), vocab_size=32000
+demo: 16 tokenów
+   ['Nie', 'za', 'prze', 'cza', 'lnie', 'Ġskomplikowana', 'Ġmor', 'fo', 'sy', 'nta', 'k', 'tyczna', 'Ġstruktura', 'ĠjÄĻzyka', 'Ġpolskiego', '.']

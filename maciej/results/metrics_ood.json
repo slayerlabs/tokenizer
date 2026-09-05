@@ -1,0 +1,126 @@
+{
+ "literatura (Wolne Lektury)": {
+  "mb": 3.4,
+  "n_docs": 4,
+  "results": [
+   {
+    "name": "hplt-pl-32k-pl",
+    "vocab_size": 32000,
+    "n_docs": 4,
+    "n_tokens": 879831,
+    "chars_per_token": 3.522,
+    "bytes_per_token": 3.838,
+    "fertility": 1.8556,
+    "renyi_efficiency": 0.4092,
+    "vocab_used": 18176,
+    "vocab_used_pct": 56.8,
+    "round_trip_lossless": true,
+    "encode_mb_per_s": 2.96
+   },
+   {
+    "name": "hplt-pl-64k-pl",
+    "vocab_size": 64000,
+    "n_docs": 4,
+    "n_tokens": 820507,
+    "chars_per_token": 3.776,
+    "bytes_per_token": 4.116,
+    "fertility": 1.7305,
+    "renyi_efficiency": 0.3736,
+    "vocab_used": 27328,
+    "vocab_used_pct": 42.7,
+    "round_trip_lossless": true,
+    "encode_mb_per_s": 2.91
+   },
+   {
+    "name": "cl100k_base (GPT-4)",
+    "vocab_size": 100277,
+    "n_docs": 4,
+    "n_tokens": 1228338,
+    "chars_per_token": 2.522,
+    "bytes_per_token": 2.749,
+    "fertility": 2.5906,
+    "renyi_efficiency": 0.4162,
+    "vocab_used": 6331,
+    "vocab_used_pct": 6.3,
+    "round_trip_lossless": true,
+    "encode_mb_per_s": 8.52
+   },
+   {
+    "name": "o200k_base (GPT-4o)",
+    "vocab_size": 200019,
+    "n_docs": 4,
+    "n_tokens": 1087351,
+    "chars_per_token": 2.85,
+    "bytes_per_token": 3.106,
+    "fertility": 2.2933,
+    "renyi_efficiency": 0.3882,
+    "vocab_used": 9127,
+    "vocab_used_pct": 4.6,
+    "round_trip_lossless": true,
+    "encode_mb_per_s": 9.65
+   }
+  ]
+ },
+ "encyklopedia (Wikipedia PL)": {
+  "mb": 0.7,
+  "n_docs": 15,
+  "results": [
+   {
+    "name": "hplt-pl-32k-pl",
+    "vocab_size": 32000,
+    "n_docs": 15,
+    "n_tokens": 170658,
+    "chars_per_token": 4.166,
+    "bytes_per_token": 4.39,
+    "fertility": 1.8845,
+    "renyi_efficiency": 0.464,
+    "vocab_used": 17208,
+    "vocab_used_pct": 53.8,
+    "round_trip_lossless": true,
+    "encode_mb_per_s": 2.11
+   },
+   {
+    "name": "hplt-pl-64k-pl",
+    "vocab_size": 64000,
+    "n_docs": 15,
+    "n_tokens": 155272,
+    "chars_per_token": 4.579,
+    "bytes_per_token": 4.825,
+    "fertility": 1.7146,
+    "renyi_efficiency": 0.4211,
+    "vocab_used": 22752,
+    "vocab_used_pct": 35.5,
+    "round_trip_lossless": true,
+    "encode_mb_per_s": 2.04
+   },
+   {
+    "name": "cl100k_base (GPT-4)",
+    "vocab_size": 100277,
+    "n_docs": 15,
+    "n_tokens": 270609,
+    "chars_per_token": 2.627,
+    "bytes_per_token": 2.769,
+    "fertility": 2.9883,
+    "renyi_efficiency": 0.4672,
+    "vocab_used": 7757,
+    "vocab_used_pct": 7.7,
+    "round_trip_lossless": true,
+    "encode_mb_per_s": 8.18
+   },
+   {
+    "name": "o200k_base (GPT-4o)",
+    "vocab_size": 200019,
+    "n_docs": 15,
+    "n_tokens": 235001,
+    "chars_per_token": 3.026,
+    "bytes_per_token": 3.188,
+    "fertility": 2.5951,
+    "renyi_efficiency": 0.4387,
+    "vocab_used": 10089,
+    "vocab_used_pct": 5.0,
+    "round_trip_lossless": true,
+    "encode_mb_per_s": 9.52
+   }
+  ]
+ }
+}
