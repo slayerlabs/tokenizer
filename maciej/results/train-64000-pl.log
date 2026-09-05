@@ -1,0 +1,38 @@
+=== hplt-pl-64k-pl: vocab 64000 (63743 merge'y + 256 bajtów + 1 specjalne) ===
+wczytuję zliczone pretokeny z ../data/hplt-pl/pretokens-pl.json
+start: 1,277,668 typów, 8,672 par (4.6s)
+  merge 2000/63743 id=2255 freq=10,379 | 178s, 11 merge/s
+  merge 4000/63743 id=4255 freq=4,547 | 198s, 20 merge/s
+  merge 6000/63743 id=6255 freq=2,711 | 208s, 29 merge/s
+  merge 8000/63743 id=8255 freq=1,865 | 214s, 37 merge/s
+  merge 10000/63743 id=10255 freq=1,392 | 219s, 46 merge/s
+  merge 12000/63743 id=12255 freq=1,100 | 223s, 54 merge/s
+  merge 14000/63743 id=14255 freq=894 | 226s, 62 merge/s
+  merge 16000/63743 id=16255 freq=750 | 231s, 69 merge/s
+  merge 18000/63743 id=18255 freq=638 | 233s, 77 merge/s
+  merge 20000/63743 id=20255 freq=555 | 234s, 85 merge/s
+  merge 22000/63743 id=22255 freq=486 | 236s, 93 merge/s
+  merge 24000/63743 id=24255 freq=432 | 238s, 101 merge/s
+  merge 26000/63743 id=26255 freq=386 | 239s, 109 merge/s
+  merge 28000/63743 id=28255 freq=350 | 242s, 116 merge/s
+  merge 30000/63743 id=30255 freq=317 | 243s, 124 merge/s
+  merge 32000/63743 id=32255 freq=289 | 244s, 131 merge/s
+  merge 34000/63743 id=34255 freq=266 | 244s, 139 merge/s
+  merge 36000/63743 id=36255 freq=245 | 245s, 147 merge/s
+  merge 38000/63743 id=38255 freq=226 | 246s, 154 merge/s
+  merge 40000/63743 id=40255 freq=210 | 247s, 162 merge/s
+  merge 42000/63743 id=42255 freq=196 | 248s, 170 merge/s
+  merge 44000/63743 id=44255 freq=183 | 248s, 177 merge/s
+  merge 46000/63743 id=46255 freq=172 | 249s, 185 merge/s
+  merge 48000/63743 id=48255 freq=161 | 250s, 192 merge/s
+  merge 50000/63743 id=50255 freq=152 | 252s, 198 merge/s
+  merge 52000/63743 id=52255 freq=143 | 253s, 206 merge/s
+  merge 54000/63743 id=54255 freq=135 | 253s, 213 merge/s
+  merge 56000/63743 id=56255 freq=129 | 254s, 221 merge/s
+  merge 58000/63743 id=58255 freq=122 | 254s, 228 merge/s
+  merge 60000/63743 id=60255 freq=116 | 255s, 235 merge/s
+  merge 62000/63743 id=62255 freq=110 | 256s, 243 merge/s
+trening BPE: 63743 merge'y w 255.9s
+zapisano tokenizers/hplt-pl-64k-pl.json (3.1 MB), vocab_size=64000
+demo: 13 tokenów
+   ['Nieza', 'przecza', 'lnie', 'Ġskomplikowana', 'Ġmorfo', 'sy', 'nta', 'k', 'tyczna', 'Ġstruktura', 'ĠjÄĻzyka', 'Ġpolskiego', '.']

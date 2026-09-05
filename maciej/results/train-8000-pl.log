@@ -1,0 +1,10 @@
+=== hplt-pl-8k-pl: vocab 8000 (7743 merge'y + 256 bajtów + 1 specjalne) ===
+wczytuję zliczone pretokeny z ../data/hplt-pl/pretokens-pl.json
+start: 1,277,668 typów, 8,672 par (5.2s)
+  merge 2000/7743 id=2255 freq=10,379 | 158s, 13 merge/s
+  merge 4000/7743 id=4255 freq=4,547 | 177s, 23 merge/s
+  merge 6000/7743 id=6255 freq=2,711 | 189s, 32 merge/s
+trening BPE: 7743 merge'y w 194.7s
+zapisano tokenizers/hplt-pl-8k-pl.json (0.4 MB), vocab_size=8000
+demo: 19 tokenów
+   ['Nie', 'za', 'prze', 'cza', 'lnie', 'Ġskom', 'pli', 'kowana', 'Ġmor', 'fo', 'sy', 'nta', 'k', 'tyczna', 'Ġstru', 'ktura', 'ĠjÄĻzyka', 'Ġpolskiego', '.']
