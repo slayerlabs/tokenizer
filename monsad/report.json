@@ -1,0 +1,109 @@
+{
+  "base_vocab_size": 32000,
+  "new_vocab_size": 34010,
+  "new_letters": [
+    "ã",
+    "ŏ",
+    "ō",
+    "ô",
+    "õ",
+    "Ã",
+    "Ŏ",
+    "Ō",
+    "Ô",
+    "Õ"
+  ],
+  "new_merges": 2000,
+  "tokens_per_word_valid": {
+    "before": 2.788,
+    "letters_only": 2.566,
+    "after": 1.93,
+    "reduction_percent": 30.8
+  },
+  "chars_per_token_valid": {
+    "before": 2.291,
+    "after": 3.309
+  },
+  "openai_baselines_valid": {
+    "cl100k_base": {
+      "tokens_per_word": 2.864,
+      "chars_per_token": 2.23
+    },
+    "o200k_base": {
+      "tokens_per_word": 2.596,
+      "chars_per_token": 2.46
+    }
+  },
+  "checks": {
+    "valid_paragraphs": 479,
+    "decode_mismatches": 0,
+    "segmentation_mismatches_in_20k_words": 0,
+    "new_tokens_used_in_valid": 1803
+  },
+  "examples": {
+    "ôd": [
+      "▁ôd"
+    ],
+    "sōm": [
+      "▁sōm"
+    ],
+    "Ślōnska": [
+      "▁Ślōnska"
+    ],
+    "gŏdka": [
+      "▁gŏdka"
+    ],
+    "nojlepszy": [
+      "▁nojlep",
+      "szy"
+    ],
+    "miyszkańcōw": [
+      "▁miyszkańcōw"
+    ],
+    "Katowice": [
+      "▁Katowice"
+    ]
+  },
+  "first_new_tokens": [
+    "ã",
+    "ŏ",
+    "ō",
+    "ô",
+    "õ",
+    "Ã",
+    "Ŏ",
+    "Ō",
+    "Ô",
+    "Õ",
+    "▁ô",
+    "ōm",
+    "ōn",
+    "ōw",
+    "▁niy",
+    "▁ôd",
+    "lōn",
+    "ōł",
+    "▁przi",
+    "▁tyż",
+    "▁Ô",
+    "ym",
+    "rzi",
+    "▁Ślōn",
+    "ōr",
+    "yr",
+    "▁ślōn",
+    "▁sōm",
+    "▁gŏ",
+    "nŏ",
+    "▁kō",
+    "▁iże",
+    "jōm",
+    "lō",
+    "▁kery",
+    "▁bōł",
+    "ōny",
+    "cyje",
+    "ōż",
+    "oł"
+  ]
+}
