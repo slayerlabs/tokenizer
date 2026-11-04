@@ -1,0 +1,922 @@
+{
+  "nasz BPE 8k": {
+    "total": {
+      "fertility": 2.0905237417437434,
+      "chars_per_token": 3.387557726676573,
+      "bytes_per_token": 3.597663891793145,
+      "tokens": 1135307,
+      "words": 543073,
+      "roundtrip_fail": 0,
+      "docs": 2383
+    },
+    "per_source": {
+      "1000_novels": {
+        "fertility": 1.9027336007006868,
+        "chars_per_token": 3.4151322802597153,
+        "bytes_per_token": 3.7120118228510512,
+        "tokens": 41276,
+        "words": 21693,
+        "roundtrip_fail": 0,
+        "docs": 4
+      },
+      "biblioteka_nauki": {
+        "fertility": 2.1500528355054596,
+        "chars_per_token": 3.2765399737876804,
+        "bytes_per_token": 3.4644823066841415,
+        "tokens": 61040,
+        "words": 28390,
+        "roundtrip_fail": 0,
+        "docs": 4
+      },
+      "dziennik_ustaw": {
+        "fertility": 1.990533148153397,
+        "chars_per_token": 3.4304408498034973,
+        "bytes_per_token": 3.5853505724212567,
+        "tokens": 70228,
+        "words": 35281,
+        "roundtrip_fail": 0,
+        "docs": 10
+      },
+      "eltec_pol": {
+        "fertility": 1.9058468922760452,
+        "chars_per_token": 3.3729340778773,
+        "bytes_per_token": 3.643241014878387,
+        "tokens": 133415,
+        "words": 70003,
+        "roundtrip_fail": 0,
+        "docs": 9
+      },
+      "eurlex": {
+        "fertility": 2.3116230667097284,
+        "chars_per_token": 3.166164736564314,
+        "bytes_per_token": 3.3267409730199633,
+        "tokens": 64418,
+        "words": 27867,
+        "roundtrip_fail": 0,
+        "docs": 66
+      },
+      "european_hplt_v3_pl": {
+        "fertility": 1.885095720941158,
+        "chars_per_token": 3.754148408132749,
+        "bytes_per_token": 3.987726111607236,
+        "tokens": 48151,
+        "words": 25543,
+        "roundtrip_fail": 0,
+        "docs": 27
+      },
+      "global_voices": {
+        "fertility": 2.287572528347681,
+        "chars_per_token": 3.113111520034482,
+        "bytes_per_token": 3.3525472057823973,
+        "tokens": 60321,
+        "words": 26369,
+        "roundtrip_fail": 0,
+        "docs": 37
+      },
+      "govpl": {
+        "fertility": 2.0856336391183428,
+        "chars_per_token": 3.711254851228978,
+        "bytes_per_token": 3.9086078216737983,
+        "tokens": 50245,
+        "words": 24091,
+        "roundtrip_fail": 0,
+        "docs": 89
+      },
+      "nkjp1m": {
+        "fertility": 1.998365728989186,
+        "chars_per_token": 3.5176001809608324,
+        "bytes_per_token": 3.721598719354109,
+        "tokens": 57471,
+        "words": 28759,
+        "roundtrip_fail": 0,
+        "docs": 520
+      },
+      "parliamentary": {
+        "fertility": 1.8510769575947947,
+        "chars_per_token": 4.027090088179146,
+        "bytes_per_token": 4.2222053877155235,
+        "tokens": 33001,
+        "words": 17828,
+        "roundtrip_fail": 0,
+        "docs": 39
+      },
+      "samorzad_gov_pl": {
+        "fertility": 2.150979403715973,
+        "chars_per_token": 3.5019669551534225,
+        "bytes_per_token": 3.67494182834759,
+        "tokens": 59737,
+        "words": 27772,
+        "roundtrip_fail": 0,
+        "docs": 130
+      },
+      "wikibooks": {
+        "fertility": 2.5155449013461184,
+        "chars_per_token": 2.9642569162427246,
+        "bytes_per_token": 3.1181075811109973,
+        "tokens": 68209,
+        "words": 27115,
+        "roundtrip_fail": 0,
+        "docs": 64
+      },
+      "wikinews": {
+        "fertility": 2.149198520345253,
+        "chars_per_token": 3.5801824810763794,
+        "bytes_per_token": 3.7700664408787223,
+        "tokens": 54033,
+        "words": 25141,
+        "roundtrip_fail": 0,
+        "docs": 160
+      },
+      "wikipedia": {
+        "fertility": 2.2213895224647913,
+        "chars_per_token": 3.2033508809100835,
+        "bytes_per_token": 3.3799240510455206,
+        "tokens": 61357,
+        "words": 27621,
+        "roundtrip_fail": 0,
+        "docs": 156
+      },
+      "wikiquote": {
+        "fertility": 2.128526214393835,
+        "chars_per_token": 3.349948280320662,
+        "bytes_per_token": 3.568183777260581,
+        "tokens": 46404,
+        "words": 21801,
+        "roundtrip_fail": 0,
+        "docs": 93
+      },
+      "wikisource": {
+        "fertility": 1.9898935634422321,
+        "chars_per_token": 3.2288197080907786,
+        "bytes_per_token": 3.5436092128575045,
+        "tokens": 59265,
+        "words": 29783,
+        "roundtrip_fail": 0,
+        "docs": 164
+      },
+      "wikivoyage": {
+        "fertility": 2.2517311239454507,
+        "chars_per_token": 3.4772046678394455,
+        "bytes_per_token": 3.6248673909248392,
+        "tokens": 74467,
+        "words": 33071,
+        "roundtrip_fail": 0,
+        "docs": 201
+      },
+      "wiktionary_examples": {
+        "fertility": 2.1012256171241153,
+        "chars_per_token": 3.356659327659295,
+        "bytes_per_token": 3.586687916926818,
+        "tokens": 60862,
+        "words": 28965,
+        "roundtrip_fail": 0,
+        "docs": 601
+      },
+      "wolne_lektury": {
+        "fertility": 1.9653942428035043,
+        "chars_per_token": 3.457286592160983,
+        "bytes_per_token": 3.713726239373388,
+        "tokens": 31407,
+        "words": 15980,
+        "roundtrip_fail": 0,
+        "docs": 9
+      }
+    }
+  },
+  "nasz BPE 16k": {
+    "total": {
+      "fertility": 1.8683823353398161,
+      "chars_per_token": 3.790321563309378,
+      "bytes_per_token": 4.025408310895781,
+      "tokens": 1014668,
+      "words": 543073,
+      "roundtrip_fail": 0,
+      "docs": 2383
+    },
+    "per_source": {
+      "1000_novels": {
+        "fertility": 1.7061724980408426,
+        "chars_per_token": 3.808575597103642,
+        "bytes_per_token": 4.139657408408084,
+        "tokens": 37012,
+        "words": 21693,
+        "roundtrip_fail": 0,
+        "docs": 4
+      },
+      "biblioteka_nauki": {
+        "fertility": 1.9400845368087354,
+        "chars_per_token": 3.631147987436228,
+        "bytes_per_token": 3.83943063599557,
+        "tokens": 55079,
+        "words": 28390,
+        "roundtrip_fail": 0,
+        "docs": 4
+      },
+      "dziennik_ustaw": {
+        "fertility": 1.8089623309996883,
+        "chars_per_token": 3.77476418789759,
+        "bytes_per_token": 3.945222650496694,
+        "tokens": 63822,
+        "words": 35281,
+        "roundtrip_fail": 0,
+        "docs": 10
+      },
+      "eltec_pol": {
+        "fertility": 1.7207548247932232,
+        "chars_per_token": 3.735741918344983,
+        "bytes_per_token": 4.0351242756811505,
+        "tokens": 120458,
+        "words": 70003,
+        "roundtrip_fail": 0,
+        "docs": 9
+      },
+      "eurlex": {
+        "fertility": 2.0652384540854776,
+        "chars_per_token": 3.5438907422852375,
+        "bytes_per_token": 3.7236238532110093,
+        "tokens": 57552,
+        "words": 27867,
+        "roundtrip_fail": 0,
+        "docs": 66
+      },
+      "european_hplt_v3_pl": {
+        "fertility": 1.6735309086638217,
+        "chars_per_token": 4.22874119821274,
+        "bytes_per_token": 4.491847381102767,
+        "tokens": 42747,
+        "words": 25543,
+        "roundtrip_fail": 0,
+        "docs": 27
+      },
+      "global_voices": {
+        "fertility": 2.0328795176153815,
+        "chars_per_token": 3.5031433634922116,
+        "bytes_per_token": 3.772577184964089,
+        "tokens": 53605,
+        "words": 26369,
+        "roundtrip_fail": 0,
+        "docs": 37
+      },
+      "govpl": {
+        "fertility": 1.8128346685484207,
+        "chars_per_token": 4.2697318709500145,
+        "bytes_per_token": 4.496782909349026,
+        "tokens": 43673,
+        "words": 24091,
+        "roundtrip_fail": 0,
+        "docs": 89
+      },
+      "nkjp1m": {
+        "fertility": 1.77353176396954,
+        "chars_per_token": 3.9635329869620626,
+        "bytes_per_token": 4.193392804626997,
+        "tokens": 51005,
+        "words": 28759,
+        "roundtrip_fail": 0,
+        "docs": 520
+      },
+      "parliamentary": {
+        "fertility": 1.6209894547902177,
+        "chars_per_token": 4.5987058375722345,
+        "bytes_per_token": 4.821516315443441,
+        "tokens": 28899,
+        "words": 17828,
+        "roundtrip_fail": 0,
+        "docs": 39
+      },
+      "samorzad_gov_pl": {
+        "fertility": 1.9090450813769264,
+        "chars_per_token": 3.9457731336527218,
+        "bytes_per_token": 4.140669206684522,
+        "tokens": 53018,
+        "words": 27772,
+        "roundtrip_fail": 0,
+        "docs": 130
+      },
+      "wikibooks": {
+        "fertility": 2.2536234556518533,
+        "chars_per_token": 3.3087698626998545,
+        "bytes_per_token": 3.4805014155497735,
+        "tokens": 61107,
+        "words": 27115,
+        "roundtrip_fail": 0,
+        "docs": 64
+      },
+      "wikinews": {
+        "fertility": 1.8920090688516766,
+        "chars_per_token": 4.066853070405954,
+        "bytes_per_token": 4.282548825866672,
+        "tokens": 47567,
+        "words": 25141,
+        "roundtrip_fail": 0,
+        "docs": 160
+      },
+      "wikipedia": {
+        "fertility": 1.970783099815358,
+        "chars_per_token": 3.61069165059245,
+        "bytes_per_token": 3.8097180123082577,
+        "tokens": 54435,
+        "words": 27621,
+        "roundtrip_fail": 0,
+        "docs": 156
+      },
+      "wikiquote": {
+        "fertility": 1.9110591257281777,
+        "chars_per_token": 3.7311523414060437,
+        "bytes_per_token": 3.974221731512373,
+        "tokens": 41663,
+        "words": 21801,
+        "roundtrip_fail": 0,
+        "docs": 93
+      },
+      "wikisource": {
+        "fertility": 1.7825605211026425,
+        "chars_per_token": 3.6043699378414016,
+        "bytes_per_token": 3.9557732152947827,
+        "tokens": 53090,
+        "words": 29783,
+        "roundtrip_fail": 0,
+        "docs": 164
+      },
+      "wikivoyage": {
+        "fertility": 2.034924858637477,
+        "chars_per_token": 3.84767523069379,
+        "bytes_per_token": 4.01107033002957,
+        "tokens": 67297,
+        "words": 33071,
+        "roundtrip_fail": 0,
+        "docs": 201
+      },
+      "wiktionary_examples": {
+        "fertility": 1.8799585706887623,
+        "chars_per_token": 3.7517308504581934,
+        "bytes_per_token": 4.008833305786641,
+        "tokens": 54453,
+        "words": 28965,
+        "roundtrip_fail": 0,
+        "docs": 601
+      },
+      "wolne_lektury": {
+        "fertility": 1.7638297872340425,
+        "chars_per_token": 3.8523735187681827,
+        "bytes_per_token": 4.138118214716526,
+        "tokens": 28186,
+        "words": 15980,
+        "roundtrip_fail": 0,
+        "docs": 9
+      }
+    }
+  },
+  "nasz BPE 32k": {
+    "total": {
+      "fertility": 1.6931572735157152,
+      "chars_per_token": 4.1825824245139795,
+      "bytes_per_token": 4.44199832954145,
+      "tokens": 919508,
+      "words": 543073,
+      "roundtrip_fail": 0,
+      "docs": 2383
+    },
+    "per_source": {
+      "1000_novels": {
+        "fertility": 1.5470889226939566,
+        "chars_per_token": 4.200202616131819,
+        "bytes_per_token": 4.565328804266858,
+        "tokens": 33561,
+        "words": 21693,
+        "roundtrip_fail": 0,
+        "docs": 4
+      },
+      "biblioteka_nauki": {
+        "fertility": 1.7694258541740049,
+        "chars_per_token": 3.981367201496994,
+        "bytes_per_token": 4.209738424174861,
+        "tokens": 50234,
+        "words": 28390,
+        "roundtrip_fail": 0,
+        "docs": 4
+      },
+      "dziennik_ustaw": {
+        "fertility": 1.6791474164564497,
+        "chars_per_token": 4.066591269707303,
+        "bytes_per_token": 4.250227878869721,
+        "tokens": 59242,
+        "words": 35281,
+        "roundtrip_fail": 0,
+        "docs": 10
+      },
+      "eltec_pol": {
+        "fertility": 1.5697327257403255,
+        "chars_per_token": 4.095153158728136,
+        "bytes_per_token": 4.42333873286861,
+        "tokens": 109886,
+        "words": 70003,
+        "roundtrip_fail": 0,
+        "docs": 9
+      },
+      "eurlex": {
+        "fertility": 1.8831951770911832,
+        "chars_per_token": 3.886468873263591,
+        "bytes_per_token": 4.0835762876579205,
+        "tokens": 52479,
+        "words": 27867,
+        "roundtrip_fail": 0,
+        "docs": 66
+      },
+      "european_hplt_v3_pl": {
+        "fertility": 1.5136045100418902,
+        "chars_per_token": 4.675547048781749,
+        "bytes_per_token": 4.966452847757488,
+        "tokens": 38662,
+        "words": 25543,
+        "roundtrip_fail": 0,
+        "docs": 27
+      },
+      "global_voices": {
+        "fertility": 1.8249080359513064,
+        "chars_per_token": 3.9023711061698636,
+        "bytes_per_token": 4.202510338521644,
+        "tokens": 48121,
+        "words": 26369,
+        "roundtrip_fail": 0,
+        "docs": 37
+      },
+      "govpl": {
+        "fertility": 1.6115561828068574,
+        "chars_per_token": 4.803008448382444,
+        "bytes_per_token": 5.058417473727591,
+        "tokens": 38824,
+        "words": 24091,
+        "roundtrip_fail": 0,
+        "docs": 89
+      },
+      "nkjp1m": {
+        "fertility": 1.5992906568378595,
+        "chars_per_token": 4.395355915989042,
+        "bytes_per_token": 4.650258729399487,
+        "tokens": 45994,
+        "words": 28759,
+        "roundtrip_fail": 0,
+        "docs": 520
+      },
+      "parliamentary": {
+        "fertility": 1.4671864482835988,
+        "chars_per_token": 5.080781435179875,
+        "bytes_per_token": 5.326948809114195,
+        "tokens": 26157,
+        "words": 17828,
+        "roundtrip_fail": 0,
+        "docs": 39
+      },
+      "samorzad_gov_pl": {
+        "fertility": 1.7144966152959815,
+        "chars_per_token": 4.393510448388113,
+        "bytes_per_token": 4.610521894361021,
+        "tokens": 47615,
+        "words": 27772,
+        "roundtrip_fail": 0,
+        "docs": 130
+      },
+      "wikibooks": {
+        "fertility": 2.0473169832196203,
+        "chars_per_token": 3.6421919190099614,
+        "bytes_per_token": 3.8312287212004397,
+        "tokens": 55513,
+        "words": 27115,
+        "roundtrip_fail": 0,
+        "docs": 64
+      },
+      "wikinews": {
+        "fertility": 1.6931307426116702,
+        "chars_per_token": 4.544553292456598,
+        "bytes_per_token": 4.785585077642305,
+        "tokens": 42567,
+        "words": 25141,
+        "roundtrip_fail": 0,
+        "docs": 160
+      },
+      "wikipedia": {
+        "fertility": 1.7611961913037182,
+        "chars_per_token": 4.040373309213502,
+        "bytes_per_token": 4.263084323479834,
+        "tokens": 48646,
+        "words": 27621,
+        "roundtrip_fail": 0,
+        "docs": 156
+      },
+      "wikiquote": {
+        "fertility": 1.7377184532819596,
+        "chars_per_token": 4.103341780171048,
+        "bytes_per_token": 4.370657797487066,
+        "tokens": 37884,
+        "words": 21801,
+        "roundtrip_fail": 0,
+        "docs": 93
+      },
+      "wikisource": {
+        "fertility": 1.6139072625323172,
+        "chars_per_token": 3.98102648386627,
+        "bytes_per_token": 4.369151392847484,
+        "tokens": 48067,
+        "words": 29783,
+        "roundtrip_fail": 0,
+        "docs": 164
+      },
+      "wikivoyage": {
+        "fertility": 1.8521967887272837,
+        "chars_per_token": 4.227266790740196,
+        "bytes_per_token": 4.406781597936462,
+        "tokens": 61254,
+        "words": 33071,
+        "roundtrip_fail": 0,
+        "docs": 201
+      },
+      "wiktionary_examples": {
+        "fertility": 1.6967029173139996,
+        "chars_per_token": 4.156943737918405,
+        "bytes_per_token": 4.441815037135009,
+        "tokens": 49145,
+        "words": 28965,
+        "roundtrip_fail": 0,
+        "docs": 601
+      },
+      "wolne_lektury": {
+        "fertility": 1.605569461827284,
+        "chars_per_token": 4.232100401449896,
+        "bytes_per_token": 4.546010835249639,
+        "tokens": 25657,
+        "words": 15980,
+        "roundtrip_fail": 0,
+        "docs": 9
+      }
+    }
+  },
+  "cl100k_base": {
+    "total": {
+      "fertility": 2.728962772960541,
+      "chars_per_token": 2.5950408427382516,
+      "bytes_per_token": 2.755992809842742,
+      "tokens": 1482026,
+      "words": 543073,
+      "roundtrip_fail": 0,
+      "docs": 2383
+    },
+    "per_source": {
+      "1000_novels": {
+        "fertility": 2.621536901304568,
+        "chars_per_token": 2.4787318222581725,
+        "bytes_per_token": 2.694209499024073,
+        "tokens": 56869,
+        "words": 21693,
+        "roundtrip_fail": 0,
+        "docs": 4
+      },
+      "biblioteka_nauki": {
+        "fertility": 2.723036280380416,
+        "chars_per_token": 2.5870878445677623,
+        "bytes_per_token": 2.735483203332169,
+        "tokens": 77307,
+        "words": 28390,
+        "roundtrip_fail": 0,
+        "docs": 4
+      },
+      "dziennik_ustaw": {
+        "fertility": 2.7322354808537175,
+        "chars_per_token": 2.499201211668534,
+        "bytes_per_token": 2.612058591642807,
+        "tokens": 96396,
+        "words": 35281,
+        "roundtrip_fail": 0,
+        "docs": 10
+      },
+      "eltec_pol": {
+        "fertility": 2.532548605059783,
+        "chars_per_token": 2.538271493518947,
+        "bytes_per_token": 2.741688571009555,
+        "tokens": 177286,
+        "words": 70003,
+        "roundtrip_fail": 0,
+        "docs": 9
+      },
+      "eurlex": {
+        "fertility": 2.979222736570137,
+        "chars_per_token": 2.4566741345667413,
+        "bytes_per_token": 2.581267615812676,
+        "tokens": 83022,
+        "words": 27867,
+        "roundtrip_fail": 0,
+        "docs": 66
+      },
+      "european_hplt_v3_pl": {
+        "fertility": 2.5884195278549895,
+        "chars_per_token": 2.73407344666949,
+        "bytes_per_token": 2.9041835561739973,
+        "tokens": 66116,
+        "words": 25543,
+        "roundtrip_fail": 0,
+        "docs": 27
+      },
+      "global_voices": {
+        "fertility": 2.6398801623118056,
+        "chars_per_token": 2.6976483601729613,
+        "bytes_per_token": 2.9051299363606327,
+        "tokens": 69611,
+        "words": 26369,
+        "roundtrip_fail": 0,
+        "docs": 37
+      },
+      "govpl": {
+        "fertility": 2.849155286206467,
+        "chars_per_token": 2.716706245720363,
+        "bytes_per_token": 2.861172219874998,
+        "tokens": 68639,
+        "words": 24091,
+        "roundtrip_fail": 0,
+        "docs": 89
+      },
+      "nkjp1m": {
+        "fertility": 2.6579853263326263,
+        "chars_per_token": 2.6446540469119975,
+        "bytes_per_token": 2.798027236692351,
+        "tokens": 76441,
+        "words": 28759,
+        "roundtrip_fail": 0,
+        "docs": 520
+      },
+      "parliamentary": {
+        "fertility": 2.7474197890958045,
+        "chars_per_token": 2.7132561605520507,
+        "bytes_per_token": 2.8447152977685226,
+        "tokens": 48981,
+        "words": 17828,
+        "roundtrip_fail": 0,
+        "docs": 39
+      },
+      "samorzad_gov_pl": {
+        "fertility": 2.8711291948725335,
+        "chars_per_token": 2.623587544051068,
+        "bytes_per_token": 2.7531760663180207,
+        "tokens": 79737,
+        "words": 27772,
+        "roundtrip_fail": 0,
+        "docs": 130
+      },
+      "wikibooks": {
+        "fertility": 2.882647980822423,
+        "chars_per_token": 2.5867609994498677,
+        "bytes_per_token": 2.7210188964087867,
+        "tokens": 78163,
+        "words": 27115,
+        "roundtrip_fail": 0,
+        "docs": 64
+      },
+      "wikinews": {
+        "fertility": 2.8652798218050197,
+        "chars_per_token": 2.685435060247654,
+        "bytes_per_token": 2.8278638458548504,
+        "tokens": 72036,
+        "words": 25141,
+        "roundtrip_fail": 0,
+        "docs": 160
+      },
+      "wikipedia": {
+        "fertility": 2.7471127041019514,
+        "chars_per_token": 2.590316033632937,
+        "bytes_per_token": 2.733097867629616,
+        "tokens": 75878,
+        "words": 27621,
+        "roundtrip_fail": 0,
+        "docs": 156
+      },
+      "wikiquote": {
+        "fertility": 2.7755607540938487,
+        "chars_per_token": 2.5690133862171542,
+        "bytes_per_token": 2.7363741530325565,
+        "tokens": 60510,
+        "words": 21801,
+        "roundtrip_fail": 0,
+        "docs": 93
+      },
+      "wikisource": {
+        "fertility": 2.6223348890306553,
+        "chars_per_token": 2.4501094736302993,
+        "bytes_per_token": 2.6889796545498776,
+        "tokens": 78101,
+        "words": 29783,
+        "roundtrip_fail": 0,
+        "docs": 164
+      },
+      "wikivoyage": {
+        "fertility": 2.9114934534788786,
+        "chars_per_token": 2.6892486965914046,
+        "bytes_per_token": 2.8034501381301538,
+        "tokens": 96286,
+        "words": 33071,
+        "roundtrip_fail": 0,
+        "docs": 201
+      },
+      "wiktionary_examples": {
+        "fertility": 2.7211807353702744,
+        "chars_per_token": 2.591925804691762,
+        "bytes_per_token": 2.7695479516360266,
+        "tokens": 78819,
+        "words": 28965,
+        "roundtrip_fail": 0,
+        "docs": 601
+      },
+      "wolne_lektury": {
+        "fertility": 2.6175219023779723,
+        "chars_per_token": 2.5959405183130917,
+        "bytes_per_token": 2.7884909629912977,
+        "tokens": 41828,
+        "words": 15980,
+        "roundtrip_fail": 0,
+        "docs": 9
+      }
+    }
+  },
+  "o200k_base": {
+    "total": {
+      "fertility": 2.3697771754441854,
+      "chars_per_token": 2.9883695089676308,
+      "bytes_per_token": 3.173716861880926,
+      "tokens": 1286962,
+      "words": 543073,
+      "roundtrip_fail": 0,
+      "docs": 2383
+    },
+    "per_source": {
+      "1000_novels": {
+        "fertility": 2.314064444751763,
+        "chars_per_token": 2.808083826371043,
+        "bytes_per_token": 3.052192274746509,
+        "tokens": 50199,
+        "words": 21693,
+        "roundtrip_fail": 0,
+        "docs": 4
+      },
+      "biblioteka_nauki": {
+        "fertility": 2.3830574145825993,
+        "chars_per_token": 2.9561747099253566,
+        "bytes_per_token": 3.125740891286675,
+        "tokens": 67655,
+        "words": 28390,
+        "roundtrip_fail": 0,
+        "docs": 4
+      },
+      "dziennik_ustaw": {
+        "fertility": 2.378447322921686,
+        "chars_per_token": 2.870951211955097,
+        "bytes_per_token": 3.0005958481302284,
+        "tokens": 83914,
+        "words": 35281,
+        "roundtrip_fail": 0,
+        "docs": 10
+      },
+      "eltec_pol": {
+        "fertility": 2.215276488150508,
+        "chars_per_token": 2.901802986922541,
+        "bytes_per_token": 3.1343534782945137,
+        "tokens": 155076,
+        "words": 70003,
+        "roundtrip_fail": 0,
+        "docs": 9
+      },
+      "eurlex": {
+        "fertility": 2.62640399038289,
+        "chars_per_token": 2.7866921710616204,
+        "bytes_per_token": 2.9280229539554585,
+        "tokens": 73190,
+        "words": 27867,
+        "roundtrip_fail": 0,
+        "docs": 66
+      },
+      "european_hplt_v3_pl": {
+        "fertility": 2.176134361664644,
+        "chars_per_token": 3.2520644058648918,
+        "bytes_per_token": 3.4544031663218493,
+        "tokens": 55585,
+        "words": 25543,
+        "roundtrip_fail": 0,
+        "docs": 27
+      },
+      "global_voices": {
+        "fertility": 2.2446433311843452,
+        "chars_per_token": 3.172650323539847,
+        "bytes_per_token": 3.4166652587474022,
+        "tokens": 59189,
+        "words": 26369,
+        "roundtrip_fail": 0,
+        "docs": 37
+      },
+      "govpl": {
+        "fertility": 2.41189655888091,
+        "chars_per_token": 3.209224679459599,
+        "bytes_per_token": 3.3798812494621804,
+        "tokens": 58105,
+        "words": 24091,
+        "roundtrip_fail": 0,
+        "docs": 89
+      },
+      "nkjp1m": {
+        "fertility": 2.2858583399979135,
+        "chars_per_token": 3.0751912867551985,
+        "bytes_per_token": 3.2535329104488966,
+        "tokens": 65739,
+        "words": 28759,
+        "roundtrip_fail": 0,
+        "docs": 520
+      },
+      "parliamentary": {
+        "fertility": 2.3088961184653356,
+        "chars_per_token": 3.228579063722275,
+        "bytes_per_token": 3.385005951947137,
+        "tokens": 41163,
+        "words": 17828,
+        "roundtrip_fail": 0,
+        "docs": 39
+      },
+      "samorzad_gov_pl": {
+        "fertility": 2.4814561428777187,
+        "chars_per_token": 3.035580062395705,
+        "bytes_per_token": 3.1855183922223027,
+        "tokens": 68915,
+        "words": 27772,
+        "roundtrip_fail": 0,
+        "docs": 130
+      },
+      "wikibooks": {
+        "fertility": 2.586059376728748,
+        "chars_per_token": 2.883430070877483,
+        "bytes_per_token": 3.033085666205559,
+        "tokens": 70121,
+        "words": 27115,
+        "roundtrip_fail": 0,
+        "docs": 64
+      },
+      "wikinews": {
+        "fertility": 2.495684340320592,
+        "chars_per_token": 3.083131454800459,
+        "bytes_per_token": 3.2466530664286624,
+        "tokens": 62744,
+        "words": 25141,
+        "roundtrip_fail": 0,
+        "docs": 160
+      },
+      "wikipedia": {
+        "fertility": 2.3884725390101735,
+        "chars_per_token": 2.979263930152186,
+        "bytes_per_token": 3.143485114897229,
+        "tokens": 65972,
+        "words": 27621,
+        "roundtrip_fail": 0,
+        "docs": 156
+      },
+      "wikiquote": {
+        "fertility": 2.434337874409431,
+        "chars_per_token": 2.929113828644646,
+        "bytes_per_token": 3.1199336737577963,
+        "tokens": 53071,
+        "words": 21801,
+        "roundtrip_fail": 0,
+        "docs": 93
+      },
+      "wikisource": {
+        "fertility": 2.2825773092032366,
+        "chars_per_token": 2.8148039186843574,
+        "bytes_per_token": 3.089229501926981,
+        "tokens": 67982,
+        "words": 29783,
+        "roundtrip_fail": 0,
+        "docs": 164
+      },
+      "wikivoyage": {
+        "fertility": 2.532520939796196,
+        "chars_per_token": 3.09167432808377,
+        "bytes_per_token": 3.2229651475171037,
+        "tokens": 83753,
+        "words": 33071,
+        "roundtrip_fail": 0,
+        "docs": 201
+      },
+      "wiktionary_examples": {
+        "fertility": 2.3581563956499223,
+        "chars_per_token": 2.9909375732021553,
+        "bytes_per_token": 3.195903607402202,
+        "tokens": 68304,
+        "words": 28965,
+        "roundtrip_fail": 0,
+        "docs": 601
+      },
+      "wolne_lektury": {
+        "fertility": 2.270650813516896,
+        "chars_per_token": 2.992503789444674,
+        "bytes_per_token": 3.214468788755684,
+        "tokens": 36285,
+        "words": 15980,
+        "roundtrip_fail": 0,
+        "docs": 9
+      }
+    }
+  }
+}
