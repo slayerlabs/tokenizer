@@ -1,0 +1,65 @@
+{
+ "bytes_orig": 10362375,
+ "bytes_strip": 9835813,
+ "byte_change_pct": -5.08147987309859,
+ "observation": {
+  "1024": {
+   "tokens_orig": 4305141,
+   "tokens_strip": 4424311,
+   "token_increase_pct": 2.7680858768621053,
+   "fertility_orig": 3.0610918461014487,
+   "fertility_strip": 3.14582549717116
+  },
+  "2048": {
+   "tokens_orig": 3682464,
+   "tokens_strip": 3916854,
+   "token_increase_pct": 6.365031674444068,
+   "fertility_orig": 2.61834874257594,
+   "fertility_strip": 2.7850074693883067
+  },
+  "4096": {
+   "tokens_orig": 3195600,
+   "tokens_strip": 3490802,
+   "token_increase_pct": 9.237764426085867,
+   "fertility_orig": 2.272172991175385,
+   "fertility_strip": 2.482070979453316
+  },
+  "8192": {
+   "tokens_orig": 2808358,
+   "tokens_strip": 3169785,
+   "token_increase_pct": 12.86969111487923,
+   "fertility_orig": 1.9968316426183885,
+   "fertility_strip": 2.2538177071075443
+  },
+  "16384": {
+   "tokens_orig": 2507157,
+   "tokens_strip": 2919116,
+   "token_increase_pct": 16.431320415913323,
+   "fertility_orig": 1.782668175001973,
+   "fertility_strip": 2.0755840947890616
+  },
+  "32768": {
+   "tokens_orig": 2273167,
+   "tokens_strip": 2698988,
+   "token_increase_pct": 18.73249963597043,
+   "fertility_orig": 1.616293860880954,
+   "fertility_strip": 1.9190661024866913
+  },
+  "65536": {
+   "tokens_orig": 2097024,
+   "tokens_strip": 2501057,
+   "token_increase_pct": 19.26697071659647,
+   "fertility_orig": 1.491050599150886,
+   "fertility_strip": 1.7783308814589234
+  }
+ },
+ "intervention": {
+  "main_orig": 2273167,
+  "main_strip": 2698988,
+  "mix_orig": 2282391,
+  "mix_strip": 2438532,
+  "gap_recovered_pct": 61.165607144786186,
+  "cost_on_normal_pct": 0.4057774901712017,
+  "mix_strip_vs_main_orig_pct": 7.274652500234255
+ }
+}

@@ -1,0 +1,9 @@
+{
+  "subset": "all",
+  "strip_frac": 0.0,
+  "digits": "group3",
+  "train_docs_bytes": 171756903,
+  "unique_pretokens": 990398,
+  "merges": 65280,
+  "seconds": 202.6
+}

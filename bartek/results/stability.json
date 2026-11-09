@@ -1,0 +1,342 @@
+{
+ "jaccard": {
+  "1024": 0.9272271016311167,
+  "2048": 0.8942917547568711,
+  "4096": 0.8695228821811101,
+  "8192": 0.8425818435105642,
+  "16384": 0.8112190465494974,
+  "32768": 0.7717711171662125,
+  "65536": 0.7200221326377362
+ },
+ "tolerant_a_in_b2v": {
+  "1024": 0.99609375,
+  "2048": 0.9899553571428571,
+  "4096": 0.98515625,
+  "8192": 0.9766885080645161,
+  "16384": 0.97265625,
+  "32768": 0.9629060039370079
+ },
+ "windows": [
+  {
+   "rank_start": 256,
+   "coverage": 0.9990234375,
+   "median_merge_count": 14005
+  },
+  {
+   "rank_start": 1280,
+   "coverage": 0.9951171875,
+   "median_merge_count": 3837
+  },
+  {
+   "rank_start": 2304,
+   "coverage": 0.9921875,
+   "median_merge_count": 2165
+  },
+  {
+   "rank_start": 3328,
+   "coverage": 0.990234375,
+   "median_merge_count": 1412
+  },
+  {
+   "rank_start": 4352,
+   "coverage": 0.9921875,
+   "median_merge_count": 1030
+  },
+  {
+   "rank_start": 5376,
+   "coverage": 0.98828125,
+   "median_merge_count": 791
+  },
+  {
+   "rank_start": 6400,
+   "coverage": 0.9765625,
+   "median_merge_count": 636
+  },
+  {
+   "rank_start": 7424,
+   "coverage": 0.986328125,
+   "median_merge_count": 530
+  },
+  {
+   "rank_start": 8448,
+   "coverage": 0.9853515625,
+   "median_merge_count": 452
+  },
+  {
+   "rank_start": 9472,
+   "coverage": 0.98046875,
+   "median_merge_count": 389
+  },
+  {
+   "rank_start": 10496,
+   "coverage": 0.9814453125,
+   "median_merge_count": 342
+  },
+  {
+   "rank_start": 11520,
+   "coverage": 0.970703125,
+   "median_merge_count": 302
+  },
+  {
+   "rank_start": 12544,
+   "coverage": 0.9658203125,
+   "median_merge_count": 270
+  },
+  {
+   "rank_start": 13568,
+   "coverage": 0.974609375,
+   "median_merge_count": 244
+  },
+  {
+   "rank_start": 14592,
+   "coverage": 0.96875,
+   "median_merge_count": 222
+  },
+  {
+   "rank_start": 15616,
+   "coverage": 0.97265625,
+   "median_merge_count": 203
+  },
+  {
+   "rank_start": 16640,
+   "coverage": 0.966796875,
+   "median_merge_count": 187
+  },
+  {
+   "rank_start": 17664,
+   "coverage": 0.9521484375,
+   "median_merge_count": 173
+  },
+  {
+   "rank_start": 18688,
+   "coverage": 0.96875,
+   "median_merge_count": 160
+  },
+  {
+   "rank_start": 19712,
+   "coverage": 0.9521484375,
+   "median_merge_count": 149
+  },
+  {
+   "rank_start": 20736,
+   "coverage": 0.962890625,
+   "median_merge_count": 139
+  },
+  {
+   "rank_start": 21760,
+   "coverage": 0.9482421875,
+   "median_merge_count": 130
+  },
+  {
+   "rank_start": 22784,
+   "coverage": 0.9326171875,
+   "median_merge_count": 122
+  },
+  {
+   "rank_start": 23808,
+   "coverage": 0.94140625,
+   "median_merge_count": 115
+  },
+  {
+   "rank_start": 24832,
+   "coverage": 0.94140625,
+   "median_merge_count": 109
+  },
+  {
+   "rank_start": 25856,
+   "coverage": 0.9462890625,
+   "median_merge_count": 103
+  },
+  {
+   "rank_start": 26880,
+   "coverage": 0.9375,
+   "median_merge_count": 98
+  },
+  {
+   "rank_start": 27904,
+   "coverage": 0.939453125,
+   "median_merge_count": 93
+  },
+  {
+   "rank_start": 28928,
+   "coverage": 0.92578125,
+   "median_merge_count": 89
+  },
+  {
+   "rank_start": 29952,
+   "coverage": 0.94140625,
+   "median_merge_count": 84
+  },
+  {
+   "rank_start": 30976,
+   "coverage": 0.916015625,
+   "median_merge_count": 80
+  },
+  {
+   "rank_start": 32000,
+   "coverage": 0.91015625,
+   "median_merge_count": 77
+  },
+  {
+   "rank_start": 33024,
+   "coverage": 0.9296875,
+   "median_merge_count": 74
+  },
+  {
+   "rank_start": 34048,
+   "coverage": 0.900390625,
+   "median_merge_count": 71
+  },
+  {
+   "rank_start": 35072,
+   "coverage": 0.896484375,
+   "median_merge_count": 68
+  },
+  {
+   "rank_start": 36096,
+   "coverage": 0.888671875,
+   "median_merge_count": 65
+  },
+  {
+   "rank_start": 37120,
+   "coverage": 0.8828125,
+   "median_merge_count": 63
+  },
+  {
+   "rank_start": 38144,
+   "coverage": 0.8759765625,
+   "median_merge_count": 60
+  },
+  {
+   "rank_start": 39168,
+   "coverage": 0.869140625,
+   "median_merge_count": 58
+  },
+  {
+   "rank_start": 40192,
+   "coverage": 0.845703125,
+   "median_merge_count": 56
+  },
+  {
+   "rank_start": 41216,
+   "coverage": 0.861328125,
+   "median_merge_count": 54
+  },
+  {
+   "rank_start": 42240,
+   "coverage": 0.8251953125,
+   "median_merge_count": 52
+  },
+  {
+   "rank_start": 43264,
+   "coverage": 0.826171875,
+   "median_merge_count": 50
+  },
+  {
+   "rank_start": 44288,
+   "coverage": 0.8193359375,
+   "median_merge_count": 49
+  },
+  {
+   "rank_start": 45312,
+   "coverage": 0.8076171875,
+   "median_merge_count": 47
+  },
+  {
+   "rank_start": 46336,
+   "coverage": 0.7919921875,
+   "median_merge_count": 46
+  },
+  {
+   "rank_start": 47360,
+   "coverage": 0.7958984375,
+   "median_merge_count": 44
+  },
+  {
+   "rank_start": 48384,
+   "coverage": 0.744140625,
+   "median_merge_count": 43
+  },
+  {
+   "rank_start": 49408,
+   "coverage": 0.7421875,
+   "median_merge_count": 42
+  },
+  {
+   "rank_start": 50432,
+   "coverage": 0.72265625,
+   "median_merge_count": 41
+  },
+  {
+   "rank_start": 51456,
+   "coverage": 0.6962890625,
+   "median_merge_count": 39
+  },
+  {
+   "rank_start": 52480,
+   "coverage": 0.6669921875,
+   "median_merge_count": 38
+  },
+  {
+   "rank_start": 53504,
+   "coverage": 0.6640625,
+   "median_merge_count": 37
+  },
+  {
+   "rank_start": 54528,
+   "coverage": 0.603515625,
+   "median_merge_count": 36
+  },
+  {
+   "rank_start": 55552,
+   "coverage": 0.619140625,
+   "median_merge_count": 35
+  },
+  {
+   "rank_start": 56576,
+   "coverage": 0.5810546875,
+   "median_merge_count": 34
+  },
+  {
+   "rank_start": 57600,
+   "coverage": 0.541015625,
+   "median_merge_count": 33
+  },
+  {
+   "rank_start": 58624,
+   "coverage": 0.537109375,
+   "median_merge_count": 33
+  },
+  {
+   "rank_start": 59648,
+   "coverage": 0.4970703125,
+   "median_merge_count": 32
+  },
+  {
+   "rank_start": 60672,
+   "coverage": 0.4921875,
+   "median_merge_count": 31
+  },
+  {
+   "rank_start": 61696,
+   "coverage": 0.4462890625,
+   "median_merge_count": 30
+  },
+  {
+   "rank_start": 62720,
+   "coverage": 0.46875,
+   "median_merge_count": 30
+  },
+  {
+   "rank_start": 63744,
+   "coverage": 0.44140625,
+   "median_merge_count": 29
+  },
+  {
+   "rank_start": 64768,
+   "coverage": 0.38671875,
+   "median_merge_count": 28
+  }
+ ],
+ "jaccard_main_vs_half_a_at_max": 0.8399098083427283
+}

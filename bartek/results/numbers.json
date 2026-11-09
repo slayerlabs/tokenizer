@@ -1,0 +1,56 @@
+{
+ "group3": {
+  "top_pattern": "1+2+1",
+  "irregular_pct": 61.33333333333333,
+  "pattern_entropy_bits": 1.5511774254727966,
+  "n_patterns": 3,
+  "pattern_dist": {
+   "1+2+1": 3480,
+   "2+1+1": 3410,
+   "3+1": 2110
+  },
+  "adjacent_pattern_change_pct": 2.1224580508945436,
+  "years_1950_2025_single_token_pct": 0.0,
+  "single_token_4digit_pct": 0.0,
+  "heldout_tokens_per_number": 1.314785401357932,
+  "heldout_fertility": 1.616293860880954,
+  "digit_tokens_in_vocab": 312,
+  "fertility_change_vs_group3_pct": 0.0
+ },
+ "single": {
+  "top_pattern": "1+1+1+1",
+  "irregular_pct": 0.0,
+  "pattern_entropy_bits": -0.0,
+  "n_patterns": 1,
+  "pattern_dist": {
+   "1+1+1+1": 9000
+  },
+  "adjacent_pattern_change_pct": 0.0,
+  "years_1950_2025_single_token_pct": 0.0,
+  "single_token_4digit_pct": 0.0,
+  "heldout_tokens_per_number": 2.2969821793238268,
+  "heldout_fertility": 1.6543632106495487,
+  "digit_tokens_in_vocab": 0,
+  "fertility_change_vs_group3_pct": 2.355348287213386
+ },
+ "free": {
+  "top_pattern": "2+2",
+  "irregular_pct": 36.36666666666667,
+  "pattern_entropy_bits": 1.5145868980808892,
+  "n_patterns": 5,
+  "pattern_dist": {
+   "2+2": 5727,
+   "1+2+1": 1811,
+   "1+3": 932,
+   "3+1": 347,
+   "4": 183
+  },
+  "adjacent_pattern_change_pct": 10.55672852539171,
+  "years_1950_2025_single_token_pct": 100.0,
+  "single_token_4digit_pct": 2.033333333333333,
+  "heldout_tokens_per_number": 1.0819820920531305,
+  "heldout_fertility": 1.6076754453013957,
+  "digit_tokens_in_vocab": 450,
+  "fertility_change_vs_group3_pct": -0.5332208324333364
+ }
+}

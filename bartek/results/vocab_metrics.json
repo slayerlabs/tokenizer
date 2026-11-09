@@ -1,0 +1,620 @@
+{
+ "ours": {
+  "1024": {
+   "metrics": {
+    "all": {
+     "fertility": 3.0610918461014487,
+     "bytes_per_token": 2.4069769143449657,
+     "chars_per_token": 2.270968128570005,
+     "tokens": 4305141,
+     "words": 1406407
+    },
+    "law": {
+     "fertility": 2.833846380711876,
+     "bytes_per_token": 2.549680519148253,
+     "chars_per_token": 2.446861238852861,
+     "tokens": 461217,
+     "words": 162753
+    },
+    "literature": {
+     "fertility": 2.791396446763573,
+     "bytes_per_token": 2.4796977472355066,
+     "chars_per_token": 2.2790274591139825,
+     "tokens": 898718,
+     "words": 321960
+    },
+    "parliament": {
+     "fertility": 2.9152731477411806,
+     "bytes_per_token": 2.5701167394597,
+     "chars_per_token": 2.43443872048171,
+     "tokens": 431131,
+     "words": 147887
+    },
+    "web": {
+     "fertility": 3.1369547399340374,
+     "bytes_per_token": 2.3883890704042936,
+     "chars_per_token": 2.2646007039616753,
+     "tokens": 1599803,
+     "words": 509986
+    },
+    "wiki": {
+     "fertility": 3.4655012300006445,
+     "bytes_per_token": 2.2191000052500787,
+     "chars_per_token": 2.108370375555633,
+     "tokens": 914272,
+     "words": 263821
+    },
+    "macro": {
+     "fertility": 3.0285943890302622
+    }
+   },
+   "used_on_heldout": 966,
+   "unused_merged_tokens": 0,
+   "rare_merges": 0,
+   "min_merge_count": 17311,
+   "invalid_utf8_tokens": 3,
+   "token_len_bytes": {
+    "2": 200,
+    "3": 255,
+    "4": 172,
+    "5": 80,
+    "7": 12,
+    "6": 37,
+    "8": 9,
+    "9": 2,
+    "10": 1
+   }
+  },
+  "2048": {
+   "metrics": {
+    "all": {
+     "fertility": 2.61834874257594,
+     "bytes_per_token": 2.813978629526317,
+     "chars_per_token": 2.654971779764853,
+     "tokens": 3682464,
+     "words": 1406407
+    },
+    "law": {
+     "fertility": 2.330783457140575,
+     "bytes_per_token": 3.0999889281967197,
+     "chars_per_token": 2.974977724586257,
+     "tokens": 379342,
+     "words": 162753
+    },
+    "literature": {
+     "fertility": 2.444511740588893,
+     "bytes_per_token": 2.8315754699600397,
+     "chars_per_token": 2.602429370993666,
+     "tokens": 787035,
+     "words": 321960
+    },
+    "parliament": {
+     "fertility": 2.394240196907098,
+     "bytes_per_token": 3.1294238258909783,
+     "chars_per_token": 2.9642196471388993,
+     "tokens": 354077,
+     "words": 147887
+    },
+    "web": {
+     "fertility": 2.689028718435408,
+     "bytes_per_token": 2.786235923716992,
+     "chars_per_token": 2.6418274612120607,
+     "tokens": 1371367,
+     "words": 509986
+    },
+    "wiki": {
+     "fertility": 2.9968918319618227,
+     "bytes_per_token": 2.5660898787442625,
+     "chars_per_token": 2.4380459954745692,
+     "tokens": 790643,
+     "words": 263821
+    },
+    "macro": {
+     "fertility": 2.571091189006759
+    }
+   },
+   "used_on_heldout": 1990,
+   "unused_merged_tokens": 0,
+   "rare_merges": 0,
+   "min_merge_count": 6424,
+   "invalid_utf8_tokens": 3,
+   "token_len_bytes": {
+    "2": 275,
+    "3": 486,
+    "4": 398,
+    "5": 269,
+    "7": 95,
+    "6": 170,
+    "8": 53,
+    "9": 23,
+    "10": 15,
+    "11": 5,
+    "16": 1,
+    "14": 1,
+    "15": 1
+   }
+  },
+  "4096": {
+   "metrics": {
+    "all": {
+     "fertility": 2.272172991175385,
+     "bytes_per_token": 3.242700901239204,
+     "chars_per_token": 3.0594686443860306,
+     "tokens": 3195600,
+     "words": 1406407
+    },
+    "law": {
+     "fertility": 1.977444348184058,
+     "bytes_per_token": 3.6539096120682957,
+     "chars_per_token": 3.506560815324623,
+     "tokens": 321835,
+     "words": 162753
+    },
+    "literature": {
+     "fertility": 2.1776587153683686,
+     "bytes_per_token": 3.178560272935122,
+     "chars_per_token": 2.921334324130426,
+     "tokens": 701119,
+     "words": 321960
+    },
+    "parliament": {
+     "fertility": 2.0113667868034377,
+     "bytes_per_token": 3.7251248087946074,
+     "chars_per_token": 3.528473214435797,
+     "tokens": 297455,
+     "words": 147887
+    },
+    "web": {
+     "fertility": 2.3284247018545607,
+     "bytes_per_token": 3.217741337842663,
+     "chars_per_token": 3.0509682819858117,
+     "tokens": 1187464,
+     "words": 509986
+    },
+    "wiki": {
+     "fertility": 2.6067940004775965,
+     "bytes_per_token": 2.95009647723588,
+     "chars_per_token": 2.802891263539166,
+     "tokens": 687727,
+     "words": 263821
+    },
+    "macro": {
+     "fertility": 2.220337710537604
+    }
+   },
+   "used_on_heldout": 4037,
+   "unused_merged_tokens": 1,
+   "rare_merges": 0,
+   "min_merge_count": 2588,
+   "invalid_utf8_tokens": 5,
+   "token_len_bytes": {
+    "2": 383,
+    "3": 715,
+    "4": 779,
+    "5": 621,
+    "7": 332,
+    "6": 499,
+    "8": 226,
+    "9": 124,
+    "10": 70,
+    "11": 40,
+    "16": 3,
+    "14": 7,
+    "15": 3,
+    "13": 15,
+    "17": 1,
+    "12": 22
+   }
+  },
+  "8192": {
+   "metrics": {
+    "all": {
+     "fertility": 1.9968316426183885,
+     "bytes_per_token": 3.6898340596177555,
+     "chars_per_token": 3.481336068976961,
+     "tokens": 2808358,
+     "words": 1406407
+    },
+    "law": {
+     "fertility": 1.731279914963165,
+     "bytes_per_token": 4.173445812379557,
+     "chars_per_token": 4.005146022834145,
+     "tokens": 281771,
+     "words": 162753
+    },
+    "literature": {
+     "fertility": 1.9511585290098148,
+     "bytes_per_token": 3.547543358352104,
+     "chars_per_token": 3.2604573420673515,
+     "tokens": 628195,
+     "words": 321960
+    },
+    "parliament": {
+     "fertility": 1.7322347467999215,
+     "bytes_per_token": 4.325390846101298,
+     "chars_per_token": 4.097050844149507,
+     "tokens": 256175,
+     "words": 147887
+    },
+    "web": {
+     "fertility": 2.036250014706286,
+     "bytes_per_token": 3.679444253456323,
+     "chars_per_token": 3.4887414909977186,
+     "tokens": 1038459,
+     "words": 509986
+    },
+    "wiki": {
+     "fertility": 2.288513802919404,
+     "bytes_per_token": 3.3603877712593455,
+     "chars_per_token": 3.192709661818146,
+     "tokens": 603758,
+     "words": 263821
+    },
+    "macro": {
+     "fertility": 1.947887401679718
+    }
+   },
+   "used_on_heldout": 8119,
+   "unused_merged_tokens": 14,
+   "rare_merges": 0,
+   "min_merge_count": 1020,
+   "invalid_utf8_tokens": 12,
+   "token_len_bytes": {
+    "2": 580,
+    "3": 1075,
+    "4": 1338,
+    "5": 1211,
+    "7": 854,
+    "6": 1134,
+    "8": 641,
+    "9": 410,
+    "10": 269,
+    "11": 172,
+    "16": 13,
+    "14": 42,
+    "15": 22,
+    "13": 66,
+    "17": 4,
+    "12": 100,
+    "19": 2,
+    "18": 3
+   }
+  },
+  "16384": {
+   "metrics": {
+    "all": {
+     "fertility": 1.782668175001973,
+     "bytes_per_token": 4.133117710618043,
+     "chars_per_token": 3.8995715066906462,
+     "tokens": 2507157,
+     "words": 1406407
+    },
+    "law": {
+     "fertility": 1.5685302267853742,
+     "bytes_per_token": 4.606479867441232,
+     "chars_per_token": 4.420717399905203,
+     "tokens": 255283,
+     "words": 162753
+    },
+    "literature": {
+     "fertility": 1.767753758230836,
+     "bytes_per_token": 3.9156016206737814,
+     "chars_per_token": 3.598730378496906,
+     "tokens": 569146,
+     "words": 321960
+    },
+    "parliament": {
+     "fertility": 1.5393442290397399,
+     "bytes_per_token": 4.867392345233232,
+     "chars_per_token": 4.610439755940066,
+     "tokens": 227649,
+     "words": 147887
+    },
+    "web": {
+     "fertility": 1.8033828379602577,
+     "bytes_per_token": 4.1545634446015,
+     "chars_per_token": 3.939235620310971,
+     "tokens": 919700,
+     "words": 509986
+    },
+    "wiki": {
+     "fertility": 2.029326702574852,
+     "bytes_per_token": 3.789578971158749,
+     "chars_per_token": 3.6004848901432442,
+     "tokens": 535379,
+     "words": 263821
+    },
+    "macro": {
+     "fertility": 1.741667550918212
+    }
+   },
+   "used_on_heldout": 16267,
+   "unused_merged_tokens": 58,
+   "rare_merges": 0,
+   "min_merge_count": 396,
+   "invalid_utf8_tokens": 17,
+   "token_len_bytes": {
+    "2": 818,
+    "3": 1650,
+    "4": 2240,
+    "5": 2254,
+    "7": 1889,
+    "6": 2198,
+    "8": 1519,
+    "9": 1170,
+    "10": 854,
+    "11": 593,
+    "16": 47,
+    "14": 147,
+    "15": 73,
+    "13": 244,
+    "17": 17,
+    "12": 396,
+    "19": 5,
+    "18": 10,
+    "20": 3,
+    "32": 1
+   }
+  },
+  "32768": {
+   "metrics": {
+    "all": {
+     "fertility": 1.616293860880954,
+     "bytes_per_token": 4.558563009228974,
+     "chars_per_token": 4.300976567053806,
+     "tokens": 2273167,
+     "words": 1406407
+    },
+    "law": {
+     "fertility": 1.4627748797257194,
+     "bytes_per_token": 4.939518042936771,
+     "chars_per_token": 4.740325365122169,
+     "tokens": 238071,
+     "words": 162753
+    },
+    "literature": {
+     "fertility": 1.6171108212200274,
+     "bytes_per_token": 4.28036185884816,
+     "chars_per_token": 3.933972284378031,
+     "tokens": 520645,
+     "words": 321960
+    },
+    "parliament": {
+     "fertility": 1.4080142270787832,
+     "bytes_per_token": 5.321389637270863,
+     "chars_per_token": 5.040470256018672,
+     "tokens": 208227,
+     "words": 147887
+    },
+    "web": {
+     "fertility": 1.619969959959685,
+     "bytes_per_token": 4.624942807827036,
+     "chars_per_token": 4.385235583335956,
+     "tokens": 826162,
+     "words": 509986
+    },
+    "wiki": {
+     "fertility": 1.81965044480917,
+     "bytes_per_token": 4.226247859651462,
+     "chars_per_token": 4.0153646820619,
+     "tokens": 480062,
+     "words": 263821
+    },
+    "macro": {
+     "fertility": 1.585504066558677
+    }
+   },
+   "used_on_heldout": 32278,
+   "unused_merged_tokens": 430,
+   "rare_merges": 5842,
+   "min_merge_count": 151,
+   "invalid_utf8_tokens": 29,
+   "token_len_bytes": {
+    "2": 1108,
+    "3": 2599,
+    "4": 3761,
+    "5": 3997,
+    "7": 3818,
+    "6": 4088,
+    "8": 3333,
+    "9": 2780,
+    "10": 2207,
+    "11": 1781,
+    "16": 140,
+    "14": 499,
+    "15": 266,
+    "13": 796,
+    "17": 81,
+    "12": 1195,
+    "19": 10,
+    "18": 35,
+    "20": 7,
+    "32": 1,
+    "21": 5,
+    "48": 1,
+    "50": 1,
+    "24": 1,
+    "22": 1,
+    "23": 1
+   }
+  },
+  "65536": {
+   "metrics": {
+    "all": {
+     "fertility": 1.491050599150886,
+     "bytes_per_token": 4.941467050448636,
+     "chars_per_token": 4.662244208936093,
+     "tokens": 2097024,
+     "words": 1406407
+    },
+    "law": {
+     "fertility": 1.4010494430210196,
+     "bytes_per_token": 5.157136278916785,
+     "chars_per_token": 4.94916785440193,
+     "tokens": 228025,
+     "words": 162753
+    },
+    "literature": {
+     "fertility": 1.4897627034414214,
+     "bytes_per_token": 4.646256390156032,
+     "chars_per_token": 4.270256690378697,
+     "tokens": 479644,
+     "words": 321960
+    },
+    "parliament": {
+     "fertility": 1.3221851819294461,
+     "bytes_per_token": 5.666825206869394,
+     "chars_per_token": 5.367670072723925,
+     "tokens": 195534,
+     "words": 147887
+    },
+    "web": {
+     "fertility": 1.4816191032695014,
+     "bytes_per_token": 5.056811429252057,
+     "chars_per_token": 4.794720786654403,
+     "tokens": 755605,
+     "words": 509986
+    },
+    "wiki": {
+     "fertility": 1.6610353231926192,
+     "bytes_per_token": 4.62981954104825,
+     "chars_per_token": 4.398798765905398,
+     "tokens": 438216,
+     "words": 263821
+    },
+    "macro": {
+     "fertility": 1.4711303509708016
+    }
+   },
+   "used_on_heldout": 62047,
+   "unused_merged_tokens": 3425,
+   "rare_merges": 38610,
+   "min_merge_count": 56,
+   "invalid_utf8_tokens": 54,
+   "token_len_bytes": {
+    "2": 1464,
+    "3": 4200,
+    "4": 6225,
+    "5": 7172,
+    "7": 7344,
+    "6": 7538,
+    "8": 6875,
+    "9": 6120,
+    "10": 5340,
+    "11": 4457,
+    "16": 417,
+    "14": 1445,
+    "15": 802,
+    "13": 2221,
+    "17": 206,
+    "12": 3247,
+    "19": 46,
+    "18": 114,
+    "20": 24,
+    "32": 2,
+    "21": 13,
+    "48": 1,
+    "50": 1,
+    "24": 2,
+    "22": 3,
+    "23": 1
+   }
+  }
+ },
+ "tiktoken": {
+  "cl100k_base": {
+   "all": {
+    "fertility": 2.647016830832042,
+    "bytes_per_token": 2.783502288476121,
+    "chars_per_token": 2.6262175367191696,
+    "tokens": 3722783,
+    "words": 1406407
+   },
+   "law": {
+    "fertility": 2.6575854208524574,
+    "bytes_per_token": 2.7187848241740458,
+    "chars_per_token": 2.6091461863916954,
+    "tokens": 432530,
+    "words": 162753
+   },
+   "literature": {
+    "fertility": 2.5358957634488757,
+    "bytes_per_token": 2.72953627686455,
+    "chars_per_token": 2.5086477303764925,
+    "tokens": 816457,
+    "words": 321960
+   },
+   "parliament": {
+    "fertility": 2.630325856904258,
+    "bytes_per_token": 2.8485414829649014,
+    "chars_per_token": 2.698165253180665,
+    "tokens": 388991,
+    "words": 147887
+   },
+   "web": {
+    "fertility": 2.6193483742690975,
+    "bytes_per_token": 2.860355838425669,
+    "chars_per_token": 2.7121057978142447,
+    "tokens": 1335831,
+    "words": 509986
+   },
+   "wiki": {
+    "fertility": 2.838947619787659,
+    "bytes_per_token": 2.708853711877849,
+    "chars_per_token": 2.573686135967337,
+    "tokens": 748974,
+    "words": 263821
+   },
+   "macro": {
+    "fertility": 2.6564206070524694
+   }
+  },
+  "o200k_base": {
+   "all": {
+    "fertility": 2.2865408093105337,
+    "bytes_per_token": 3.2223249094239796,
+    "chars_per_token": 3.0402440196193368,
+    "tokens": 3215807,
+    "words": 1406407
+   },
+   "law": {
+    "fertility": 2.2618815014162563,
+    "bytes_per_token": 3.1944215055632825,
+    "chars_per_token": 3.0656021818497914,
+    "tokens": 368128,
+    "words": 162753
+   },
+   "literature": {
+    "fertility": 2.2257299043359424,
+    "bytes_per_token": 3.10990990739552,
+    "chars_per_token": 2.8582395101284406,
+    "tokens": 716596,
+    "words": 321960
+   },
+   "parliament": {
+    "fertility": 2.2301960280484425,
+    "bytes_per_token": 3.3596115421582273,
+    "chars_per_token": 3.182255614477119,
+    "tokens": 329817,
+    "words": 147887
+   },
+   "web": {
+    "fertility": 2.2439164996686185,
+    "bytes_per_token": 3.3389247845531935,
+    "chars_per_token": 3.165870883965445,
+    "tokens": 1144366,
+    "words": 509986
+   },
+   "wiki": {
+    "fertility": 2.4899458344862615,
+    "bytes_per_token": 3.088538590348607,
+    "chars_per_token": 2.9344253311006243,
+    "tokens": 656900,
+    "words": 263821
+   },
+   "macro": {
+    "fertility": 2.2903339535911043
+   }
+  }
+ }
+}
