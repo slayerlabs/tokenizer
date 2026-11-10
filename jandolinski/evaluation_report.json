@@ -1,0 +1,372 @@
+{
+  "csb_bpe_8k": {
+    "metrics": {
+      "vocab_size": 8192,
+      "val_lines": 762,
+      "val_words": 17829,
+      "val_unique_words": 8143,
+      "val_chars": 122693,
+      "val_bytes": 139929,
+      "total_tokens": 39162,
+      "word_fertility": 1.9011,
+      "corpus_tokens_per_word": 2.1965,
+      "bytes_per_token": 3.5731,
+      "chars_per_token": 3.133,
+      "single_token_word_coverage_pct": 17.5,
+      "byte_fallback_rate_pct": 0.0664,
+      "unk_count": 0,
+      "roundtrip_mismatches": 0
+    },
+    "sample_sentences": {
+      "Kaszëbsczi jãzëk to je zahòdnosłowiańsczi jãzëk, jaczim gôdają Kaszëbi na Pòmòrzim.": [
+        "▁Kaszëbsczi",
+        "▁jãzëk",
+        "▁to",
+        "▁je",
+        "▁za",
+        "hò",
+        "dno",
+        "słowiańsczi",
+        "▁jãzëk",
+        ",",
+        "▁jaczim",
+        "▁gôdają",
+        "▁Kaszëbi",
+        "▁na",
+        "▁Pòmò",
+        "rzim",
+        "."
+      ],
+      "Serzp – to je baro stôré rãczné nôrzãdzé, chtërno brëkòwelë czedës np. gbùrze do seczeniô zbòża abò trôwë.": [
+        "▁Se",
+        "rz",
+        "p",
+        "▁–",
+        "▁to",
+        "▁je",
+        "▁baro",
+        "▁stôré",
+        "▁rã",
+        "czné",
+        "▁nôrzã",
+        "dzé",
+        ",",
+        "▁chtërno",
+        "▁brëkòw",
+        "elë",
+        "▁czedës",
+        "▁np",
+        ".",
+        "▁gbùrze",
+        "▁do",
+        "▁se",
+        "czeniô",
+        "▁zbò",
+        "ża",
+        "▁abò",
+        "▁trô",
+        "wë",
+        "."
+      ],
+      "Taczim szëkã w kòmórkach swini mòże dińc do przemiészaniô geneticznégò materiału ptôszich i lëdzczich wirusów.": [
+        "▁Ta",
+        "czim",
+        "▁szë",
+        "kã",
+        "▁w",
+        "▁kòmór",
+        "kach",
+        "▁swi",
+        "ni",
+        "▁mòże",
+        "▁di",
+        "ńc",
+        "▁do",
+        "▁prze",
+        "mié",
+        "sza",
+        "niô",
+        "▁gene",
+        "ti",
+        "cznégò",
+        "▁materia",
+        "łu",
+        "▁ptô",
+        "szich",
+        "▁i",
+        "▁lë",
+        "dzczich",
+        "▁wirus",
+        "ów",
+        "."
+      ],
+      "W Pòlsce òd pierszégò przëtrôfkù zachòrzeniô na gripã w maju 2009 do lëpińca 2010 bëłë ju 182 skònë òsób.": [
+        "▁W",
+        "▁Pòlsce",
+        "▁òd",
+        "▁pierszégò",
+        "▁przëtrôf",
+        "kù",
+        "▁zachò",
+        "rzeniô",
+        "▁na",
+        "▁gri",
+        "pã",
+        "▁w",
+        "▁maju",
+        "▁2",
+        "0",
+        "0",
+        "9",
+        "▁do",
+        "▁lëpińca",
+        "▁2",
+        "0",
+        "1",
+        "0",
+        "▁bëłë",
+        "▁ju",
+        "▁1",
+        "8",
+        "2",
+        "▁skò",
+        "në",
+        "▁òsób",
+        "."
+      ]
+    },
+    "morphological_paradigms": {
+      "Kaszëbë": [
+        "▁Kaszëbë"
+      ],
+      "Kaszëbów": [
+        "▁Kaszëbów"
+      ],
+      "kaszëbsczi": [
+        "▁kaszëbsczi"
+      ],
+      "kaszëbsczégò": [
+        "▁kaszëbsczégò"
+      ],
+      "kaszëbsczim": [
+        "▁kaszëbsczim"
+      ],
+      "brëkòwelë": [
+        "▁brëkòw",
+        "elë"
+      ],
+      "przëłączeniô": [
+        "▁przë",
+        "łą",
+        "czeniô"
+      ],
+      "òddëchòwégò": [
+        "▁òd",
+        "d",
+        "ëchò",
+        "wégò"
+      ],
+      "rozmajitëch": [
+        "▁rozmajitëch"
+      ],
+      "nôblëżi": [
+        "▁nô",
+        "blë",
+        "żi"
+      ],
+      "chòroscoùtwórczégò": [
+        "▁chòrosc",
+        "o",
+        "ùt",
+        "wór",
+        "czégò"
+      ],
+      "pòdwëższonégò": [
+        "▁pòd",
+        "wëż",
+        "sz",
+        "onégò"
+      ]
+    }
+  },
+  "csb_bpe_16k": {
+    "metrics": {
+      "vocab_size": 16384,
+      "val_lines": 762,
+      "val_words": 17829,
+      "val_unique_words": 8143,
+      "val_chars": 122693,
+      "val_bytes": 139929,
+      "total_tokens": 35730,
+      "word_fertility": 1.7104,
+      "corpus_tokens_per_word": 2.004,
+      "bytes_per_token": 3.9163,
+      "chars_per_token": 3.4339,
+      "single_token_word_coverage_pct": 28.2,
+      "byte_fallback_rate_pct": 0.0728,
+      "unk_count": 0,
+      "roundtrip_mismatches": 0
+    },
+    "sample_sentences": {
+      "Kaszëbsczi jãzëk to je zahòdnosłowiańsczi jãzëk, jaczim gôdają Kaszëbi na Pòmòrzim.": [
+        "▁Kaszëbsczi",
+        "▁jãzëk",
+        "▁to",
+        "▁je",
+        "▁za",
+        "hò",
+        "dno",
+        "słowiańsczi",
+        "▁jãzëk",
+        ",",
+        "▁jaczim",
+        "▁gôdają",
+        "▁Kaszëbi",
+        "▁na",
+        "▁Pòmòrzim",
+        "."
+      ],
+      "Serzp – to je baro stôré rãczné nôrzãdzé, chtërno brëkòwelë czedës np. gbùrze do seczeniô zbòża abò trôwë.": [
+        "▁Se",
+        "rz",
+        "p",
+        "▁–",
+        "▁to",
+        "▁je",
+        "▁baro",
+        "▁stôré",
+        "▁rãczné",
+        "▁nôrzãdzé",
+        ",",
+        "▁chtërno",
+        "▁brëkòw",
+        "elë",
+        "▁czedës",
+        "▁np",
+        ".",
+        "▁gbùrze",
+        "▁do",
+        "▁se",
+        "czeniô",
+        "▁zbòża",
+        "▁abò",
+        "▁trôwë",
+        "."
+      ],
+      "Taczim szëkã w kòmórkach swini mòże dińc do przemiészaniô geneticznégò materiału ptôszich i lëdzczich wirusów.": [
+        "▁Ta",
+        "czim",
+        "▁szë",
+        "kã",
+        "▁w",
+        "▁kòmór",
+        "kach",
+        "▁swi",
+        "ni",
+        "▁mòże",
+        "▁di",
+        "ńc",
+        "▁do",
+        "▁prze",
+        "mié",
+        "sza",
+        "niô",
+        "▁gene",
+        "ti",
+        "cznégò",
+        "▁materiału",
+        "▁ptô",
+        "szich",
+        "▁i",
+        "▁lëdzczich",
+        "▁wirus",
+        "ów",
+        "."
+      ],
+      "W Pòlsce òd pierszégò przëtrôfkù zachòrzeniô na gripã w maju 2009 do lëpińca 2010 bëłë ju 182 skònë òsób.": [
+        "▁W",
+        "▁Pòlsce",
+        "▁òd",
+        "▁pierszégò",
+        "▁przëtrôfkù",
+        "▁zachò",
+        "rzeniô",
+        "▁na",
+        "▁gri",
+        "pã",
+        "▁w",
+        "▁maju",
+        "▁2",
+        "0",
+        "0",
+        "9",
+        "▁do",
+        "▁lëpińca",
+        "▁2",
+        "0",
+        "1",
+        "0",
+        "▁bëłë",
+        "▁ju",
+        "▁1",
+        "8",
+        "2",
+        "▁skò",
+        "në",
+        "▁òsób",
+        "."
+      ]
+    },
+    "morphological_paradigms": {
+      "Kaszëbë": [
+        "▁Kaszëbë"
+      ],
+      "Kaszëbów": [
+        "▁Kaszëbów"
+      ],
+      "kaszëbsczi": [
+        "▁kaszëbsczi"
+      ],
+      "kaszëbsczégò": [
+        "▁kaszëbsczégò"
+      ],
+      "kaszëbsczim": [
+        "▁kaszëbsczim"
+      ],
+      "brëkòwelë": [
+        "▁brëkòw",
+        "elë"
+      ],
+      "przëłączeniô": [
+        "▁przëłą",
+        "czeniô"
+      ],
+      "òddëchòwégò": [
+        "▁òd",
+        "d",
+        "ëchò",
+        "wégò"
+      ],
+      "rozmajitëch": [
+        "▁rozmajitëch"
+      ],
+      "nôblëżi": [
+        "▁nôblë",
+        "żi"
+      ],
+      "chòroscoùtwórczégò": [
+        "▁chòrosc",
+        "o",
+        "ùt",
+        "wór",
+        "czégò"
+      ],
+      "pòdwëższonégò": [
+        "▁pòd",
+        "wëż",
+        "sz",
+        "onégò"
+      ]
+    }
+  }
+}
