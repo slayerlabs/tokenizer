@@ -1,0 +1,17 @@
+{
+  "language": "csb (Kashubian)",
+  "model_type": "BPE",
+  "pretokenizer": "metaspace",
+  "requested_vocab_size": 16384,
+  "actual_vocab_size": 16384,
+  "min_frequency": 2,
+  "special_tokens": [
+    "<unk>",
+    "<s>",
+    "</s>",
+    "<pad>",
+    "<mask>"
+  ],
+  "train_file": "data/csb_train.txt",
+  "training_time_sec": 0.816
+}
