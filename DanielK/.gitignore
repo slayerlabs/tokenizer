@@ -1,0 +1,11 @@
+.venv
+__pycache__
+dane_h1
+dane_h1_test
+dane_eval
+dane_klasyka
+dane_pl
+dane_en
+dane_raw
+dane_yt_vtt
+dane_test_*
